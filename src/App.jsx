@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "./components/layout/Navbar.jsx";
 import Marquee from "./components/layout/Marquee.jsx";
 import CustomCursor from "./components/layout/CustomCursor.jsx";
 import ScrollProgress from "./components/layout/ScrollProgress.jsx";
-import IntroLoader from "./components/layout/IntroLoader.jsx";
 import Hero from "./pages/Hero.jsx";
 import About from "./pages/About.jsx";
 import Works from "./pages/Works.jsx";
@@ -20,11 +19,6 @@ ScrollTrigger.config({ ignoreMobileResize: true });
 
 function App() {
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [isIntroDone, setIsIntroDone] = useState(false);
-
-  const handleIntroComplete = useCallback(() => {
-    setIsIntroDone(true);
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,9 +42,6 @@ function App() {
 
   return (
     <div className="min-h-screen w-full bg-[#FAF8F5] text-[#111111] flex flex-col overflow-x-hidden selection:bg-[#FF9500] selection:text-white">
-      {/* ── CINEMATIC INTRO SCREEN ── */}
-      <IntroLoader onComplete={handleIntroComplete} />
-
       <ScrollProgress />
       <CustomCursor />
       <Navbar />
@@ -62,7 +53,7 @@ function App() {
           while keeping seamless profile alignment with the marquee.
         */}
         <div className="relative flex flex-col min-h-screen lg:min-h-[100dvh] lg:h-auto 2xl:h-[100dvh] 2xl:max-h-[100dvh] 2xl:overflow-hidden justify-between">
-          <Hero isIntroDone={isIntroDone} />
+          <Hero />
           <Marquee />
         </div>
 

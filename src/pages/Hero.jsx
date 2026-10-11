@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useRef, useMemo } from "react";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useState,
+  useRef,
+  useMemo,
+} from "react";
 import gsap from "gsap";
 import {
   SectionBadge,
@@ -18,7 +24,6 @@ import {
   LeftDoodle,
 } from "../components/decorative";
 import { socialLinks as siteSocialLinks } from "../config/site";
-import { useGsapScope } from "../animation/useGsapScope";
 import { ANIM } from "../animation/config";
 
 // ─── Typewriter roles ─────────────────────────────────────────────────────────
@@ -45,7 +50,7 @@ const stats = [
 // ═════════════════════════════════════════════════════════════════════════════
 // HERO PAGE (Optimized Animation & Performance)
 // ═════════════════════════════════════════════════════════════════════════════
-function Hero({ isIntroDone = true }) {
+function Hero() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
   const [phase, setPhase] = useState("typing"); // "typing" | "pausing" | "deleting" | "waiting"
@@ -58,6 +63,7 @@ function Hero({ isIntroDone = true }) {
   }, []);
 
   const heroRef = useRef(null);
+  const nameRef = useRef(null);
   const underlineRef = useRef(null);
   const profileRef = useRef(null);
   const socialRef = useRef(null);
@@ -104,87 +110,173 @@ function Hero({ isIntroDone = true }) {
     return () => clearTimeout(timeout);
   }, [displayedText, phase, roleIndex]);
 
-  // ── GSAP entrance + idle animations scoped & memory-safe ──────────────────
-  useGsapScope(heroRef, () => {
-    if (!isIntroDone) return;
+  // ── Hero Entrance Animation (Centered Name Slide -> Position -> Reveal) ───
+  useLayoutEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
-    const mm = gsap.matchMedia();
+    if (prefersReducedMotion) {
+      gsap.set(
+        [
+          nameRef.current,
+          ".bg-wave-left",
+          ".hero-stagger",
+          profileRef.current,
+          doodle1Ref.current,
+          doodle2Ref.current,
+          socialRef.current,
+        ],
+        { opacity: 1, x: 0, y: 0, scale: 1, clearProps: "all" },
+      );
+      if (underlineRef.current) {
+        gsap.set(underlineRef.current, { strokeDashoffset: 0 });
+      }
+      return;
+    }
 
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
+    const ctx = gsap.context(() => {
+      const heroName = nameRef.current;
+      if (!heroName) return;
+
+      // 1. Clear any residual transforms before measuring exact DOM position
+      gsap.set(heroName, { clearProps: "transform,scale,opacity" });
+
+      const rect = heroName.getBoundingClientRect();
+      const viewportCenterX = window.innerWidth / 2;
+      const viewportCenterY = window.innerHeight / 2;
+      const nameCenterX = rect.left + rect.width / 2;
+      const nameCenterY = rect.top + rect.height / 2;
+
+      const deltaX = viewportCenterX - nameCenterX;
+      const deltaY = viewportCenterY - nameCenterY;
+
+      // 2. Set initial hidden states before browser paints (zero flash)
+      gsap.set(".hero-stagger", { y: ANIM.REVEAL_Y, opacity: 0 });
+      gsap.set(".bg-wave-left", { x: -60, opacity: 0 });
+      if (profileRef.current)
+        gsap.set(profileRef.current, { y: 60, opacity: 0 });
+      if (doodle1Ref.current)
+        gsap.set(doodle1Ref.current, { scale: 0.7, opacity: 0 });
+      if (doodle2Ref.current)
+        gsap.set(doodle2Ref.current, { scale: 0.7, opacity: 0 });
+      if (socialRef.current) gsap.set(socialRef.current, { x: 30, opacity: 0 });
+      if (underlineRef.current) {
+        gsap.set(underlineRef.current, {
+          strokeDashoffset: 400,
+          strokeDasharray: 400,
+        });
+      }
+
+      // Initial state: centered vertically/horizontally, positioned slightly below center for sliding entry
+      const initialScale =
+        window.innerWidth < 640 ? 1.05 : window.innerWidth < 1024 ? 1.15 : 1.25;
+
+      gsap.set(heroName, {
+        x: deltaX,
+        y: deltaY + 50,
+        opacity: 0,
+        scale: initialScale,
+        transformOrigin: "center center",
+      });
+
+      // 3. Main Entrance Timeline
       const tl = gsap.timeline({ defaults: { ease: ANIM.EASE } });
 
-      tl.from(".bg-wave-left", {
-        x: -60,
-        opacity: 0,
-        duration: 0.9,
-        clearProps: "transform,opacity",
+      // Step A: Name slides up into screen center with fade in
+      tl.to(heroName, {
+        y: deltaY,
+        opacity: 1,
+        duration: 0.75,
+        ease: "power3.out",
       })
-        .from(
-          ".hero-stagger",
-          {
-            y: ANIM.REVEAL_Y,
-            opacity: 0,
-            stagger: ANIM.STAGGER,
-            duration: ANIM.DURATION.base,
-            clearProps: "transform,opacity",
-          },
-          "-=0.5",
-        )
-        .fromTo(
-          underlineRef.current,
-          { strokeDashoffset: 400, strokeDasharray: 400 },
-          {
-            strokeDashoffset: 0,
-            duration: ANIM.DURATION.base,
-            ease: "power2.out",
-          },
-          "-=0.3",
-        )
-        .from(
-          profileRef.current,
-          {
-            y: 60,
-            opacity: 0,
-            duration: ANIM.DURATION.slow,
-            clearProps: "transform,opacity",
-          },
-          "-=0.6",
-        )
-        .fromTo(
-          [doodle1Ref.current, doodle2Ref.current],
-          { scale: 0.7, opacity: 0 },
-          {
-            scale: 1,
-            opacity: 1,
-            stagger: 0.12,
-            duration: 0.5,
-            ease: "back.out(1.8)",
-            clearProps: "opacity,scale",
-          },
-          "-=0.4",
-        )
-        .fromTo(
-          socialRef.current,
-          { x: 30, opacity: 0 },
+        // Step B: Brief elegant pause in center so user perceives the name
+        .to({}, { duration: 0.35 })
+        // Step C: Name glides smoothly from center to its exact hero layout position
+        .to(heroName, {
+          x: 0,
+          y: 0,
+          scale: 1,
+          duration: 0.85,
+          ease: "power3.inOut",
+          clearProps: "transform,scale",
+        })
+        // Step D: Components appear seamlessly as name settles into position
+        .to(
+          ".bg-wave-left",
           {
             x: 0,
             opacity: 1,
-            duration: 0.6,
+            duration: 0.75,
+            ease: "power2.out",
+            clearProps: "transform,opacity",
+          },
+          "-=0.4",
+        )
+        .to(
+          ".hero-stagger",
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.08,
+            duration: 0.55,
+            ease: "power3.out",
+            clearProps: "transform,opacity",
+          },
+          "-=0.5",
+        )
+        .to(
+          underlineRef.current,
+          {
+            strokeDashoffset: 0,
+            duration: 0.75,
+            ease: "power2.out",
+          },
+          "-=0.35",
+        )
+        .to(
+          profileRef.current,
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.75,
+            ease: "power3.out",
+            clearProps: "transform,opacity",
+          },
+          "-=0.55",
+        )
+        .to(
+          [doodle1Ref.current, doodle2Ref.current],
+          {
+            scale: 1,
+            opacity: 1,
+            stagger: 0.1,
+            duration: 0.45,
+            ease: "back.out(1.8)",
+            clearProps: "opacity,scale",
+          },
+          "-=0.45",
+        )
+        .to(
+          socialRef.current,
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.55,
             ease: "power2.out",
             clearProps: "opacity,transform",
           },
-          "-=0.5",
+          "-=0.45",
         );
 
-      // Idle floating tweens — gsap.context ke andar seedha call karo,
-      // auto-tracked hain, cleanup pe revert ho jaate hain.
+      // Idle floating tweens (started after entrance settles)
       gsap.to([doodle1Ref.current, doodle2Ref.current], {
         y: -5,
         duration: 2.8,
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
-        delay: 1.0,
+        delay: 2.2,
       });
 
       gsap.to(".social-inner-float", {
@@ -193,33 +285,12 @@ function Hero({ isIntroDone = true }) {
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
-        delay: 1.0,
+        delay: 2.2,
       });
-    });
+    }, heroRef);
 
-    mm.add("(prefers-reduced-motion: reduce)", () => {
-      gsap.set(
-        [
-          ".bg-wave-left",
-          ".hero-stagger",
-          profileRef.current,
-          doodle1Ref.current,
-          doodle2Ref.current,
-          socialRef.current,
-        ],
-        {
-          opacity: 1,
-          x: 0,
-          y: 0,
-          scale: 1,
-          clearProps: "all",
-        },
-      );
-      if (underlineRef.current) {
-        gsap.set(underlineRef.current, { strokeDashoffset: 0 });
-      }
-    });
-  }, [isIntroDone]);
+    return () => ctx.revert();
+  }, []);
 
   const handleSmoothScroll = (e, id) => {
     e.preventDefault();
@@ -266,7 +337,11 @@ function Hero({ isIntroDone = true }) {
 
             {/* Title & Animated Underline */}
             <div className="relative inline-block my-0.5 sm:my-1">
-              <h1 className="hero-stagger whitespace-nowrap text-[2.75rem] xs:text-[3.4rem] sm:text-[4.4rem] md:text-[5.2rem] lg:text-[4.9rem] xl:text-[6.75rem] 2xl:text-[7.6rem] font-black italic uppercase text-[#111111] leading-none tracking-[-0.04em] select-none">
+              <h1
+                ref={nameRef}
+                id="hero-name"
+                className="relative z-30 whitespace-nowrap text-[2.75rem] xs:text-[3.4rem] sm:text-[4.4rem] md:text-[5.2rem] lg:text-[4.9rem] xl:text-[6.75rem] 2xl:text-[7.6rem] font-black italic uppercase text-[#111111] leading-none tracking-[-0.04em] select-none"
+              >
                 RAJ SHEKHAR
               </h1>
               <HandDrawnUnderline
@@ -355,8 +430,8 @@ function Hero({ isIntroDone = true }) {
           {/* ── RIGHT COLUMN ── */}
           <div className="lg:col-span-6 relative flex items-end justify-center self-end w-full overflow-visible">
             {/* Reusable Accent Rays */}
-            <AccentRays side="left" />
-            <AccentRays side="right" />
+            {/* <AccentRays side="left" />
+            <AccentRays side="right" /> */}
 
             {/* Doodle 1: Top-right */}
             <DoodleCard

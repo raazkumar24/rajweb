@@ -43,7 +43,7 @@ function Navbar() {
             opacity: 1,
             duration: 0.8,
             ease: "power3.out",
-            delay: 0.1,
+            delay: 1.2,
             clearProps: "all",
           }
         );
