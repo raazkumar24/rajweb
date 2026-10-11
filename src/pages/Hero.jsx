@@ -105,125 +105,121 @@ function Hero({ isIntroDone = true }) {
   }, [displayedText, phase, roleIndex]);
 
   // ── GSAP entrance + idle animations scoped & memory-safe ──────────────────
-  useGsapScope(
-    heroRef,
-    () => {
-      if (!isIntroDone) return;
+  useGsapScope(heroRef, () => {
+    if (!isIntroDone) return;
 
-      const mm = gsap.matchMedia();
+    const mm = gsap.matchMedia();
 
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const tl = gsap.timeline({ defaults: { ease: ANIM.EASE } });
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const tl = gsap.timeline({ defaults: { ease: ANIM.EASE } });
 
-        tl.from(".bg-wave-left", {
-          x: -60,
-          opacity: 0,
-          duration: 0.9,
-          clearProps: "transform,opacity",
-        })
-          .from(
-            ".hero-stagger",
-            {
-              y: ANIM.REVEAL_Y,
-              opacity: 0,
-              stagger: ANIM.STAGGER,
-              duration: ANIM.DURATION.base,
-              clearProps: "transform,opacity",
-            },
-            "-=0.5"
-          )
-          .fromTo(
-            underlineRef.current,
-            { strokeDashoffset: 400, strokeDasharray: 400 },
-            {
-              strokeDashoffset: 0,
-              duration: ANIM.DURATION.base,
-              ease: "power2.out",
-            },
-            "-=0.3"
-          )
-          .from(
-            profileRef.current,
-            {
-              y: 60,
-              opacity: 0,
-              duration: ANIM.DURATION.slow,
-              clearProps: "transform,opacity",
-            },
-            "-=0.6"
-          )
-          .fromTo(
-            [doodle1Ref.current, doodle2Ref.current],
-            { scale: 0.7, opacity: 0 },
-            {
-              scale: 1,
-              opacity: 1,
-              stagger: 0.12,
-              duration: 0.5,
-              ease: "back.out(1.8)",
-              clearProps: "opacity,scale",
-            },
-            "-=0.4"
-          )
-          .fromTo(
-            socialRef.current,
-            { x: 30, opacity: 0 },
-            {
-              x: 0,
-              opacity: 1,
-              duration: 0.6,
-              ease: "power2.out",
-              clearProps: "opacity,transform",
-            },
-            "-=0.5"
-          );
-
-        // Idle floating tweens — gsap.context ke andar seedha call karo,
-        // auto-tracked hain, cleanup pe revert ho jaate hain.
-        gsap.to([doodle1Ref.current, doodle2Ref.current], {
-          y: -5,
-          duration: 2.8,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-          delay: 1.0,
-        });
-
-        gsap.to(".social-inner-float", {
-          y: -6,
-          duration: 3.2,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-          delay: 1.0,
-        });
-      });
-
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(
-          [
-            ".bg-wave-left",
-            ".hero-stagger",
-            profileRef.current,
-            doodle1Ref.current,
-            doodle2Ref.current,
-            socialRef.current,
-          ],
+      tl.from(".bg-wave-left", {
+        x: -60,
+        opacity: 0,
+        duration: 0.9,
+        clearProps: "transform,opacity",
+      })
+        .from(
+          ".hero-stagger",
           {
-            opacity: 1,
-            x: 0,
-            y: 0,
+            y: ANIM.REVEAL_Y,
+            opacity: 0,
+            stagger: ANIM.STAGGER,
+            duration: ANIM.DURATION.base,
+            clearProps: "transform,opacity",
+          },
+          "-=0.5",
+        )
+        .fromTo(
+          underlineRef.current,
+          { strokeDashoffset: 400, strokeDasharray: 400 },
+          {
+            strokeDashoffset: 0,
+            duration: ANIM.DURATION.base,
+            ease: "power2.out",
+          },
+          "-=0.3",
+        )
+        .from(
+          profileRef.current,
+          {
+            y: 60,
+            opacity: 0,
+            duration: ANIM.DURATION.slow,
+            clearProps: "transform,opacity",
+          },
+          "-=0.6",
+        )
+        .fromTo(
+          [doodle1Ref.current, doodle2Ref.current],
+          { scale: 0.7, opacity: 0 },
+          {
             scale: 1,
-            clearProps: "all",
-          }
+            opacity: 1,
+            stagger: 0.12,
+            duration: 0.5,
+            ease: "back.out(1.8)",
+            clearProps: "opacity,scale",
+          },
+          "-=0.4",
+        )
+        .fromTo(
+          socialRef.current,
+          { x: 30, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.6,
+            ease: "power2.out",
+            clearProps: "opacity,transform",
+          },
+          "-=0.5",
         );
-        if (underlineRef.current) {
-          gsap.set(underlineRef.current, { strokeDashoffset: 0 });
-        }
+
+      // Idle floating tweens — gsap.context ke andar seedha call karo,
+      // auto-tracked hain, cleanup pe revert ho jaate hain.
+      gsap.to([doodle1Ref.current, doodle2Ref.current], {
+        y: -5,
+        duration: 2.8,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: 1.0,
       });
-    },
-    [isIntroDone]
-  );
+
+      gsap.to(".social-inner-float", {
+        y: -6,
+        duration: 3.2,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: 1.0,
+      });
+    });
+
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      gsap.set(
+        [
+          ".bg-wave-left",
+          ".hero-stagger",
+          profileRef.current,
+          doodle1Ref.current,
+          doodle2Ref.current,
+          socialRef.current,
+        ],
+        {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          scale: 1,
+          clearProps: "all",
+        },
+      );
+      if (underlineRef.current) {
+        gsap.set(underlineRef.current, { strokeDashoffset: 0 });
+      }
+    });
+  }, [isIntroDone]);
 
   const handleSmoothScroll = (e, id) => {
     e.preventDefault();
@@ -234,13 +230,14 @@ function Hero({ isIntroDone = true }) {
     const el = document.getElementById(id);
     if (el) {
       const navOffset = id === "about" ? 0 : 68;
-      const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
+      const elementPosition =
+        el.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo({
         top: Math.max(
           0,
           id === "about"
             ? Math.ceil(elementPosition) + 2
-            : elementPosition - navOffset
+            : elementPosition - navOffset,
         ),
         behavior: "smooth",
       });
@@ -269,7 +266,7 @@ function Hero({ isIntroDone = true }) {
 
             {/* Title & Animated Underline */}
             <div className="relative inline-block my-0.5 sm:my-1">
-              <h1 className="hero-stagger whitespace-nowrap text-[2.75rem] xs:text-[3.4rem] sm:text-[4.4rem] md:text-[5.2rem] lg:text-[3.9rem] xl:text-[4.75rem] 2xl:text-[5.6rem] font-black italic uppercase text-[#111111] leading-none tracking-[-0.04em] select-none">
+              <h1 className="hero-stagger whitespace-nowrap text-[2.75rem] xs:text-[3.4rem] sm:text-[4.4rem] md:text-[5.2rem] lg:text-[4.9rem] xl:text-[6.75rem] 2xl:text-[7.6rem] font-black italic uppercase text-[#111111] leading-none tracking-[-0.04em] select-none">
                 RAJ SHEKHAR
               </h1>
               <HandDrawnUnderline
@@ -281,7 +278,9 @@ function Hero({ isIntroDone = true }) {
             {/* Typewriter */}
             <div className="hero-stagger mt-1.5 sm:mt-2 lg:mt-1.5 xl:mt-2 min-h-[1.85rem] sm:min-h-[2.25rem] flex items-center overflow-hidden">
               <h2 className="text-[13px] xs:text-[15px] sm:text-lg md:text-[1.45rem] lg:text-[1.25rem] xl:text-[1.5rem] font-bold text-[#111111] flex items-center whitespace-nowrap">
-                <span className="text-[#222222]">I build websites as a&nbsp;</span>
+                <span className="text-[#222222]">
+                  I build websites as a&nbsp;
+                </span>
                 <span className="relative inline-flex items-center shrink-0">
                   <span className="bg-gradient-to-r from-[#FF6A00] via-[#FF8A00] to-[#FFAA00] bg-clip-text text-transparent font-black tracking-tight drop-shadow-[0_1px_2px_rgba(255,119,0,0.25)]">
                     {displayedText}
@@ -300,7 +299,9 @@ function Hero({ isIntroDone = true }) {
 
             {/* Description */}
             <p className="hero-stagger mt-2 sm:mt-2.5 lg:mt-2 xl:mt-2.5 text-[#4B5563] text-xs sm:text-sm lg:text-[13px] xl:text-[14.5px] leading-relaxed max-w-lg font-normal">
-              I build fast, responsive websites and web apps that help businesses look great and turn visitors into clients. Thoughtful design, clean code, and zero fluff.
+              I build fast, responsive websites and web apps that help
+              businesses look great and turn visitors into clients. Thoughtful
+              design, clean code, and zero fluff.
             </p>
 
             {/* CTA Buttons with Smooth Scroll */}
@@ -320,7 +321,11 @@ function Hero({ isIntroDone = true }) {
                   strokeWidth="2.5"
                   viewBox="0 0 24 24"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                  />
                 </svg>
               </a>
               <a
@@ -336,7 +341,11 @@ function Hero({ isIntroDone = true }) {
             <div className="hero-stagger mt-3.5 sm:mt-5 lg:mt-3 xl:mt-4 pt-2.5 sm:pt-3 border-t border-black/10 flex items-center gap-5 sm:gap-7 xl:gap-8 max-w-lg pb-1 sm:pb-2 lg:pb-1">
               {stats.map((stat, i) => (
                 <React.Fragment key={stat.label}>
-                  <StatItem value={stat.value} label={stat.label} isLive={stat.isLive} />
+                  <StatItem
+                    value={stat.value}
+                    label={stat.label}
+                    isLive={stat.isLive}
+                  />
                   {i < stats.length - 1 && <StatDivider />}
                 </React.Fragment>
               ))}
