@@ -1,0 +1,19 @@
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-33.333333%);
+  }
+}
+
+.animate-marquee {
+  display: inline-flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}

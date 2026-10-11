@@ -1,0 +1,294 @@
+@import "tailwindcss";
+
+@theme {
+  --breakpoint-xs: 30rem;
+}
+
+@keyframes cursorBadgeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-cursor-pop {
+  animation: cursorBadgeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4.75rem;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF8F5;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(17, 17, 17, 0.18);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 149, 0, 0.6);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #FAF8F5;
+  color: #111111;
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+}
+
+.font-doodle {
+  font-family: 'Caveat', cursive;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-blink {
+  animation: cursorBlink 0.9s infinite ease-in-out;
+}
+
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+.animate-float {
+  animation: floatGentle 5s ease-in-out infinite;
+}
+
+@keyframes pulseBlob {
+  0%, 100% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.04) translate(4px, -6px);
+  }
+}
+
+.animate-pulse-blob {
+  animation: pulseBlob 6s ease-in-out infinite;
+}
+
+/* ── About page: scroll-reveal base state ── */
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+/* ── Skill bar fill animation ── */
+@keyframes fillBar {
+  from { width: 0%; }
+  to   { width: var(--skill-pct); }
+}
+
+.skill-bar-fill {
+  animation: fillBar 1.1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+/* ── Timeline line draw ── */
+@keyframes drawLine {
+  from { height: 0; }
+  to   { height: 100%; }
+}
+
+.timeline-line-draw {
+  animation: drawLine 1.4s ease-out forwards;
+}
+
+/* ── Shimmer on skill cards ── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.shimmer-card {
+  background: linear-gradient(
+    105deg,
+    #ffffff 40%,
+    #fff7ec 50%,
+    #ffffff 60%
+  );
+  background-size: 200% auto;
+}
+
+.shimmer-card:hover {
+  animation: shimmer 1.2s linear infinite;
+}
+
+/* ── Orange gradient text utility ── */
+.text-gradient-orange {
+  background: linear-gradient(135deg, #FF9500 0%, #FF6B00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── About section marquee (vertical scroll) ── */
+@keyframes marqueeVert {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+.animate-marquee-vert {
+  animation: marqueeVert 12s linear infinite;
+}
+
+/* ── Reverse horizontal marquee ── */
+@keyframes marqueeReverse {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+
+.animate-marquee-reverse {
+  animation: marqueeReverse 30s linear infinite;
+}
+
+/* ── Traveling dashed wave animation ── */
+@keyframes dashTravel {
+  to {
+    stroke-dashoffset: -32;
+  }
+}
+
+.animate-dash-flow {
+  animation: dashTravel 1.6s linear infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 149, 0, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(255, 149, 0, 0.65);
+  }
+}
+
+.glow-orange-pulse {
+  animation: pulseGlow 2.5s ease-in-out infinite;
+}
+
+/* ── OrangeShapes: Gentle slow float (up-down) ── */
+/* Used by: OrangeTopLeftShape, OrangeCtaBottomWave */
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+.animate-float-slow {
+  animation: floatSlow 7s ease-in-out infinite;
+}
+
+/* ── OrangeShapes: Breathing pulse (scale + opacity) ── */
+/* Used by: OrangeBottomHeroWave, OrangeJourneyCardBlob */
+@keyframes breathe {
+  0%, 100% { transform: scale(1);    opacity: 1; }
+  50%       { transform: scale(1.03); opacity: 0.92; }
+}
+
+.animate-breathe {
+  animation: breathe 8s ease-in-out infinite;
+}
+
+/* ── OrangeShapes: Float with slight X drift (right-to-left shapes) ── */
+/* Used by: OrangeRightAccentShape */
+@keyframes floatRight {
+  0%, 100% { transform: translate(0px, 0px); }
+  33%       { transform: translate(-6px, -5px); }
+  66%       { transform: translate(3px, -10px); }
+}
+
+.animate-float-right {
+  animation: floatRight 6s ease-in-out infinite;
+}
+
+/* ── Orange Text Highlight & High-Contrast Definition ── */
+/* Ensures orange text remains punchy, sharp, and clearly legible even when */
+/* overlapping or adjacent to rich orange background shapes and waves. */
+.orange-text-pop,
+[class*="text-[#FF8A00]"],
+[class*="text-[#FF9500]"],
+[class*="text-[#FF7A00]"],
+[class*="text-[#FF7700]"] {
+  text-shadow: 0 1px 2px rgba(17, 17, 17, 0.28), 0 0 1px rgba(17, 17, 17, 0.35);
+}
+
+/* Extra punch and crisp edge contour for prominent headlines with orange text */
+h1 [class*="text-[#FF"],
+h2 [class*="text-[#FF"],
+h3 [class*="text-[#FF"],
+h4 [class*="text-[#FF"] {
+  color: #FF7700 !important;
+  text-shadow: 0 1px 2.5px rgba(17, 17, 17, 0.45), 0 0 1.5px rgba(17, 17, 17, 0.5), 0 0 10px rgba(255, 119, 0, 0.25) !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.22));
+}
+
+/* Dark mode exception: keep crisp ambient glow in dark contact section */
+#contact [class*="text-[#FF"] {
+  text-shadow: 0 0 12px rgba(255, 138, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* ── Modal Smooth Scrollbar & Mobile Optimization ── */
+.modal-backdrop-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+}
+
+/* Hide scrollbar on mobile screens for seamless touch swipe */
+@media (max-width: 640px) {
+  .modal-backdrop-scroll {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .modal-backdrop-scroll::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+/* Ultra-slim minimalist scrollbar on tablets/desktop */
+@media (min-width: 641px) {
+  .modal-backdrop-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+  .modal-backdrop-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .modal-backdrop-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 9999px;
+  }
+  .modal-backdrop-scroll::-webkit-scrollbar-thumb:hover {
+    background: #FF8A00;
+  }
+}
