@@ -36,128 +36,124 @@ export default function Works() {
     return true;
   });
 
-  useGsapScope(
-    sectionRef,
-    () => {
-      const mm = gsap.matchMedia();
+  useGsapScope(sectionRef, () => {
+    const mm = gsap.matchMedia();
 
-      mm.add(
-        "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
-        () => {
-          const rows = gsap.utils.toArray(".wk-project-row");
-          rows.forEach((row) => {
-            const img = row.querySelector(".wk-project-img");
-            const clipWrap =
-              row.querySelector(".wk-clip-wrap") ||
-              row.querySelector(".wk-img-wrap");
-            const info = row.querySelector(".wk-project-info");
+    mm.add(
+      "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
+      () => {
+        const rows = gsap.utils.toArray(".wk-project-row");
+        rows.forEach((row) => {
+          const img = row.querySelector(".wk-project-img");
+          const clipWrap =
+            row.querySelector(".wk-clip-wrap") ||
+            row.querySelector(".wk-img-wrap");
+          const info = row.querySelector(".wk-project-info");
 
-            if (clipWrap) {
-              gsap.fromTo(
-                clipWrap,
-                {
-                  clipPath: "polygon(0 12%, 100% 12%, 100% 100%, 0 100%)",
-                  opacity: 0.88,
-                },
-                {
-                  clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0 100%)",
-                  opacity: 1,
-                  duration: ANIM.DURATION.base,
-                  ease: ANIM.EASE,
-                  scrollTrigger: {
-                    trigger: row,
-                    start: ANIM.SCROLL_START,
-                    once: true,
-                  },
-                }
-              );
-            }
-
-            if (img) {
-              // Subtle desktop parallax (yPercent +-5) without competing CSS transitions
-              gsap.fromTo(
-                img,
-                { yPercent: -5, scale: 1.05 },
-                {
-                  yPercent: 5,
-                  scale: 1,
-                  ease: "none",
-                  scrollTrigger: {
-                    trigger: row,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: 1.2,
-                  },
-                }
-              );
-            }
-
-            if (info) {
-              gsap.fromTo(
-                info,
-                { y: ANIM.REVEAL_Y, opacity: 0 },
-                {
-                  y: 0,
-                  opacity: 1,
-                  duration: ANIM.DURATION.base,
-                  ease: ANIM.EASE,
-                  scrollTrigger: {
-                    trigger: row,
-                    start: ANIM.SCROLL_START,
-                    once: true,
-                  },
-                }
-              );
-            }
-          });
-        }
-      );
-
-      mm.add(
-        "(max-width: 767px) and (prefers-reduced-motion: no-preference)",
-        () => {
-          gsap.utils.toArray(".wk-project-row").forEach((row) => {
+          if (clipWrap) {
             gsap.fromTo(
-              row,
-              { opacity: 0, y: 20 },
+              clipWrap,
               {
+                clipPath: "polygon(0 12%, 100% 12%, 100% 100%, 0 100%)",
+                opacity: 0.88,
+              },
+              {
+                clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0 100%)",
                 opacity: 1,
-                y: 0,
-                duration: 0.6,
-                ease: "power2.out",
+                duration: ANIM.DURATION.base,
+                ease: ANIM.EASE,
                 scrollTrigger: {
                   trigger: row,
                   start: ANIM.SCROLL_START,
                   once: true,
                 },
-              }
+              },
             );
-          });
-        }
-      );
-
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(
-          [
-            ".wk-clip-wrap",
-            ".wk-img-wrap",
-            ".wk-project-img",
-            ".wk-project-info",
-            ".wk-project-row",
-          ],
-          {
-            opacity: 1,
-            y: 0,
-            yPercent: 0,
-            scale: 1,
-            clipPath: "none",
-            clearProps: "all",
           }
-        );
-      });
-    },
-    [activeFilter]
-  );
+
+          if (img) {
+            // Subtle desktop parallax (yPercent +-5) without competing CSS transitions
+            gsap.fromTo(
+              img,
+              { yPercent: -5, scale: 1.05 },
+              {
+                yPercent: 5,
+                scale: 1,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: row,
+                  start: "top bottom",
+                  end: "bottom top",
+                  scrub: 1.2,
+                },
+              },
+            );
+          }
+
+          if (info) {
+            gsap.fromTo(
+              info,
+              { y: ANIM.REVEAL_Y, opacity: 0 },
+              {
+                y: 0,
+                opacity: 1,
+                duration: ANIM.DURATION.base,
+                ease: ANIM.EASE,
+                scrollTrigger: {
+                  trigger: row,
+                  start: ANIM.SCROLL_START,
+                  once: true,
+                },
+              },
+            );
+          }
+        });
+      },
+    );
+
+    mm.add(
+      "(max-width: 767px) and (prefers-reduced-motion: no-preference)",
+      () => {
+        gsap.utils.toArray(".wk-project-row").forEach((row) => {
+          gsap.fromTo(
+            row,
+            { opacity: 0, y: 20 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: row,
+                start: ANIM.SCROLL_START,
+                once: true,
+              },
+            },
+          );
+        });
+      },
+    );
+
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      gsap.set(
+        [
+          ".wk-clip-wrap",
+          ".wk-img-wrap",
+          ".wk-project-img",
+          ".wk-project-info",
+          ".wk-project-row",
+        ],
+        {
+          opacity: 1,
+          y: 0,
+          yPercent: 0,
+          scale: 1,
+          clipPath: "none",
+          clearProps: "all",
+        },
+      );
+    });
+  }, [activeFilter]);
 
   useEffect(() => {
     if (document.fonts?.ready) {
@@ -187,7 +183,7 @@ export default function Works() {
     <section
       ref={sectionRef}
       id="works"
-      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-20 sm:pt-28 lg:pt-32 pb-20 sm:pb-28 font-sans"
+      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-0 pb-0 font-sans scroll-mt-20 sm:scroll-mt-28"
     >
       {/* ── Subtle Decorative Top SVG Wave Divider (About -> Works) ── */}
       {/* <SectionWaveDivider variant="about-to-works" className="relative z-10 mb-4 sm:mb-8" /> */}
@@ -417,158 +413,160 @@ export default function Works() {
                 <X className="w-5 h-5 stroke-[2.5]" />
               </button>
 
-            {/* Modal Header */}
-            <p className="text-xs sm:text-sm font-semibold text-[#FF8A00] mb-2">
-              Case study &bull; {activeProjectModal.year} &bull;{" "}
-              {activeProjectModal.client}
-            </p>
+              {/* Modal Header */}
+              <p className="text-xs sm:text-sm font-semibold text-[#FF8A00] mb-2">
+                Case study &bull; {activeProjectModal.year} &bull;{" "}
+                {activeProjectModal.client}
+              </p>
 
-            <h2 className="font-black italic uppercase text-3xl sm:text-4xl tracking-tight mb-4">
-              {activeProjectModal.title}
-            </h2>
+              <h2 className="font-black italic uppercase text-3xl sm:text-4xl tracking-tight mb-4">
+                {activeProjectModal.title}
+              </h2>
 
-            {/* Image banner gallery */}
-            {(() => {
-              const modalImages =
-                activeProjectModal.images &&
-                activeProjectModal.images.length > 0
-                  ? activeProjectModal.images
-                  : [activeProjectModal.image];
+              {/* Image banner gallery */}
+              {(() => {
+                const modalImages =
+                  activeProjectModal.images &&
+                  activeProjectModal.images.length > 0
+                    ? activeProjectModal.images
+                    : [activeProjectModal.image];
 
-              return (
-                <div className="mb-7">
-                  <div className="relative rounded-2xl overflow-hidden aspect-[16/10] bg-black/5 border border-black/8 shadow-md group/modalImg">
-                    <img
-                      key={modalImageIdx}
-                      src={
-                        modalImages[modalImageIdx] || activeProjectModal.image
-                      }
-                      alt={`${activeProjectModal.title} preview ${modalImageIdx + 1}`}
-                      width={1400}
-                      height={875}
-                      loading="lazy"
-                      className="w-full h-full object-cover object-top transition-opacity duration-300"
-                    />
+                return (
+                  <div className="mb-7">
+                    <div className="relative rounded-2xl overflow-hidden aspect-[16/10] bg-black/5 border border-black/8 shadow-md group/modalImg">
+                      <img
+                        key={modalImageIdx}
+                        src={
+                          modalImages[modalImageIdx] || activeProjectModal.image
+                        }
+                        alt={`${activeProjectModal.title} preview ${modalImageIdx + 1}`}
+                        width={1400}
+                        height={875}
+                        loading="lazy"
+                        className="w-full h-full object-cover object-top transition-opacity duration-300"
+                      />
 
+                      {modalImages.length > 1 && (
+                        <>
+                          <button
+                            type="button"
+                            aria-label="Previous image"
+                            onClick={() =>
+                              setModalImageIdx((prev) =>
+                                prev === 0 ? modalImages.length - 1 : prev - 1,
+                              )
+                            }
+                            className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/70 hover:bg-[#FF8A00] text-white flex items-center justify-center backdrop-blur-md transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
+                          >
+                            <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
+                          </button>
+
+                          <button
+                            type="button"
+                            aria-label="Next image"
+                            onClick={() =>
+                              setModalImageIdx((prev) =>
+                                prev === modalImages.length - 1 ? 0 : prev + 1,
+                              )
+                            }
+                            className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/70 hover:bg-[#FF8A00] text-white flex items-center justify-center backdrop-blur-md transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
+                          >
+                            <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+                          </button>
+
+                          <div className="absolute top-3 right-3 text-xs font-semibold text-white bg-black/75 backdrop-blur-md px-3.5 py-1 rounded-full border border-white/10 shadow-md">
+                            {modalImageIdx + 1} / {modalImages.length}
+                          </div>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Thumbnails row when multiple images exist */}
                     {modalImages.length > 1 && (
-                      <>
-                        <button
-                          type="button"
-                          aria-label="Previous image"
-                          onClick={() =>
-                            setModalImageIdx((prev) =>
-                              prev === 0 ? modalImages.length - 1 : prev - 1,
-                            )
-                          }
-                          className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/70 hover:bg-[#FF8A00] text-white flex items-center justify-center backdrop-blur-md transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
-                        >
-                          <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
-                        </button>
-
-                        <button
-                          type="button"
-                          aria-label="Next image"
-                          onClick={() =>
-                            setModalImageIdx((prev) =>
-                              prev === modalImages.length - 1 ? 0 : prev + 1,
-                            )
-                          }
-                          className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/70 hover:bg-[#FF8A00] text-white flex items-center justify-center backdrop-blur-md transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
-                        >
-                          <ChevronRight className="w-5 h-5 stroke-[2.5]" />
-                        </button>
-
-                        <div className="absolute top-3 right-3 text-xs font-semibold text-white bg-black/75 backdrop-blur-md px-3.5 py-1 rounded-full border border-white/10 shadow-md">
-                          {modalImageIdx + 1} / {modalImages.length}
-                        </div>
-                      </>
+                      <div className="grid grid-cols-3 gap-3 mt-3">
+                        {modalImages.map((thumb, tIdx) => (
+                          <button
+                            key={tIdx}
+                            type="button"
+                            onClick={() => setModalImageIdx(tIdx)}
+                            className={`relative aspect-[16/10] rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
+                              modalImageIdx === tIdx
+                                ? "border-[#FF8A00] shadow-md ring-2 ring-[#FF8A00]/30 scale-[1.02]"
+                                : "border-black/10 opacity-70 hover:opacity-100 hover:border-black/30"
+                            }`}
+                          >
+                            <img
+                              src={thumb}
+                              alt={`Thumbnail ${tIdx + 1}`}
+                              className="w-full h-full object-cover object-top"
+                            />
+                            <span className="absolute bottom-1 right-1 text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-black/70 text-white backdrop-blur-xs">
+                              0{tIdx + 1}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
                     )}
                   </div>
+                );
+              })()}
 
-                  {/* Thumbnails row when multiple images exist */}
-                  {modalImages.length > 1 && (
-                    <div className="grid grid-cols-3 gap-3 mt-3">
-                      {modalImages.map((thumb, tIdx) => (
-                        <button
-                          key={tIdx}
-                          type="button"
-                          onClick={() => setModalImageIdx(tIdx)}
-                          className={`relative aspect-[16/10] rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
-                            modalImageIdx === tIdx
-                              ? "border-[#FF8A00] shadow-md ring-2 ring-[#FF8A00]/30 scale-[1.02]"
-                              : "border-black/10 opacity-70 hover:opacity-100 hover:border-black/30"
-                          }`}
-                        >
-                          <img
-                            src={thumb}
-                            alt={`Thumbnail ${tIdx + 1}`}
-                            className="w-full h-full object-cover object-top"
-                          />
-                          <span className="absolute bottom-1 right-1 text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-black/70 text-white backdrop-blur-xs">
-                            0{tIdx + 1}
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })()}
+              {/* Narrative Deep Dive */}
+              <div className="mb-6">
+                <h4 className="text-sm font-bold text-[#111111] mb-2 uppercase tracking-wide">
+                  How this was built
+                </h4>
+                <p className="text-sm sm:text-base text-[#4B5563] leading-relaxed">
+                  {activeProjectModal.deepDive}
+                </p>
+              </div>
 
-            {/* Narrative Deep Dive */}
-            <div className="mb-6">
-              <h4 className="text-sm font-bold text-[#111111] mb-2 uppercase tracking-wide">
-                How this was built
-              </h4>
-              <p className="text-sm sm:text-base text-[#4B5563] leading-relaxed">
-                {activeProjectModal.deepDive}
-              </p>
-            </div>
-
-            {/* Metrics */}
-            <div className="grid grid-cols-3 gap-3 p-5 bg-white/80 backdrop-blur-md rounded-2xl border border-black/6 mb-6 shadow-xs">
-              {activeProjectModal.metrics.map((m, idx) => (
-                <div key={idx} className="flex flex-col">
-                  <span className="text-2xl sm:text-3xl font-black text-[#111111]">
-                    {m.value}
-                  </span>
-                  <span className="text-xs text-[#666666] mt-1">{m.label}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Stack line & action */}
-            <div className="pt-4 border-t border-black/8 flex items-center justify-between flex-wrap gap-4">
-              <div className="flex flex-wrap items-center gap-1.5">
-                <span className="text-xs font-semibold text-[#111111] mr-1">
-                  Built with:
-                </span>
-                {activeProjectModal.stack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-2.5 py-1 rounded-lg bg-black/5 text-xs font-semibold text-[#333333]"
-                  >
-                    {tech}
-                  </span>
+              {/* Metrics */}
+              <div className="grid grid-cols-3 gap-3 p-5 bg-white/80 backdrop-blur-md rounded-2xl border border-black/6 mb-6 shadow-xs">
+                {activeProjectModal.metrics.map((m, idx) => (
+                  <div key={idx} className="flex flex-col">
+                    <span className="text-2xl sm:text-3xl font-black text-[#111111]">
+                      {m.value}
+                    </span>
+                    <span className="text-xs text-[#666666] mt-1">
+                      {m.label}
+                    </span>
+                  </div>
                 ))}
               </div>
 
-              {activeProjectModal.githubUrl && (
-                <a
-                  href={activeProjectModal.githubUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#111111] hover:bg-[#FF8A00] text-white hover:text-[#111111] text-xs font-bold transition-all shadow-sm hover:shadow-[0_8px_20px_rgba(255,138,0,0.3)]"
-                >
-                  <Code2 className="w-3.5 h-3.5" />
-                  <span>View code</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </a>
-              )}
+              {/* Stack line & action */}
+              <div className="pt-4 border-t border-black/8 flex items-center justify-between flex-wrap gap-4">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-xs font-semibold text-[#111111] mr-1">
+                    Built with:
+                  </span>
+                  {activeProjectModal.stack.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-2.5 py-1 rounded-lg bg-black/5 text-xs font-semibold text-[#333333]"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                {activeProjectModal.githubUrl && (
+                  <a
+                    href={activeProjectModal.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#111111] hover:bg-[#FF8A00] text-white hover:text-[#111111] text-xs font-bold transition-all shadow-sm hover:shadow-[0_8px_20px_rgba(255,138,0,0.3)]"
+                  >
+                    <Code2 className="w-3.5 h-3.5" />
+                    <span>View code</span>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
       )}
 
       {/* ── Wave Divider: Works → Services transition ── */}
