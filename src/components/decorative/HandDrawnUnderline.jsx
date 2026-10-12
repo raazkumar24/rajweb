@@ -47,6 +47,7 @@ export default function HandDrawnUnderline({
           strokeLinecap="round"
           strokeLinejoin="round"
           vectorEffect="non-scaling-stroke"
+          style={{ strokeDasharray: 400, strokeDashoffset: 400 }}
         />
       </svg>
     </div>

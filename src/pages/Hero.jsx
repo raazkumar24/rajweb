@@ -121,6 +121,7 @@ function Hero() {
         [
           nameRef.current,
           ".bg-wave-left",
+          ".bg-bottom-wave",
           ".hero-stagger",
           profileRef.current,
           doodle1Ref.current,
@@ -154,6 +155,7 @@ function Hero() {
       // 2. Set initial hidden states before browser paints (zero flash)
       gsap.set(".hero-stagger", { y: ANIM.REVEAL_Y, opacity: 0 });
       gsap.set(".bg-wave-left", { x: -60, opacity: 0 });
+      gsap.set(".bg-bottom-wave", { y: 30, opacity: 0 });
       if (profileRef.current)
         gsap.set(profileRef.current, { y: 60, opacity: 0 });
       if (doodle1Ref.current)
@@ -212,6 +214,17 @@ function Hero() {
             clearProps: "transform,opacity",
           },
           "-=0.4",
+        )
+        .to(
+          ".bg-bottom-wave",
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.75,
+            ease: "power2.out",
+            clearProps: "transform,opacity",
+          },
+          "-=0.55",
         )
         .to(
           ".hero-stagger",
@@ -323,7 +336,7 @@ function Hero() {
     >
       {/* ── REDESIGNED PREMIUM ORANGE BACKGROUND SHAPES ── */}
       <OrangeTopLeftShape variant="hero" />
-      <OrangeBottomHeroWave />
+      <OrangeBottomHeroWave className="bg-bottom-wave" />
 
       {/* ── MAIN CONTAINER ── */}
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14 flex-1 min-h-0 flex flex-col justify-end pb-0">

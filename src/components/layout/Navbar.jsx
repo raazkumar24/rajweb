@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { useGsapScope } from "../../animation/useGsapScope";
 
@@ -31,22 +31,30 @@ function Navbar() {
   const [activeSection, setActiveSection] = useState("home");
   const navRef = useRef(null);
 
+  // useLayoutEffect: runs synchronously after DOM mutations, before browser paint
+  // This prevents the navbar from being visible even for a single frame
+  useLayoutEffect(() => {
+    if (!navRef.current) return;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (!prefersReducedMotion) {
+      gsap.set(navRef.current, { y: -30, opacity: 0 });
+    }
+  }, []);
+
   useGsapScope(navRef, () => {
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       if (navRef.current) {
-        gsap.fromTo(
-          navRef.current,
-          { y: -30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            ease: "power3.out",
-            delay: 1.2,
-            clearProps: "all",
-          }
-        );
+        gsap.to(navRef.current, {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          delay: 1.8,
+          clearProps: "all",
+        });
       }
     });
     mm.add("(prefers-reduced-motion: reduce)", () => {

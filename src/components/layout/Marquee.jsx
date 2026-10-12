@@ -13,7 +13,14 @@ const techItems = [
 
 export default function Marquee() {
   return (
-    <div className="relative w-full shrink-0 overflow-hidden bg-[#0A0A0A] py-2.5 sm:py-3 z-40 border-t border-white/5 select-none">
+    <div
+      className="relative w-full shrink-0 overflow-hidden bg-[#0A0A0A] py-2.5 sm:py-3 z-40 border-t border-white/5 select-none"
+      style={{
+        opacity: 0,
+        animation: "marquee-fadein 0.6s ease forwards",
+        animationDelay: "2.0s",
+      }}
+    >
       <div className="flex w-max animate-marquee items-center">
         {/* Render 3 copies for ultra-smooth seamless looping on wide screens */}
         {[0, 1, 2].map((copyIndex) => (
