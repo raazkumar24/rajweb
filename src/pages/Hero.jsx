@@ -110,6 +110,17 @@ function Hero() {
     return () => clearTimeout(timeout);
   }, [displayedText, phase, roleIndex]);
 
+  const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
+
+  const handleHeroMouseMove = (e) => {
+    if (!heroRef.current) return;
+    const rect = heroRef.current.getBoundingClientRect();
+    setMousePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
   // ── Hero Entrance Animation (Centered Name Slide -> Position -> Reveal) ───
   useLayoutEffect(() => {
     const prefersReducedMotion = window.matchMedia(
@@ -332,21 +343,43 @@ function Hero() {
     <section
       ref={heroRef}
       id="home"
+      onMouseMove={handleHeroMouseMove}
       className="relative w-full flex-1 min-h-0 flex flex-col justify-end overflow-hidden bg-[#FAF8F5] pt-20 sm:pt-24 lg:pt-[72px] xl:pt-[78px] select-none"
     >
       {/* ── REDESIGNED PREMIUM ORANGE BACKGROUND SHAPES ── */}
       <OrangeTopLeftShape variant="hero" />
       <OrangeBottomHeroWave className="bg-bottom-wave" />
 
+      {/* ── AMBIENT INTERACTIVE CURSOR SPOTLIGHT ── */}
+      <div
+        className="pointer-events-none absolute w-[520px] h-[520px] rounded-full blur-3xl opacity-40 transition-opacity duration-500 -translate-x-1/2 -translate-y-1/2 -z-0"
+        style={{
+          left: mousePos.x,
+          top: mousePos.y,
+          background:
+            "radial-gradient(circle, rgba(255,138,0,0.18) 0%, rgba(255,170,0,0.06) 45%, transparent 70%)",
+        }}
+        aria-hidden="true"
+      />
+
       {/* ── MAIN CONTAINER ── */}
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14 flex-1 min-h-0 flex flex-col justify-end pb-0">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-6 xl:gap-8 items-end flex-1 min-h-0">
           {/* ── LEFT COLUMN ── */}
           <div className="lg:col-span-6 flex flex-col justify-center z-20 pt-2 pb-4 sm:pb-6 lg:py-0 self-center">
-            <SectionBadge
-              label="Hello, I'm"
-              className="hero-stagger mb-1.5 sm:mb-2 lg:mb-1.5 xl:mb-2"
-            />
+            {/* Upgraded Pill SectionBadge */}
+            <div className="hero-stagger mb-2 sm:mb-2.5 inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/75 backdrop-blur-md border border-black/8 shadow-2xs w-fit">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-[#FF8A00] opacity-75 animate-ping" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FF8A00]" />
+              </span>
+              <span className="text-xs sm:text-sm font-semibold text-[#333333]">
+                Hello, I'm
+              </span>
+              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#FF8A00]/12 text-[#FF7700] border border-[#FF8A00]/25">
+                Portfolio 2025
+              </span>
+            </div>
 
             {/* Title & Animated Underline */}
             <div className="relative inline-block my-0.5 sm:my-1">
@@ -392,15 +425,16 @@ function Hero() {
               design, clean code, and zero fluff.
             </p>
 
-            {/* CTA Buttons with Smooth Scroll */}
-            <div className="hero-stagger mt-3.5 sm:mt-5 lg:mt-3.5 xl:mt-4 flex flex-wrap items-center gap-3">
+            {/* CTA Buttons with Smooth Scroll & Sheen */}
+            <div className="hero-stagger mt-4 sm:mt-5 lg:mt-3.5 xl:mt-4 flex flex-wrap items-center gap-3">
               <a
                 href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 download="Raj_Shekhar_Resume.pdf"
-                className="group inline-flex items-center gap-2.5 rounded-full bg-[#111111] hover:bg-[#FF8A00] text-white hover:text-[#111111] px-6 py-3 sm:px-7 sm:py-3.5 text-sm font-semibold shadow-[0_8px_20px_rgba(0,0,0,0.16)] hover:shadow-[0_10px_24px_rgba(255,138,0,0.35)] transition-all duration-300 hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+                className="group relative inline-flex items-center gap-2.5 rounded-full bg-[#111111] hover:bg-[#FF8A00] text-white hover:text-[#111111] px-6 py-3.5 sm:px-7 sm:py-3.5 text-sm font-semibold shadow-[0_8px_24px_rgba(0,0,0,0.18)] hover:shadow-[0_12px_28px_rgba(255,138,0,0.38)] transition-all duration-300 hover:-translate-y-0.5 active:scale-95 cursor-pointer overflow-hidden"
               >
+                <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                 <span>My Resume</span>
                 <svg
                   className="w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5"
@@ -419,33 +453,45 @@ function Hero() {
               <a
                 href="#contact"
                 onClick={(e) => handleSmoothScroll(e, "contact")}
-                className="group inline-flex items-center gap-3 rounded-full border border-black/20 hover:border-[#FF8A00] text-[#111111] hover:text-[#FF8A00] px-7 py-3 text-sm font-semibold transition-all duration-300 hover:-translate-y-1 active:scale-95 bg-white/50 shadow-xs cursor-pointer"
+                className="group inline-flex items-center gap-2.5 rounded-full border border-black/15 hover:border-[#FF8A00] text-[#111111] hover:text-[#FF8A00] px-6 py-3.5 sm:px-7 sm:py-3.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-95 bg-white/70 backdrop-blur-md shadow-2xs hover:shadow-[0_6px_20px_rgba(255,138,0,0.15)] cursor-pointer"
               >
-                Get in touch
+                <span>Get in touch</span>
+                <span className="text-[#888888] group-hover:text-[#FF8A00] group-hover:translate-x-1 transition-all duration-200">
+                  &rarr;
+                </span>
               </a>
             </div>
 
-            {/* Stats Row */}
-            <div className="hero-stagger mt-3.5 sm:mt-5 lg:mt-3 xl:mt-4 pt-2.5 sm:pt-3 border-t border-black/10 flex items-center gap-5 sm:gap-7 xl:gap-8 max-w-lg pb-1 sm:pb-2 lg:pb-1">
-              {stats.map((stat, i) => (
-                <React.Fragment key={stat.label}>
-                  <StatItem
-                    value={stat.value}
-                    label={stat.label}
-                    isLive={stat.isLive}
-                  />
-                  {i < stats.length - 1 && <StatDivider />}
-                </React.Fragment>
+            {/* Stats Row - Guaranteed 1 Line on Mobile View */}
+            <div className="hero-stagger mt-4 sm:mt-5 lg:mt-3 xl:mt-4 pt-3 border-t border-black/10 grid grid-cols-3 gap-1.5 xs:gap-2 sm:gap-3 w-full max-w-lg pb-1 sm:pb-2 lg:pb-1">
+              {stats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl bg-white/75 backdrop-blur-md border border-black/7 shadow-2xs hover:border-[#FF8A00]/40 hover:shadow-[0_4px_16px_rgba(255,138,0,0.12)] transition-all duration-300 cursor-default min-w-0"
+                >
+                  {stat.isLive ? (
+                    <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2 shrink-0">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 sm:h-2 sm:w-2 bg-emerald-500" />
+                    </span>
+                  ) : (
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#FF8A00] shrink-0" />
+                  )}
+                  <div className="flex flex-col min-w-0 flex-1">
+                    <span className="text-[10.5px] xs:text-xs sm:text-sm font-black text-[#111111] leading-tight truncate">
+                      {stat.value}
+                    </span>
+                    <span className="text-[9px] xs:text-[10px] sm:text-[11px] font-medium text-[#666666] leading-tight truncate">
+                      {stat.label}
+                    </span>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
 
           {/* ── RIGHT COLUMN ── */}
           <div className="lg:col-span-6 relative flex items-end justify-center self-end w-full overflow-visible">
-            {/* Reusable Accent Rays */}
-            {/* <AccentRays side="left" />
-            <AccentRays side="right" /> */}
-
             {/* Doodle 1: Top-right */}
             <DoodleCard
               forwardRef={doodle1Ref}
@@ -467,11 +513,17 @@ function Hero() {
             {/* Doodle 2: Left of profile */}
             <LeftDoodle forwardRef={doodle2Ref} />
 
-            {/* Profile Image with performance metadata */}
+            {/* Profile Image with studio backlight */}
             <div
               ref={profileRef}
               className="relative z-10 w-full max-w-[420px] sm:max-w-[520px] md:max-w-[580px] lg:max-w-[620px] xl:max-w-[700px] 2xl:max-w-[760px] flex items-end justify-center -mb-[1px]"
             >
+              {/* Studio Backlight Aura */}
+              <div
+                className="absolute inset-x-6 sm:inset-x-12 bottom-0 h-[65%] bg-gradient-to-t from-[#FF8A00]/28 via-[#FFAA00]/14 to-transparent rounded-full blur-3xl pointer-events-none -z-10"
+                aria-hidden="true"
+              />
+
               <picture>
                 <source srcSet="/profile.webp" type="image/webp" />
                 <img

@@ -133,7 +133,7 @@ export default function ProjectImage3D({
 
         {/* Subtle dull ambient overlay on image hover */}
         <div
-          className={`pointer-events-none absolute inset-0 bg-black/15 transition-opacity duration-300 rounded-[inherit] z-10 ${
+          className={`pointer-events-none absolute inset-0 bg-black/20 transition-opacity duration-300 rounded-[inherit] z-10 ${
             isHovered ? "opacity-100" : "opacity-0"
           }`}
           aria-hidden="true"
@@ -141,12 +141,28 @@ export default function ProjectImage3D({
 
         {/* Floating 3D Meta Tag with translateZ pop-out */}
         <div
-          className="absolute top-4 left-4 z-20 text-xs font-medium text-white bg-black/75 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 shadow-lg pointer-events-none transition-transform duration-200"
+          className="absolute top-4 left-4 z-20 text-xs font-semibold text-white/95 bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/15 shadow-lg pointer-events-none transition-transform duration-200"
           style={{
             transform: isHovered ? "translateZ(32px)" : "translateZ(0px)",
           }}
         >
-          {year} &bull; {client}
+          <span className="text-[#FF9500] font-bold">{year}</span> &bull; {client}
+        </div>
+
+        {/* Center Floating 'Explore Case Study' Pill on Hover */}
+        <div
+          className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none transition-all duration-300"
+          style={{
+            opacity: isHovered ? 1 : 0,
+            transform: isHovered ? "translateZ(36px) scale(1)" : "translateZ(0px) scale(0.9)",
+          }}
+        >
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/95 backdrop-blur-xl text-[#111111] text-xs font-bold shadow-[0_8px_30px_rgba(0,0,0,0.35)] border border-white/80 ring-2 ring-[#FF8A00]/40">
+            <span>Explore Case Study</span>
+            <span className="w-5 h-5 rounded-full bg-[#FF8A00] text-white flex items-center justify-center text-[10px]">
+              ↗
+            </span>
+          </div>
         </div>
 
         {/* Gallery Controls when multiple images exist */}

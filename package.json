@@ -16,6 +16,7 @@
     "lucide-react": "^1.52.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
+    "robot-heads": "^0.3.0",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {

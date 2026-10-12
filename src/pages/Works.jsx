@@ -207,8 +207,8 @@ export default function Works() {
             />
           </div>
 
-          {/* Refined Filter Tabs */}
-          <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap shrink-0 bg-black/4 p-1 rounded-2xl border border-black/5">
+          {/* Refined Filter Tabs - Glassmorphism Pills */}
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap shrink-0 bg-white/60 backdrop-blur-xl p-1.5 rounded-full border border-black/8 shadow-xs">
             {[
               { id: "all", label: "All work", count: projectsData.length },
               {
@@ -235,18 +235,18 @@ export default function Works() {
                   key={tab.id}
                   type="button"
                   onClick={() => setActiveFilter(tab.id)}
-                  className={`text-xs sm:text-sm font-semibold transition-all duration-200 px-3.5 py-1.5 rounded-xl cursor-pointer flex items-center gap-2 ${
+                  className={`text-xs sm:text-sm font-semibold transition-all duration-300 px-4 py-2 rounded-full cursor-pointer flex items-center gap-2 ${
                     active
-                      ? "bg-[#111111] text-white shadow-xs"
-                      : "text-[#666666] hover:text-[#111111] hover:bg-white/60"
+                      ? "bg-[#111111] text-white shadow-md shadow-black/20 ring-1 ring-white/10"
+                      : "text-[#555555] hover:text-[#111111] hover:bg-white/90"
                   }`}
                 >
                   <span>{tab.label}</span>
                   <span
-                    className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                    className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full transition-colors ${
                       active
-                        ? "bg-white/20 text-white"
-                        : "bg-black/8 text-[#666666]"
+                        ? "bg-[#FF8A00] text-white"
+                        : "bg-black/6 text-[#666666]"
                     }`}
                   >
                     {tab.count}
@@ -290,99 +290,101 @@ export default function Works() {
                       : "lg:order-1 lg:pr-2 xl:pr-4"
                   }`}
                 >
-                  {/* Clean Project Meta in one normal line with ml-2 on number */}
-                  <div className="flex items-center gap-2 flex-wrap text-xs sm:text-sm font-bold text-[#FF7700] mb-2.5">
-                    <span className="font-mono font-black text-sm px-2 py-0.5 rounded-md bg-[#FF8A00]/10 text-[#FF7700] border border-[#FF8A00]/20">
-                      {project.num}
-                    </span>
-                    <span className="text-[#888888] font-medium">&bull;</span>
-                    <span className="text-[#555555] font-semibold">
-                      {project.year}
-                    </span>
-                    <span className="text-[#888888] font-medium">&bull;</span>
-                    <span className="text-[#333333] font-semibold">
-                      {project.client}
-                    </span>
-                    <span className="text-[#888888] font-medium">&bull;</span>
-                    <span className="text-[#777777] font-medium">
-                      {project.role}
-                    </span>
-                  </div>
+                  {/* Glass card wrapper */}
+                  <div className="relative rounded-[2rem] bg-white/55 backdrop-blur-2xl border border-white/70 p-6 sm:p-8 shadow-[0_8px_40px_rgba(255,138,0,0.1),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] ring-1 ring-[#FF8A00]/10 overflow-hidden">
+                    {/* Top orange gradient bar */}
+                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF8A00]/60 to-transparent" />
+                    {/* Subtle glass sheen */}
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/50 via-transparent to-[#FF8A00]/4 opacity-80" aria-hidden="true" />
 
-                  {/* Project Title */}
-                  <h3
-                    onClick={() => {
-                      setModalImageIdx(0);
-                      setActiveProjectModal(project);
-                    }}
-                    className="cursor-pointer font-black italic uppercase tracking-[-0.035em] text-3xl sm:text-4xl lg:text-5xl text-[#111111] hover:text-[#FF8A00] transition-colors leading-[0.95] mb-4"
-                  >
-                    {project.title}
-                  </h3>
-
-                  {/* Friendly Narrative Summary */}
-                  <p className="text-sm sm:text-base text-[#4B5563] leading-relaxed mb-6 font-normal">
-                    {project.summary}
-                  </p>
-
-                  {/* Refined Frosted Micro-Metric Cards */}
-                  <div className="grid grid-cols-3 gap-2.5 sm:gap-3 py-1 mb-6">
-                    {project.metrics.map((m, mIdx) => (
-                      <div
-                        key={mIdx}
-                        className="flex flex-col p-3 rounded-2xl bg-white/70 backdrop-blur-md border border-white/90 shadow-xs hover:border-[#FF8A00]/30 transition-colors"
-                      >
-                        <span className="text-xl sm:text-2xl font-black text-[#111111] tracking-tight">
-                          {m.value}
+                    <div className="relative z-10">
+                      {/* Clean Project Meta */}
+                      <div className="flex items-center gap-2 flex-wrap text-xs font-bold text-[#FF7700] mb-3">
+                        <span className="font-mono font-black text-sm px-2 py-0.5 rounded-md bg-[#FF8A00]/12 text-[#FF7700] border border-[#FF8A00]/25">
+                          {project.num}
                         </span>
-                        <span className="text-[11px] sm:text-xs text-[#666666] mt-0.5 leading-snug">
-                          {m.label}
-                        </span>
+                        <span className="text-[#CCCCCC] font-medium">&bull;</span>
+                        <span className="text-[#555555] font-semibold">{project.year}</span>
+                        <span className="text-[#CCCCCC] font-medium">&bull;</span>
+                        <span className="text-[#333333] font-semibold">{project.client}</span>
+                        <span className="text-[#CCCCCC] font-medium">&bull;</span>
+                        <span className="text-[#888888] font-medium">{project.role}</span>
                       </div>
-                    ))}
-                  </div>
 
-                  {/* Tech stack chips */}
-                  <div className="flex flex-wrap items-center gap-1.5 mb-7">
-                    <span className="text-xs font-semibold text-[#888888] mr-1">
-                      Stack:
-                    </span>
-                    {project.stack.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2.5 py-1 rounded-lg bg-white/80 backdrop-blur-md border border-black/6 text-xs font-semibold text-[#333333] shadow-xs hover:border-[#FF8A00]/40 transition-colors"
+                      {/* Project Title */}
+                      <h3
+                        onClick={() => {
+                          setModalImageIdx(0);
+                          setActiveProjectModal(project);
+                        }}
+                        className="cursor-pointer font-black italic uppercase tracking-[-0.035em] text-3xl sm:text-4xl lg:text-5xl text-[#111111] hover:text-[#FF8A00] transition-colors leading-[0.95] mb-4"
                       >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                        {project.title}
+                      </h3>
 
-                  {/* Clean Refined Actions with SVG icons */}
-                  <div className="flex items-center gap-3.5 flex-wrap">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setModalImageIdx(0);
-                        setActiveProjectModal(project);
-                      }}
-                      className="group inline-flex items-center gap-2 rounded-full bg-[#111111] hover:bg-[#FF8A00] text-white hover:text-[#111111] px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all duration-300 shadow-sm hover:shadow-[0_8px_20px_rgba(255,138,0,0.35)] active:scale-95 cursor-pointer"
-                    >
-                      <span>Read case study</span>
-                      <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
-                    </button>
+                      {/* Summary */}
+                      <p className="text-sm sm:text-base text-[#4B5563] leading-relaxed mb-6 font-normal">
+                        {project.summary}
+                      </p>
 
-                    {project.githubUrl && (
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-white/80 backdrop-blur-md border border-black/10 hover:border-[#FF8A00] text-xs sm:text-sm font-semibold text-[#444444] hover:text-[#111111] transition-all shadow-xs"
-                      >
-                        <Code2 className="w-3.5 h-3.5 text-[#FF7700]" />
-                        <span>Source code</span>
-                        <ArrowUpRight className="w-3.5 h-3.5 text-[#888888]" />
-                      </a>
-                    )}
+                      {/* Metric Cards */}
+                      <div className="grid grid-cols-3 gap-2 sm:gap-2.5 mb-6">
+                        {project.metrics.map((m, mIdx) => (
+                          <div
+                            key={mIdx}
+                            className="group flex flex-col p-3 sm:p-3.5 rounded-2xl bg-white/80 backdrop-blur-md border border-black/8 shadow-sm hover:border-[#FF8A00]/35 hover:shadow-[0_4px_16px_rgba(255,138,0,0.1)] transition-all duration-300"
+                          >
+                            <span className="text-xl sm:text-2xl font-black text-[#111111] tracking-tight group-hover:text-[#FF8A00] transition-colors duration-300">
+                              {m.value}
+                            </span>
+                            <span className="text-[10px] sm:text-[11px] text-[#777777] mt-0.5 leading-snug font-medium">
+                              {m.label}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Tech Stack Chips */}
+                      <div className="flex flex-wrap items-center gap-1.5 mb-6">
+                        <span className="text-[11px] font-bold text-[#888888] uppercase tracking-wider mr-1">Stack:</span>
+                        {project.stack.map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-2.5 py-1 rounded-lg bg-black/5 border border-black/8 text-[11px] font-semibold text-[#444444] hover:bg-[#FF8A00]/10 hover:border-[#FF8A00]/30 hover:text-[#FF7700] transition-all duration-200"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setModalImageIdx(0);
+                            setActiveProjectModal(project);
+                          }}
+                          className="group inline-flex items-center gap-2 rounded-full bg-[#111111] hover:bg-[#FF8A00] text-white hover:text-[#111111] px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all duration-300 shadow-[0_4px_16px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_24px_rgba(255,138,0,0.35)] active:scale-95 cursor-pointer"
+                        >
+                          <span>Read case study</span>
+                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                        </button>
+
+                        {project.githubUrl && (
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-white/80 backdrop-blur-md border border-black/12 hover:border-[#FF8A00]/50 hover:bg-white text-xs sm:text-sm font-semibold text-[#444444] hover:text-[#111111] transition-all duration-200 shadow-sm"
+                          >
+                            <Code2 className="w-3.5 h-3.5 text-[#FF7700]" />
+                            <span>Source code</span>
+                            <ArrowUpRight className="w-3.5 h-3.5 text-[#AAAAAA]" />
+                          </a>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -522,13 +524,13 @@ export default function Works() {
               </div>
 
               {/* Metrics */}
-              <div className="grid grid-cols-3 gap-3 p-5 bg-white/80 backdrop-blur-md rounded-2xl border border-black/6 mb-6 shadow-xs">
+              <div className="grid grid-cols-3 gap-3 p-5 bg-white/80 backdrop-blur-md rounded-2xl border border-[#FF8A00]/12 mb-6 shadow-[0_4px_20px_rgba(255,138,0,0.08)] ring-1 ring-[#FF8A00]/8">
                 {activeProjectModal.metrics.map((m, idx) => (
                   <div key={idx} className="flex flex-col">
-                    <span className="text-2xl sm:text-3xl font-black text-[#111111]">
+                    <span className="text-2xl sm:text-3xl font-black text-[#FF8A00]">
                       {m.value}
                     </span>
-                    <span className="text-xs text-[#666666] mt-1">
+                    <span className="text-xs text-[#666666] mt-1 font-medium">
                       {m.label}
                     </span>
                   </div>

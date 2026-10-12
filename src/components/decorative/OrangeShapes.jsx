@@ -416,7 +416,7 @@ export function OrangeJourneyCardBlob({
         viewBox="0 0 260 260"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-full drop-shadow-[0_16px_30px_rgba(255,138,0,0.38)]"
+        className="w-full h-full drop-shadow-[0_20px_40px_rgba(255,138,0,0.45)]"
       >
         <defs>
           <linearGradient
@@ -427,44 +427,76 @@ export function OrangeJourneyCardBlob({
             y2="240"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0%" stopColor="#FFB52E" />
-            <stop offset="45%" stopColor="#FF9500" />
-            <stop offset="72%" stopColor="#FF7800" />
-            <stop offset="100%" stopColor="#FF5A00" />
+            <stop offset="0%" stopColor="#FFD080" />
+            <stop offset="35%" stopColor="#FF9500" />
+            <stop offset="70%" stopColor="#FF6800" />
+            <stop offset="100%" stopColor="#FF4800" />
+          </linearGradient>
+
+          <linearGradient
+            id={`${gradId}-sheen`}
+            x1="0" y1="0" x2="1" y2="1"
+          >
+            <stop offset="0%" stopColor="#fff" stopOpacity="0.65" />
+            <stop offset="50%" stopColor="#fff" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="#fff" stopOpacity="0" />
           </linearGradient>
 
           <filter id={`${gradId}-glow`} x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="12" />
+            <feGaussianBlur stdDeviation="16" />
+          </filter>
+
+          <filter id={`${gradId}-blur`} x="-15%" y="-15%" width="130%" height="130%">
+            <feGaussianBlur stdDeviation="6" />
           </filter>
         </defs>
 
+        {/* Soft ambient glow layer */}
         <path
-          d="M45 15 H215 C238 15 250 27 250 50 V210 C250 233 238 245 215 245 H45 C22 245 10 233 10 210 V50 C10 27 22 15 45 15 Z"
+          d="M38 28 C80 10 185 18 222 55 C252 86 258 150 245 198 C230 248 180 262 130 258 C78 254 22 232 12 178 C2 128 -4 46 38 28 Z"
           fill={color}
-          fillOpacity="0.20"
+          fillOpacity="0.22"
           filter={`url(#${gradId}-glow)`}
         />
 
+        {/* Main organic blob shape */}
         <path
-          d="M45 15 H215 C238 15 250 27 250 50 V210 C250 233 238 245 215 245 H45 C22 245 10 233 10 210 V50 C10 27 22 15 45 15 Z"
+          d="M40 30 C82 12 186 20 222 56 C252 86 257 150 244 198 C228 248 178 262 128 258 C76 254 22 231 12 176 C2 125 -2 48 40 30 Z"
           fill={`url(#${gradId})`}
+          fillOpacity="0.92"
         />
 
+        {/* Frosted glass overlay */}
         <path
-          d="M45 15 H215 C238 15 250 27 250 50 V210 C250 233 238 245 215 245 H45 C22 245 10 233 10 210 V50 C10 27 22 15 45 15 Z"
-          fill="none"
-          stroke="white"
-          strokeWidth="2.5"
-          strokeOpacity="0.30"
+          d="M40 30 C82 12 186 20 222 56 C252 86 257 150 244 198 C228 248 178 262 128 258 C76 254 22 231 12 176 C2 125 -2 48 40 30 Z"
+          fill="white"
+          fillOpacity="0.08"
         />
 
+        {/* Highlight sheen (top-left diagonal) */}
         <path
-          d="M55 20 H180 C200 20 215 30 220 48"
+          d="M40 30 C82 12 186 20 222 56 C252 86 257 150 244 198 C228 248 178 262 128 258 C76 254 22 231 12 176 C2 125 -2 48 40 30 Z"
+          fill={`url(#${gradId}-sheen)`}
+        />
+
+        {/* Inner highlight arc (top crest) */}
+        <path
+          d="M55 35 C90 18 165 22 208 58"
           fill="none"
           stroke="white"
-          strokeWidth="8"
+          strokeWidth="7"
           strokeLinecap="round"
-          strokeOpacity="0.25"
+          strokeOpacity="0.28"
+          filter={`url(#${gradId}-blur)`}
+        />
+
+        {/* Thin crisp border glow */}
+        <path
+          d="M40 30 C82 12 186 20 222 56 C252 86 257 150 244 198 C228 248 178 262 128 258 C76 254 22 231 12 176 C2 125 -2 48 40 30 Z"
+          fill="none"
+          stroke="white"
+          strokeWidth="1.5"
+          strokeOpacity="0.45"
         />
       </svg>
     </div>
