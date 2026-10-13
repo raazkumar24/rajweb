@@ -1,9 +1,9 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Check, MapPin, ArrowDownRight, ArrowDownLeft } from "lucide-react";
+import { ArrowDownRight, ArrowDownLeft, MapPin } from "lucide-react";
 import { RobotHead } from "robot-heads";
-import { SectionBadge, Card3D } from "../components/ui";
+import { SectionBadge } from "../components/ui";
 import {
   HandDrawnUnderline,
   OrangeTopLeftShape,
@@ -60,6 +60,24 @@ export default function About() {
   const containerRef = useRef(null);
   const pathDesktopRef = useRef(null);
   const pathMobileRef = useRef(null);
+  const [robotSize, setRobotSize] = useState(() =>
+    typeof window !== "undefined" && window.innerWidth < 640 ? 220 : 270,
+  );
+
+  useEffect(() => {
+    const updateSize = () => {
+      if (window.innerWidth < 480) {
+        setRobotSize(220);
+      } else if (window.innerWidth < 768) {
+        setRobotSize(250);
+      } else {
+        setRobotSize(270);
+      }
+    };
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
 
   useGsapScope(containerRef, () => {
     const mm = gsap.matchMedia();
@@ -84,13 +102,13 @@ export default function About() {
 
       gsap.fromTo(
         ".ab-badge-wrap",
-        { scale: 0.9, opacity: 0, rotate: -4 },
+        { scale: 0.92, opacity: 0, y: 20 },
         {
           scale: 1,
           opacity: 1,
-          rotate: 0,
+          y: 0,
           duration: 0.8,
-          ease: "back.out(1.4)",
+          ease: "power2.out",
           scrollTrigger: {
             trigger: ".ab-intro-section",
             start: ANIM.SCROLL_START,
@@ -275,67 +293,83 @@ export default function About() {
               </div>
             </div>
 
-            <div className="ab-badge-wrap lg:col-span-6 relative flex items-center justify-center w-full">
-              <div className="relative w-full max-w-[480px] flex flex-col items-center justify-center gap-6">
-                {/* Ambient backdrop glows */}
-                <div className="absolute -top-10 -right-10 w-72 h-72 rounded-full bg-[#FF8A00]/18 blur-[80px] pointer-events-none" />
-                <div className="absolute -bottom-10 -left-10 w-60 h-60 rounded-full bg-[#FF9F1C]/12 blur-[70px] pointer-events-none" />
+            <div className="ab-badge-wrap lg:col-span-6 relative flex items-center justify-center w-full py-2 lg:py-0">
+              <div className="relative w-full max-w-[420px] flex flex-col items-center justify-center gap-4 sm:gap-5">
+                {/* ── Refined Status Pill (Top) ── */}
+                <div className="flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-black/8 shadow-xs text-xs font-semibold text-[#111111]">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                  </span>
+                  <span>Available for Hire</span>
+                  <span className="text-[#888888]">&bull;</span>
+                  <span className="text-[10.5px] uppercase font-bold tracking-wider text-[#FF7700]">
+                    Open for Work
+                  </span>
+                </div>
 
-                {/* Robot Head */}
-                <div className="relative z-10 flex flex-col items-center gap-4">
-                  {/* Floating label */}
-                  <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-[#FF8A00]/25 shadow-[0_4px_16px_rgba(255,138,0,0.12)] text-[11px] font-bold uppercase tracking-wider text-[#FF7700]">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                    </span>
-                    Available for Hire
-                  </div>
-
-                  {/* RobotHead component */}
+                {/* ── Interactive 3D Robot Mascot ── */}
+                <div className="relative flex items-center justify-center">
                   <RobotHead
                     shape="hexagon"
                     state="idle"
                     color="#e2762a"
-                    size={280}
+                    size={robotSize}
                     interactive={true}
-                    aria-label="Raj Shekhar - Frontend Developer"
+                    aria-label="Raj Shekhar - Frontend & MERN Developer Mascot"
                   />
+                </div>
 
-                  {/* Name + role badge under robot */}
-                  <div className="flex flex-col items-center gap-1 text-center">
+                {/* ── Refined Info & Title (Bottom) ── */}
+                <div className="flex flex-col items-center text-center gap-1">
+                  <div className="flex items-center gap-2">
                     <h3 className="font-black italic uppercase text-xl sm:text-2xl text-[#111111] tracking-tight">
                       RAJ SHEKHAR
                     </h3>
-                    <p className="text-sm font-semibold text-[#4B5563]">
-                      Frontend Engineer &amp; MERN Stack Developer
-                    </p>
-                    <p className="text-[11px] text-[#888888] flex items-center gap-1.5 font-medium">
-                      <MapPin className="w-3 h-3 text-[#FF7700]" /> India
-                      <span>&bull;</span>
-                      <span>Remote Worldwide</span>
-                    </p>
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#FF8A00]/12 text-[#FF7700] border border-[#FF8A00]/25">
+                      Creative Dev
+                    </span>
                   </div>
+                  <p className="text-xs sm:text-sm font-semibold text-[#4B5563]">
+                    Frontend Engineer &amp; MERN Stack Developer
+                  </p>
+                  <p className="text-[11px] text-[#777777] flex items-center gap-1.5 font-medium mt-0.5">
+                    <MapPin className="w-3.5 h-3.5 text-[#FF7700]" />
+                    <span>India</span>
+                    <span>&bull;</span>
+                    <span>Remote Worldwide</span>
+                  </p>
+                </div>
 
-                  {/* 3 Metric Pills */}
-                  <div className="grid grid-cols-3 gap-2 w-full mt-1">
-                    <div className="p-3 rounded-2xl bg-white/70 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-sm">
-                      <span className="font-black italic text-lg text-[#111111] leading-none">10+</span>
-                      <span className="text-[10px] font-semibold text-[#777777] mt-1 uppercase tracking-tight">Projects</span>
-                    </div>
-                    <div className="p-3 rounded-2xl bg-white/70 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-sm">
-                      <span className="font-black italic text-lg text-[#FF7700] leading-none">2+ Yrs</span>
-                      <span className="text-[10px] font-semibold text-[#777777] mt-1 uppercase tracking-tight">Experience</span>
-                    </div>
-                    <div className="p-3 rounded-2xl bg-white/70 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-sm">
-                      <span className="font-black italic text-lg text-[#111111] leading-none">100%</span>
-                      <span className="text-[10px] font-semibold text-[#777777] mt-1 uppercase tracking-tight">Dedication</span>
-                    </div>
+                {/* ── Refined Metrics Bar ── */}
+                <div className="grid grid-cols-3 gap-2 sm:gap-2.5 w-full">
+                  <div className="p-3 rounded-2xl bg-white/75 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-xs hover:border-[#FF8A00]/40 transition-colors">
+                    <span className="font-black italic text-lg sm:text-xl text-[#111111] leading-none">
+                      10+
+                    </span>
+                    <span className="text-[10px] font-semibold text-[#666666] mt-1 uppercase tracking-tight">
+                      Projects
+                    </span>
+                  </div>
+                  <div className="p-3 rounded-2xl bg-white/75 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-xs hover:border-[#FF8A00]/40 transition-colors">
+                    <span className="font-black italic text-lg sm:text-xl text-[#FF7700] leading-none">
+                      2+ Yrs
+                    </span>
+                    <span className="text-[10px] font-semibold text-[#666666] mt-1 uppercase tracking-tight">
+                      Experience
+                    </span>
+                  </div>
+                  <div className="p-3 rounded-2xl bg-white/75 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-xs hover:border-[#FF8A00]/40 transition-colors">
+                    <span className="font-black italic text-lg sm:text-xl text-[#111111] leading-none">
+                      MERN
+                    </span>
+                    <span className="text-[10px] font-semibold text-[#666666] mt-1 uppercase tracking-tight">
+                      Full Stack
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -608,60 +642,66 @@ export default function About() {
       {/* 4. WHAT DRIVES ME (PINNED TYPOGRAPHY SEQUENCE) */}
       <WhatDrivesMePinned />
 
-      {/* 5. BOTTOM CTA BANNER */}
-      <section className="relative z-10 pb-24 sm:pb-36 overflow-hidden">
-        {/* <OrangeCtaBottomWave /> */}
+      {/* 5. BOTTOM CTA BANNER (COMPACT SLEEK GLASS STRIP) */}
+      <section className="relative z-10 pb-16 pt-5 sm:pb-24 overflow-hidden">
         <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14">
-          <div className="relative">
-            <OrangeJourneyCardBlob position="bottom-right" size="lg" />
-            <div className="ab-cta-banner-wrap relative z-10 rounded-[2.5rem] bg-white/45 backdrop-blur-2xl border border-white/75 p-8 sm:p-12 lg:p-14 shadow-[0_22px_60px_rgba(255,138,0,0.18),inset_0_1px_2px_rgba(255,255,255,0.95)] overflow-hidden">
-              <div
-                className="pointer-events-none absolute -top-12 -right-12 w-36 h-36 rounded-full bg-gradient-to-br from-[#FFA726] via-[#FF8A00] to-[#FF5500] p-1.5 shadow-[0_8px_25px_rgba(255,122,0,0.4)] flex items-center justify-center select-none z-10"
-                aria-hidden="true"
-              >
-                <div className="w-full h-full rounded-full border-2 border-white/60 bg-white/20 backdrop-blur-sm" />
-              </div>
+          <div className="relative group">
+            {/* Organic corner blob */}
+            <OrangeJourneyCardBlob position="bottom-right" size="md" />
 
-              <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+            <div className="ab-cta-banner-wrap relative z-10 rounded-2xl sm:rounded-3xl bg-white/60 backdrop-blur-2xl border border-white/70 py-6 px-6 sm:py-7 sm:px-9 lg:py-8 lg:px-10 shadow-[0_8px_30px_rgba(255,138,0,0.12),0_12px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,1)] ring-1 ring-[#FF8A00]/20 hover:ring-[#FF8A00]/35 transition-all duration-300 overflow-hidden">
+              {/* Subtle glass sheen */}
+              <div
+                className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/70 via-white/10 to-transparent opacity-70"
+                aria-hidden="true"
+              />
+              {/* Orange accent bottom line */}
+              <div
+                className="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#FF8A00]/40 to-transparent"
+                aria-hidden="true"
+              />
+
+              {/* Main Content Layout */}
+              <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#FF8A00] animate-ping" />
-                    <span className="text-xs font-bold uppercase tracking-[0.22em] text-[#FF8A00]">
-                      LET'S BUILD TOGETHER
+                  <div className="inline-flex items-center gap-2 mb-2 px-3 py-0.5 rounded-full bg-white/80 border border-[#FF8A00]/25 shadow-2xs">
+                    <span className="relative flex h-1.5 w-1.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF8A00] opacity-75" />
+                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#FF7700]" />
+                    </span>
+                    <span className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-[#FF7700]">
+                      Let's Build Together
                     </span>
                   </div>
-                  <h2 className="font-black italic uppercase text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-[-0.02em] text-[#111111]">
-                    LET'S CREATE SOMETHING
-                    <br />
-                    <span className="text-[#FF7700] drop-shadow-[0_2px_4px_rgba(0,0,0,0.32)]">
+
+                  <h2 className="font-black italic uppercase text-2xl sm:text-3xl lg:text-4xl leading-tight tracking-[-0.03em] text-[#111111]">
+                    LET'S CREATE SOMETHING{" "}
+                    <span className="relative inline-block text-[#FF7700]">
                       AMAZING
+                      <HandDrawnUnderline
+                        className="absolute -bottom-1 left-0 w-full"
+                        color="#FF8A00"
+                      />
                     </span>{" "}
                     TOGETHER
                   </h2>
+
+                  <p className="text-[#555555] text-xs sm:text-sm mt-1.5 font-normal max-w-lg">
+                    Have a project in mind or need a frontend developer? Let's
+                    turn your ideas into reality.
+                  </p>
                 </div>
 
-                <div className="relative flex items-center gap-4 flex-shrink-0">
-                  <div className="pointer-events-none text-[#FF8A00] hidden sm:block">
-                    <svg
-                      className="w-9 h-9"
-                      viewBox="0 0 45 45"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3.5"
-                      strokeLinecap="round"
-                    >
-                      <line x1="8" y1="36" x2="36" y2="8" />
-                      <line x1="18" y1="40" x2="40" y2="18" />
-                      <line x1="28" y1="42" x2="42" y2="28" />
-                    </svg>
-                  </div>
+                {/* Right Action Buttons */}
+                <div className="relative flex items-center gap-3 flex-shrink-0">
                   <a
-                    href="#works"
-                    className="group inline-flex items-center gap-3 rounded-full bg-[#111111] hover:bg-[#FF8A00] text-white hover:text-[#111111] px-8 py-3.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-1 shadow-[0_8px_24px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_28px_rgba(255,138,0,0.4)] active:scale-95"
+                    href="#contact"
+                    className="group relative inline-flex items-center gap-2 rounded-full bg-[#111111] hover:bg-[#FF8A00] text-white hover:text-[#111111] px-6 py-3 sm:px-7 sm:py-3.5 text-xs sm:text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 shadow-md hover:shadow-[0_8px_20px_rgba(255,138,0,0.35)] active:scale-95 cursor-pointer overflow-hidden"
                   >
-                    <span>View my work</span>
+                    <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+                    <span>Start a Project</span>
                     <svg
-                      className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                      className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2.5"
@@ -673,6 +713,14 @@ export default function About() {
                         d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
                       />
                     </svg>
+                  </a>
+
+                  <a
+                    href="#works"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-black/15 hover:border-[#FF8A00] text-[#111111] hover:text-[#FF8A00] px-5 py-3 sm:px-6 sm:py-3.5 text-xs sm:text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-95 bg-white/70 backdrop-blur-md shadow-2xs hover:shadow-[0_6px_20px_rgba(255,138,0,0.15)] cursor-pointer"
+                  >
+                    <span>View work</span>
+                    <span className="text-[#888888]">&rarr;</span>
                   </a>
                 </div>
               </div>

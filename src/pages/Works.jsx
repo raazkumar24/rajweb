@@ -208,7 +208,7 @@ export default function Works() {
           </div>
 
           {/* Refined Filter Tabs - Glassmorphism Pills */}
-          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap shrink-0 bg-white/60 backdrop-blur-xl p-1.5 rounded-full border border-black/8 shadow-xs">
+          <div className="flex items-center gap-1.5 sm:gap-2  bg-white/60 backdrop-blur-xl p-1.5 rounded-full border border-black/8 shadow-xs">
             {[
               { id: "all", label: "All work", count: projectsData.length },
               {
@@ -295,7 +295,10 @@ export default function Works() {
                     {/* Top orange gradient bar */}
                     <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF8A00]/60 to-transparent" />
                     {/* Subtle glass sheen */}
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/50 via-transparent to-[#FF8A00]/4 opacity-80" aria-hidden="true" />
+                    <div
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/50 via-transparent to-[#FF8A00]/4 opacity-80"
+                      aria-hidden="true"
+                    />
 
                     <div className="relative z-10">
                       {/* Clean Project Meta */}
@@ -303,12 +306,24 @@ export default function Works() {
                         <span className="font-mono font-black text-sm px-2 py-0.5 rounded-md bg-[#FF8A00]/12 text-[#FF7700] border border-[#FF8A00]/25">
                           {project.num}
                         </span>
-                        <span className="text-[#CCCCCC] font-medium">&bull;</span>
-                        <span className="text-[#555555] font-semibold">{project.year}</span>
-                        <span className="text-[#CCCCCC] font-medium">&bull;</span>
-                        <span className="text-[#333333] font-semibold">{project.client}</span>
-                        <span className="text-[#CCCCCC] font-medium">&bull;</span>
-                        <span className="text-[#888888] font-medium">{project.role}</span>
+                        <span className="text-[#CCCCCC] font-medium">
+                          &bull;
+                        </span>
+                        <span className="text-[#555555] font-semibold">
+                          {project.year}
+                        </span>
+                        <span className="text-[#CCCCCC] font-medium">
+                          &bull;
+                        </span>
+                        <span className="text-[#333333] font-semibold">
+                          {project.client}
+                        </span>
+                        <span className="text-[#CCCCCC] font-medium">
+                          &bull;
+                        </span>
+                        <span className="text-[#888888] font-medium">
+                          {project.role}
+                        </span>
                       </div>
 
                       {/* Project Title */}
@@ -346,7 +361,9 @@ export default function Works() {
 
                       {/* Tech Stack Chips */}
                       <div className="flex flex-wrap items-center gap-1.5 mb-6">
-                        <span className="text-[11px] font-bold text-[#888888] uppercase tracking-wider mr-1">Stack:</span>
+                        <span className="text-[11px] font-bold text-[#888888] uppercase tracking-wider mr-1">
+                          Stack:
+                        </span>
                         {project.stack.map((tag) => (
                           <span
                             key={tag}

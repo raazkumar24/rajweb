@@ -28,10 +28,10 @@ import { ANIM } from "../animation/config";
 
 // ─── Typewriter roles ─────────────────────────────────────────────────────────
 const roles = [
-  "Web Developer",
-  "Frontend Developer",
-  "MERN Developer",
-  "React Developer",
+  "Modern Web Apps",
+  "Frontend Experiences",
+  "Full-Stack MERN Apps",
+  "Interactive Websites",
 ];
 
 const iconMap = {
@@ -42,9 +42,9 @@ const iconMap = {
 
 // ─── Stats data ───────────────────────────────────────────────────────────────
 const stats = [
-  { value: "10+ Projects", label: "Built & Deployed" },
-  { value: "MERN Stack", label: "React & Node.js" },
-  { value: "Available", label: "Open for Work", isLive: true },
+  { value: "10+", label: "Projects Deployed" },
+  { value: "MERN", label: "Stack Specialist", isHighlight: true },
+  { value: "Available", label: "Open for Projects", isLive: true },
 ];
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -368,16 +368,17 @@ function Hero() {
           {/* ── LEFT COLUMN ── */}
           <div className="lg:col-span-6 flex flex-col justify-center z-20 pt-2 pb-4 sm:pb-6 lg:py-0 self-center">
             {/* Upgraded Pill SectionBadge */}
-            <div className="hero-stagger mb-2 sm:mb-2.5 inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/75 backdrop-blur-md border border-black/8 shadow-2xs w-fit">
+            <div className="hero-stagger mb-2 sm:mb-2.5 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-black/8 shadow-2xs w-fit">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-[#FF8A00] opacity-75 animate-ping" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FF8A00]" />
+                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
               </span>
-              <span className="text-xs sm:text-sm font-semibold text-[#333333]">
-                Hello, I'm
+              <span className="text-xs font-semibold text-[#222222]">
+                Available for Work
               </span>
+              <span className="text-[#888888]">&bull;</span>
               <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#FF8A00]/12 text-[#FF7700] border border-[#FF8A00]/25">
-                Portfolio 2025
+                Creative Dev
               </span>
             </div>
 
@@ -400,7 +401,7 @@ function Hero() {
             <div className="hero-stagger mt-1.5 sm:mt-2 lg:mt-1.5 xl:mt-2 min-h-[1.85rem] sm:min-h-[2.25rem] flex items-center overflow-hidden">
               <h2 className="text-[13px] xs:text-[15px] sm:text-lg md:text-[1.45rem] lg:text-[1.25rem] xl:text-[1.5rem] font-bold text-[#111111] flex items-center whitespace-nowrap">
                 <span className="text-[#222222]">
-                  I build websites as a&nbsp;
+                  I design &amp; build&nbsp;
                 </span>
                 <span className="relative inline-flex items-center shrink-0">
                   <span className="bg-gradient-to-r from-[#FF6A00] via-[#FF8A00] to-[#FFAA00] bg-clip-text text-transparent font-black tracking-tight drop-shadow-[0_1px_2px_rgba(255,119,0,0.25)]">
@@ -420,9 +421,10 @@ function Hero() {
 
             {/* Description */}
             <p className="hero-stagger mt-2 sm:mt-2.5 lg:mt-2 xl:mt-2.5 text-[#4B5563] text-xs sm:text-sm lg:text-[13px] xl:text-[14.5px] leading-relaxed max-w-lg font-normal">
-              I build fast, responsive websites and web apps that help
-              businesses look great and turn visitors into clients. Thoughtful
-              design, clean code, and zero fluff.
+              Frontend &amp; MERN stack developer crafting clean,
+              high-performance websites and web applications. Focused on
+              thoughtful design, smooth animations, and turning ideas into real
+              digital products.
             </p>
 
             {/* CTA Buttons with Smooth Scroll & Sheen */}
@@ -462,30 +464,34 @@ function Hero() {
               </a>
             </div>
 
-            {/* Stats Row - Guaranteed 1 Line on Mobile View */}
-            <div className="hero-stagger mt-4 sm:mt-5 lg:mt-3 xl:mt-4 pt-3 border-t border-black/10 grid grid-cols-3 gap-1.5 xs:gap-2 sm:gap-3 w-full max-w-lg pb-1 sm:pb-2 lg:pb-1">
-              {stats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl bg-white/75 backdrop-blur-md border border-black/7 shadow-2xs hover:border-[#FF8A00]/40 hover:shadow-[0_4px_16px_rgba(255,138,0,0.12)] transition-all duration-300 cursor-default min-w-0"
-                >
-                  {stat.isLive ? (
-                    <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2 shrink-0">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 sm:h-2 sm:w-2 bg-emerald-500" />
-                    </span>
-                  ) : (
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#FF8A00] shrink-0" />
+            {/* Editorial Stats Row — 100% borderless, NO cards */}
+            <div className="hero-stagger mt-4 sm:mt-5 lg:mt-3 xl:mt-4 pt-3.5 border-t border-black/10 flex items-center justify-between sm:justify-start gap-4 sm:gap-7 w-full max-w-lg pb-1 sm:pb-2 lg:pb-1">
+              {stats.map((stat, i) => (
+                <React.Fragment key={stat.label}>
+                  {i > 0 && (
+                    <div className="h-6 w-px bg-black/12" aria-hidden="true" />
                   )}
-                  <div className="flex flex-col min-w-0 flex-1">
-                    <span className="text-[10.5px] xs:text-xs sm:text-sm font-black text-[#111111] leading-tight truncate">
-                      {stat.value}
-                    </span>
-                    <span className="text-[9px] xs:text-[10px] sm:text-[11px] font-medium text-[#666666] leading-tight truncate">
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-1.5">
+                      {stat.isLive && (
+                        <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2 shrink-0">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                          <span className="relative inline-flex rounded-full h-1.5 w-1.5 sm:h-2 sm:w-2 bg-emerald-500" />
+                        </span>
+                      )}
+                      <span
+                        className={`text-base sm:text-lg font-black italic leading-none ${
+                          stat.isHighlight ? "text-[#FF7700]" : "text-[#111111]"
+                        }`}
+                      >
+                        {stat.value}
+                      </span>
+                    </div>
+                    <span className="text-[10px] sm:text-[11px] font-semibold text-[#666666] mt-1 leading-tight whitespace-nowrap">
                       {stat.label}
                     </span>
                   </div>
-                </div>
+                </React.Fragment>
               ))}
             </div>
           </div>

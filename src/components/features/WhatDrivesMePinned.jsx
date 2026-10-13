@@ -243,7 +243,7 @@ export default function WhatDrivesMePinned() {
               </div>
 
               <span className="text-xs font-semibold text-[#888888] flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#FF7700]" />
+                {/* <Sparkles className="w-3.5 h-3.5 text-[#FF7700]" /> */}
                 Zero fluff &bull; Clean craftsmanship
               </span>
             </div>
