@@ -1,5 +1,4 @@
 import fs from 'node:fs';
-import path from 'node:path';
 
 // 1. Read existing OrangeShapes.jsx and create BrandShapes.jsx
 const orangeShapesPath = './src/components/decorative/OrangeShapes.jsx';

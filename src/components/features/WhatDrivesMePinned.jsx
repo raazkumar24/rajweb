@@ -8,7 +8,6 @@ import {
   TrendingUp,
   ChevronLeft,
   ChevronRight,
-  Sparkles,
 } from "lucide-react";
 import { strengthsData } from "../../data/strengthsData";
 import HandDrawnUnderline from "../decorative/HandDrawnUnderline";

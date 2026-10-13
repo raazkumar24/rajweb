@@ -87,7 +87,7 @@ export default function Services() {
     <section
       ref={sectionRef}
       id="services"
-      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-0 pb-0 font-sans scroll-mt-20 sm:scroll-mt-28"
+      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-10 sm:pt-14 lg:pt-16 pb-12 sm:pb-16 lg:pb-20 font-sans scroll-mt-20 sm:scroll-mt-28"
     >
 
       {/* ── Background Organic Shapes: Left at TOP, Right at BOTTOM ── */}
@@ -259,7 +259,6 @@ export default function Services() {
         </div>
       </div>
 
-      {/* ── Subtle Decorative Bottom SVG Wave Divider (Services -> FAQ) ── */}
       {/* ── Wave Divider: Services → FAQ transition ── */}
       <SectionWaveDivider variant="services-to-faq" className="relative z-10 w-full" />
     </section>

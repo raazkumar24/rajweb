@@ -7,18 +7,14 @@ import React, {
 } from "react";
 import gsap from "gsap";
 import {
-  SectionBadge,
   SocialPill,
   GitHubIcon,
   LinkedInIcon,
   InstagramIcon,
-  StatItem,
-  StatDivider,
 } from "../components/ui";
 import {
   BrandTopLeftShape,
   BrandBottomHeroWave,
-  AccentRays,
   HandDrawnUnderline,
   DoodleCard,
   LeftDoodle,
@@ -110,15 +106,31 @@ function Hero() {
     return () => clearTimeout(timeout);
   }, [displayedText, phase, roleIndex]);
 
-  const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
+  const spotlightRef = useRef(null);
+  const heroRafRef = useRef(null);
 
   const handleHeroMouseMove = (e) => {
-    if (!heroRef.current) return;
+    if (!heroRef.current || !spotlightRef.current) return;
     const rect = heroRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    if (!heroRafRef.current) {
+      heroRafRef.current = requestAnimationFrame(() => {
+        if (spotlightRef.current) {
+          spotlightRef.current.style.left = `${x}px`;
+          spotlightRef.current.style.top = `${y}px`;
+          spotlightRef.current.style.opacity = "0.45";
+        }
+        heroRafRef.current = null;
+      });
+    }
+  };
+
+  const handleHeroMouseLeave = () => {
+    if (spotlightRef.current) {
+      spotlightRef.current.style.opacity = "0";
+    }
   };
 
   // ── Hero Entrance Animation (Centered Name Slide -> Position -> Reveal) ───
@@ -344,18 +356,20 @@ function Hero() {
       ref={heroRef}
       id="home"
       onMouseMove={handleHeroMouseMove}
+      onMouseLeave={handleHeroMouseLeave}
       className="relative w-full flex-1 min-h-0 flex flex-col justify-end overflow-hidden bg-[#FAF8F5] pt-20 sm:pt-24 lg:pt-[72px] xl:pt-[78px] select-none"
     >
       {/* ── REDESIGNED PREMIUM BRAND BACKGROUND SHAPES ── */}
       <BrandTopLeftShape variant="hero" />
       <BrandBottomHeroWave className="bg-bottom-wave" />
 
-      {/* ── AMBIENT INTERACTIVE CURSOR SPOTLIGHT ── */}
+      {/* ── AMBIENT INTERACTIVE CURSOR SPOTLIGHT (GPU-Accelerated, Zero Re-renders) ── */}
       <div
-        className="pointer-events-none absolute w-[520px] h-[520px] rounded-full blur-3xl opacity-40 transition-opacity duration-500 -translate-x-1/2 -translate-y-1/2 -z-0"
+        ref={spotlightRef}
+        className="pointer-events-none absolute w-[520px] h-[520px] rounded-full blur-3xl opacity-0 transition-opacity duration-300 -translate-x-1/2 -translate-y-1/2 -z-0"
         style={{
-          left: mousePos.x,
-          top: mousePos.y,
+          left: -1000,
+          top: -1000,
           background:
             "radial-gradient(circle, rgba(var(--brand-rgb),0.18) 0%, rgba(var(--brand-rgb),0.06) 45%, transparent 70%)",
         }}
@@ -368,16 +382,16 @@ function Hero() {
           {/* ── LEFT COLUMN ── */}
           <div className="lg:col-span-6 flex flex-col justify-center z-20 pt-2 pb-4 sm:pb-6 lg:py-0 self-center">
             {/* Upgraded Pill SectionBadge */}
-            <div className="hero-stagger mb-2 sm:mb-2.5 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-black/8 shadow-2xs w-fit">
-              <span className="relative flex h-2 w-2">
+            <div className="hero-stagger mb-2 sm:mb-2.5 inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-black/8 shadow-2xs w-fit">
+              <span className="relative flex h-2 w-2 shrink-0">
                 <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
               </span>
-              <span className="text-xs font-semibold text-[#222222]">
+              <span className="text-[11px] sm:text-xs font-semibold text-[#222222] whitespace-nowrap">
                 Available for Work
               </span>
-              <span className="text-[#888888]">&bull;</span>
-              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-brand/12 text-brand-dark border border-brand/25">
+              <span className="hidden xs:inline text-[#888888]">&bull;</span>
+              <span className="hidden xs:inline text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-brand/12 text-brand-dark border border-brand/25 whitespace-nowrap">
                 Creative Dev
               </span>
             </div>
@@ -398,8 +412,8 @@ function Hero() {
             </div>
 
             {/* Typewriter */}
-            <div className="hero-stagger mt-1.5 sm:mt-2 lg:mt-1.5 xl:mt-2 min-h-[1.85rem] sm:min-h-[2.25rem] flex items-center overflow-hidden">
-              <h2 className="text-[13px] xs:text-[15px] sm:text-lg md:text-[1.45rem] lg:text-[1.25rem] xl:text-[1.5rem] font-bold text-[#111111] flex items-center whitespace-nowrap">
+            <div className="hero-stagger mt-2 sm:mt-3 lg:mt-2 xl:mt-2.5 min-h-[2.1rem] sm:min-h-[2.6rem] flex items-center overflow-hidden">
+              <h2 className="text-[15px] xs:text-[17px] sm:text-[1.35rem] md:text-[1.65rem] lg:text-[1.45rem] xl:text-[1.75rem] 2xl:text-[2rem] font-bold text-[#111111] flex items-center whitespace-nowrap">
                 <span className="text-[#222222]">
                   I design &amp; build&nbsp;
                 </span>
@@ -419,16 +433,8 @@ function Hero() {
               </h2>
             </div>
 
-            {/* Description */}
-            <p className="hero-stagger mt-2 sm:mt-2.5 lg:mt-2 xl:mt-2.5 text-[#4B5563] text-xs sm:text-sm lg:text-[13px] xl:text-[14.5px] leading-relaxed max-w-lg font-normal">
-              Frontend &amp; MERN stack developer crafting clean,
-              high-performance websites and web applications. Focused on
-              thoughtful design, smooth animations, and turning ideas into real
-              digital products.
-            </p>
-
             {/* CTA Buttons with Smooth Scroll & Sheen */}
-            <div className="hero-stagger mt-4 sm:mt-5 lg:mt-3.5 xl:mt-4 flex flex-wrap items-center gap-3">
+            <div className="hero-stagger mt-5 sm:mt-6 lg:mt-4 xl:mt-5 flex flex-wrap items-center gap-3">
               <a
                 href="/resume.pdf"
                 target="_blank"
@@ -533,7 +539,6 @@ function Hero() {
               />
 
               <picture>
-                {/* <source srcSet="/profile2.webp" type="image/webp" /> */}
                 <img
                   src="/profile2.png"
                   alt="Raj Shekhar - Web Developer"

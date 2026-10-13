@@ -181,7 +181,7 @@ function SideWaveArt({ mirror, opacity, color, id }) {
           <path d={front} />
         </clipPath>
       </defs>
-      <path d={back} fill={color} fillOpacity="0.22" filter={`url(#${id("b")})`} />
+      <path d={back} fill={color} fillOpacity="0.12" filter={`url(#${id("b")})`} />
       <path d={back} fill={`url(#${id("g")})`} fillOpacity={0.32 * opacity} />
       <path d={mid} fill={`url(#${id("g")})`} fillOpacity={0.65 * opacity} />
       <path d={front} fill={`url(#${id("g")})`} fillOpacity={opacity} />
@@ -213,7 +213,7 @@ function SideWave({ mirror, className, opacity, color, position = "top" }) {
       <defs>
         <Grad id={id("g")} />
         <Sheen id={id("s")} />
-        <Blur id={id("b")} std={30} />
+        <Blur id={id("b")} std={20} />
         <DotPattern id={id("d")} />
       </defs>
       <SideWaveArt mirror={mirror} opacity={opacity} color={color} id={id} />
@@ -416,7 +416,7 @@ export function BrandJourneyCardBlob({
         viewBox="0 0 260 260"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-full drop-shadow-[0_20px_40px_rgba(var(--brand-rgb),0.45)]"
+        className="w-full h-full drop-shadow-[0_10px_24px_rgba(var(--brand-rgb),0.16)]"
       >
         <defs>
           <linearGradient
@@ -443,7 +443,7 @@ export function BrandJourneyCardBlob({
           </linearGradient>
 
           <filter id={`${gradId}-glow`} x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="16" />
+            <feGaussianBlur stdDeviation="8" />
           </filter>
 
           <filter id={`${gradId}-blur`} x="-15%" y="-15%" width="130%" height="130%">
@@ -455,7 +455,7 @@ export function BrandJourneyCardBlob({
         <path
           d="M38 28 C80 10 185 18 222 55 C252 86 258 150 245 198 C230 248 180 262 130 258 C78 254 22 232 12 178 C2 128 -4 46 38 28 Z"
           fill={color}
-          fillOpacity="0.22"
+          fillOpacity="0.08"
           filter={`url(#${gradId}-glow)`}
         />
 

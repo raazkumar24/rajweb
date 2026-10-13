@@ -183,37 +183,34 @@ export default function Works() {
     <section
       ref={sectionRef}
       id="works"
-      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-0 pb-0 font-sans scroll-mt-20 sm:scroll-mt-28"
+      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-10 sm:pt-14 lg:pt-16 pb-12 sm:pb-16 lg:pb-20 font-sans scroll-mt-20 sm:scroll-mt-28"
     >
-      {/* ── Subtle Decorative Top SVG Wave Divider (About -> Works) ── */}
-      {/* <SectionWaveDivider variant="about-to-works" className="relative z-10 mb-4 sm:mb-8" /> */}
-
       {/* Organic Curved Brand Accent Shape on Left Side with smooth top & bottom taper */}
       <BrandSectionSideWave />
 
       <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14 relative z-10">
-        {/* Header with clean text tabs */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-16 sm:mb-24 border-b border-black/8 pb-8">
-          <div>
-            <SectionHeader
-              badge="Selected work"
-              titleTop="SELECTED"
-              titleMain="WORKS"
-              titleAccent="&amp; PROJECTS."
-              description="Real websites and applications built for clients, engineered to load fast and convert visitors."
-              annotation="Real projects &bull; Real clients"
-              align="split"
-              className="!mb-0"
-            />
-          </div>
+        {/* Header + Filter — stacked layout */}
+        <div className="flex flex-col gap-5 mb-16 sm:mb-24 border-b border-black/8 pb-8">
+          {/* Title & Description */}
+          <SectionHeader
+            badge="Selected work"
+            titleTop="SELECTED"
+            titleMain="WORKS"
+            titleAccent="&amp; PROJECTS."
+            description="Real websites and applications built for clients, engineered to load fast and convert visitors."
+            annotation="Real projects &bull; Real clients"
+            align="split"
+            className="!mb-0"
+          />
 
-          {/* Refined Filter Tabs - Glassmorphism Pills */}
-          <div className="flex items-center gap-1.5 sm:gap-2  bg-white/60 backdrop-blur-xl p-1.5 rounded-full border border-black/8 shadow-xs">
+          {/* Refined Filter Tabs - own row */}
+          <div className="flex items-center gap-1 sm:gap-2 bg-white/60 backdrop-blur-xl p-1.5 rounded-full border border-black/8 shadow-xs w-fit">
             {[
-              { id: "all", label: "All work", count: projectsData.length },
+              { id: "all", labelFull: "All work", labelShort: "All", count: projectsData.length },
               {
                 id: "fullstack",
-                label: "Full-stack apps",
+                labelFull: "Full-stack apps",
+                labelShort: "Full-stack",
                 count: projectsData.filter(
                   (p) =>
                     p.stack.includes("Node.js") || p.stack.includes("MongoDB"),
@@ -221,7 +218,8 @@ export default function Works() {
               },
               {
                 id: "frontend",
-                label: "Frontend & motion",
+                labelFull: "Frontend & motion",
+                labelShort: "Frontend",
                 count: projectsData.filter(
                   (p) =>
                     p.stack.includes("GSAP 3") ||
@@ -235,15 +233,16 @@ export default function Works() {
                   key={tab.id}
                   type="button"
                   onClick={() => setActiveFilter(tab.id)}
-                  className={`text-xs sm:text-sm font-semibold transition-all duration-300 px-4 py-2 rounded-full cursor-pointer flex items-center gap-2 ${
+                  className={`text-xs sm:text-sm font-semibold transition-all duration-300 px-3.5 py-2 sm:px-4 sm:py-2 rounded-full cursor-pointer flex items-center gap-1.5 sm:gap-2 whitespace-nowrap ${
                     active
                       ? "bg-[#111111] text-white shadow-md shadow-black/20 ring-1 ring-white/10"
                       : "text-[#555555] hover:text-[#111111] hover:bg-white/90"
                   }`}
                 >
-                  <span>{tab.label}</span>
+                  <span className="sm:hidden">{tab.labelShort}</span>
+                  <span className="hidden sm:inline">{tab.labelFull}</span>
                   <span
-                    className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full transition-colors ${
+                    className={`text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full transition-colors ${
                       active
                         ? "bg-brand text-white"
                         : "bg-black/6 text-[#666666]"

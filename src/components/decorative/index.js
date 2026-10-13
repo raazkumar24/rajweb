@@ -29,9 +29,4 @@ export {
   HandwrittenBadge,
 } from "./DoodleCard.jsx";
 
-export {
-  default as SunburstRays,
-  AccentRays,
-} from "./SunburstRays.jsx";
-
 export { default as HandDrawnUnderline } from "./HandDrawnUnderline.jsx";

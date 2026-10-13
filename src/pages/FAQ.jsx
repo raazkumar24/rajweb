@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionHeader from "../components/ui/SectionHeader";
 import { faqData } from "../data/faqData";
 import {
@@ -12,6 +13,9 @@ export default function FAQ() {
 
   const toggleItem = (id) => {
     setOpenId((prev) => (prev === id ? null : id));
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 320);
   };
 
   const handleScrollToContact = (e) => {
@@ -30,7 +34,7 @@ export default function FAQ() {
   return (
     <section
       id="faq"
-      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-0 pb-0 font-sans scroll-mt-20 sm:scroll-mt-28"
+      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-10 sm:pt-14 lg:pt-16 pb-0 font-sans scroll-mt-20 sm:scroll-mt-28"
     >
       {/* ── Background Organic Shapes: Left at TOP, Right at BOTTOM ── */}
       <BrandSectionSideWave position="top" />
