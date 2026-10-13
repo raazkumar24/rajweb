@@ -13,7 +13,7 @@ import {
 import { strengthsData } from "../../data/strengthsData";
 import HandDrawnUnderline from "../decorative/HandDrawnUnderline";
 import { HandwrittenBadge } from "../decorative/DoodleCard";
-import { OrangeSectionRightWave } from "../decorative/OrangeShapes";
+import { BrandSectionRightWave } from "../decorative/BrandShapes";
 import { useGsapScope } from "../../animation/useGsapScope";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -84,8 +84,8 @@ export default function WhatDrivesMePinned() {
       ref={pinContainerRef}
       className="ab-strengths-section relative z-10 w-full min-h-screen bg-[#FAF8F5] text-[#111111] overflow-hidden select-none flex flex-col justify-between py-14 sm:py-18 lg:py-22 scroll-mt-28"
     >
-      {/* ── Seamless Organic Orange Wave Accent on Right Side ── */}
-      <OrangeSectionRightWave />
+      {/* ── Seamless Organic Brand Wave Accent on Right Side ── */}
+      <BrandSectionRightWave />
 
       <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14 relative z-10 flex-1 flex flex-col justify-between gap-8 sm:gap-12">
         {/* Top Header Row */}
@@ -93,8 +93,8 @@ export default function WhatDrivesMePinned() {
           <div>
             <div className="mb-2.5 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/70 backdrop-blur-md border border-black/8 shadow-2xs">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-[#FF8A00] opacity-75 animate-ping" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FF8A00]" />
+                <span className="absolute inline-flex h-full w-full rounded-full bg-brand opacity-75 animate-ping" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
               </span>
               <span className="text-xs font-bold uppercase tracking-wider text-[#333333]">
                 Work Philosophy &amp; Standards
@@ -103,11 +103,11 @@ export default function WhatDrivesMePinned() {
             <div className="flex items-center gap-4 flex-wrap">
               <h2 className="font-black italic uppercase text-2xl sm:text-3xl lg:text-4xl tracking-[-0.03em] leading-tight text-[#111111]">
                 WHAT DRIVES{" "}
-                <span className="relative inline-block text-[#FF7700] drop-shadow-[0_2px_4px_rgba(0,0,0,0.32)]">
+                <span className="relative inline-block text-brand-dark drop-shadow-[0_2px_4px_rgba(0,0,0,0.32)]">
                   ME.
                   <HandDrawnUnderline
                     className="absolute -bottom-1 left-0 w-full"
-                    color="#FF8A00"
+                    color="var(--brand-primary)"
                   />
                 </span>
               </h2>
@@ -123,7 +123,7 @@ export default function WhatDrivesMePinned() {
           {/* Quick Counter */}
           <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 backdrop-blur-md border border-black/8 shadow-2xs text-xs font-semibold text-[#555555]">
             <span>Principle</span>
-            <span className="font-mono font-black text-sm text-[#FF7700] px-2 py-0.5 rounded-md bg-[#FF8A00]/12 border border-[#FF8A00]/25">
+            <span className="font-mono font-black text-sm text-brand-dark px-2 py-0.5 rounded-md bg-brand/12 border border-brand/25">
               0{activeStep + 1}
             </span>
             <span>of 0{strengthsData.length}</span>
@@ -149,13 +149,13 @@ export default function WhatDrivesMePinned() {
               >
                 <StepIcon
                   className={`w-3.5 h-3.5 ${
-                    active ? "text-[#FF8A00]" : "text-[#888888]"
+                    active ? "text-brand" : "text-[#888888]"
                   }`}
                 />
                 <span
                   className={`font-mono text-[11px] px-1.5 py-0.5 rounded-md ${
                     active
-                      ? "bg-[#FF8A00] text-white font-black"
+                      ? "bg-brand text-white font-black"
                       : "bg-black/6 text-[#777777]"
                   }`}
                 >
@@ -174,7 +174,7 @@ export default function WhatDrivesMePinned() {
             {/* Vertical Progress Bar */}
             <div className="relative h-60 lg:h-72 w-2 bg-black/8 rounded-full overflow-hidden shrink-0 mt-3">
               <div
-                className="w-full bg-gradient-to-b from-[#FFA726] to-[#FF6A00] transition-all duration-500 ease-out rounded-full shadow-[0_0_14px_rgba(255,138,0,0.85)]"
+                className="w-full bg-gradient-to-b from-brand-light to-brand-deep transition-all duration-500 ease-out rounded-full shadow-[0_0_14px_rgba(var(--brand-rgb),0.85)]"
                 style={{ height: `${progressPercent}%` }}
               />
             </div>
@@ -194,8 +194,8 @@ export default function WhatDrivesMePinned() {
           <div className="col-span-8 lg:col-span-9 flex flex-col justify-center">
             {/* Category Tag with Lucide SVG Icon */}
             <div className="flex items-center gap-2.5 mb-4">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF8A00]/12 border border-[#FF8A00]/25 text-xs font-bold text-[#FF7700]">
-                <CurrentIcon className="w-3.5 h-3.5 text-[#FF7700]" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand/12 border border-brand/25 text-xs font-bold text-brand-dark">
+                <CurrentIcon className="w-3.5 h-3.5 text-brand-dark" />
                 <span>{meta.label}</span>
               </span>
               <span className="text-sm font-semibold text-[#888888]">
@@ -235,7 +235,7 @@ export default function WhatDrivesMePinned() {
                   type="button"
                   onClick={handleNext}
                   aria-label="Next principle"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#111111] hover:bg-[#FF8A00] text-white hover:text-[#111111] text-xs font-bold transition-all duration-200 shadow-sm hover:shadow-[0_4px_16px_rgba(255,138,0,0.35)] hover:scale-105 active:scale-95 cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] text-xs font-bold transition-all duration-200 shadow-sm hover:shadow-[0_4px_16px_rgba(var(--brand-rgb),0.35)] hover:scale-105 active:scale-95 cursor-pointer"
                 >
                   <span>Next principle</span>
                   <ChevronRight className="w-4 h-4 stroke-[2.5]" />
@@ -243,7 +243,7 @@ export default function WhatDrivesMePinned() {
               </div>
 
               <span className="text-xs font-semibold text-[#888888] flex items-center gap-1.5">
-                {/* <Sparkles className="w-3.5 h-3.5 text-[#FF7700]" /> */}
+                {/* <Sparkles className="w-3.5 h-3.5 text-brand-dark" /> */}
                 Zero fluff &bull; Clean craftsmanship
               </span>
             </div>
@@ -263,17 +263,17 @@ export default function WhatDrivesMePinned() {
                 {/* Left Line + Number */}
                 <div className="flex items-start gap-3 shrink-0">
                   <div className="relative h-16 w-1.5 bg-black/8 rounded-full overflow-hidden shrink-0 mt-1">
-                    <div className="w-full h-full bg-[#FF8A00] rounded-full" />
+                    <div className="w-full h-full bg-brand rounded-full" />
                   </div>
-                  <span className="font-black italic text-4xl text-[#FF7700] leading-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]">
+                  <span className="font-black italic text-4xl text-brand-dark leading-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]">
                     {step.num}
                   </span>
                 </div>
 
                 {/* Right Content */}
                 <div className="flex-1 flex flex-col gap-1.5">
-                  <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF7700]">
-                    <StepIcon className="w-3.5 h-3.5 text-[#FF7700]" />
+                  <div className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-dark">
+                    <StepIcon className="w-3.5 h-3.5 text-brand-dark" />
                     <span>{pMeta.label}</span>
                   </div>
 

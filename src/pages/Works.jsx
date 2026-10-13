@@ -13,7 +13,7 @@ import { projectsData } from "../data/projectsData";
 import SectionHeader from "../components/ui/SectionHeader";
 import ProjectMedia from "../components/features/ProjectMedia";
 import {
-  OrangeSectionSideWave,
+  BrandSectionSideWave,
   SectionWaveDivider,
 } from "../components/decorative";
 import { useGsapScope } from "../animation/useGsapScope";
@@ -188,8 +188,8 @@ export default function Works() {
       {/* ── Subtle Decorative Top SVG Wave Divider (About -> Works) ── */}
       {/* <SectionWaveDivider variant="about-to-works" className="relative z-10 mb-4 sm:mb-8" /> */}
 
-      {/* Organic Curved Orange Accent Shape on Left Side with smooth top & bottom taper */}
-      <OrangeSectionSideWave />
+      {/* Organic Curved Brand Accent Shape on Left Side with smooth top & bottom taper */}
+      <BrandSectionSideWave />
 
       <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14 relative z-10">
         {/* Header with clean text tabs */}
@@ -245,7 +245,7 @@ export default function Works() {
                   <span
                     className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full transition-colors ${
                       active
-                        ? "bg-[#FF8A00] text-white"
+                        ? "bg-brand text-white"
                         : "bg-black/6 text-[#666666]"
                     }`}
                   >
@@ -291,19 +291,19 @@ export default function Works() {
                   }`}
                 >
                   {/* Glass card wrapper */}
-                  <div className="relative rounded-[2rem] bg-white/55 backdrop-blur-2xl border border-white/70 p-6 sm:p-8 shadow-[0_8px_40px_rgba(255,138,0,0.1),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] ring-1 ring-[#FF8A00]/10 overflow-hidden">
-                    {/* Top orange gradient bar */}
-                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF8A00]/60 to-transparent" />
+                  <div className="relative rounded-[2rem] bg-white/55 backdrop-blur-2xl border border-white/70 p-6 sm:p-8 shadow-[0_8px_40px_rgba(var(--brand-rgb),0.1),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] ring-1 ring-brand/10 overflow-hidden">
+                    {/* Top brand gradient bar */}
+                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-brand/60 to-transparent" />
                     {/* Subtle glass sheen */}
                     <div
-                      className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/50 via-transparent to-[#FF8A00]/4 opacity-80"
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/50 via-transparent to-brand/4 opacity-80"
                       aria-hidden="true"
                     />
 
                     <div className="relative z-10">
                       {/* Clean Project Meta */}
-                      <div className="flex items-center gap-2 flex-wrap text-xs font-bold text-[#FF7700] mb-3">
-                        <span className="font-mono font-black text-sm px-2 py-0.5 rounded-md bg-[#FF8A00]/12 text-[#FF7700] border border-[#FF8A00]/25">
+                      <div className="flex items-center gap-2 flex-wrap text-xs font-bold text-brand-dark mb-3">
+                        <span className="font-mono font-black text-sm px-2 py-0.5 rounded-md bg-brand/12 text-brand-dark border border-brand/25">
                           {project.num}
                         </span>
                         <span className="text-[#CCCCCC] font-medium">
@@ -332,7 +332,7 @@ export default function Works() {
                           setModalImageIdx(0);
                           setActiveProjectModal(project);
                         }}
-                        className="cursor-pointer font-black italic uppercase tracking-[-0.035em] text-3xl sm:text-4xl lg:text-5xl text-[#111111] hover:text-[#FF8A00] transition-colors leading-[0.95] mb-4"
+                        className="cursor-pointer font-black italic uppercase tracking-[-0.035em] text-3xl sm:text-4xl lg:text-5xl text-[#111111] hover:text-brand transition-colors leading-[0.95] mb-4"
                       >
                         {project.title}
                       </h3>
@@ -347,9 +347,9 @@ export default function Works() {
                         {project.metrics.map((m, mIdx) => (
                           <div
                             key={mIdx}
-                            className="group flex flex-col p-3 sm:p-3.5 rounded-2xl bg-white/80 backdrop-blur-md border border-black/8 shadow-sm hover:border-[#FF8A00]/35 hover:shadow-[0_4px_16px_rgba(255,138,0,0.1)] transition-all duration-300"
+                            className="group flex flex-col p-3 sm:p-3.5 rounded-2xl bg-white/80 backdrop-blur-md border border-black/8 shadow-sm hover:border-brand/35 hover:shadow-[0_4px_16px_rgba(var(--brand-rgb),0.1)] transition-all duration-300"
                           >
-                            <span className="text-xl sm:text-2xl font-black text-[#111111] tracking-tight group-hover:text-[#FF8A00] transition-colors duration-300">
+                            <span className="text-xl sm:text-2xl font-black text-[#111111] tracking-tight group-hover:text-brand transition-colors duration-300">
                               {m.value}
                             </span>
                             <span className="text-[10px] sm:text-[11px] text-[#777777] mt-0.5 leading-snug font-medium">
@@ -367,7 +367,7 @@ export default function Works() {
                         {project.stack.map((tag) => (
                           <span
                             key={tag}
-                            className="px-2.5 py-1 rounded-lg bg-black/5 border border-black/8 text-[11px] font-semibold text-[#444444] hover:bg-[#FF8A00]/10 hover:border-[#FF8A00]/30 hover:text-[#FF7700] transition-all duration-200"
+                            className="px-2.5 py-1 rounded-lg bg-black/5 border border-black/8 text-[11px] font-semibold text-[#444444] hover:bg-brand/10 hover:border-brand/30 hover:text-brand-dark transition-all duration-200"
                           >
                             {tag}
                           </span>
@@ -382,7 +382,7 @@ export default function Works() {
                             setModalImageIdx(0);
                             setActiveProjectModal(project);
                           }}
-                          className="group inline-flex items-center gap-2 rounded-full bg-[#111111] hover:bg-[#FF8A00] text-white hover:text-[#111111] px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all duration-300 shadow-[0_4px_16px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_24px_rgba(255,138,0,0.35)] active:scale-95 cursor-pointer"
+                          className="group inline-flex items-center gap-2 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all duration-300 shadow-[0_4px_16px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_24px_rgba(var(--brand-rgb),0.35)] active:scale-95 cursor-pointer"
                         >
                           <span>Read case study</span>
                           <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -393,9 +393,9 @@ export default function Works() {
                             href={project.githubUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-white/80 backdrop-blur-md border border-black/12 hover:border-[#FF8A00]/50 hover:bg-white text-xs sm:text-sm font-semibold text-[#444444] hover:text-[#111111] transition-all duration-200 shadow-sm"
+                            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-white/80 backdrop-blur-md border border-black/12 hover:border-brand/50 hover:bg-white text-xs sm:text-sm font-semibold text-[#444444] hover:text-[#111111] transition-all duration-200 shadow-sm"
                           >
-                            <Code2 className="w-3.5 h-3.5 text-[#FF7700]" />
+                            <Code2 className="w-3.5 h-3.5 text-brand-dark" />
                             <span>Source code</span>
                             <ArrowUpRight className="w-3.5 h-3.5 text-[#AAAAAA]" />
                           </a>
@@ -433,7 +433,7 @@ export default function Works() {
               </button>
 
               {/* Modal Header */}
-              <p className="text-xs sm:text-sm font-semibold text-[#FF8A00] mb-2">
+              <p className="text-xs sm:text-sm font-semibold text-brand mb-2">
                 Case study &bull; {activeProjectModal.year} &bull;{" "}
                 {activeProjectModal.client}
               </p>
@@ -475,7 +475,7 @@ export default function Works() {
                                 prev === 0 ? modalImages.length - 1 : prev - 1,
                               )
                             }
-                            className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/70 hover:bg-[#FF8A00] text-white flex items-center justify-center backdrop-blur-md transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
+                            className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/70 hover:bg-brand text-white flex items-center justify-center backdrop-blur-md transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
                           >
                             <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
                           </button>
@@ -488,7 +488,7 @@ export default function Works() {
                                 prev === modalImages.length - 1 ? 0 : prev + 1,
                               )
                             }
-                            className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/70 hover:bg-[#FF8A00] text-white flex items-center justify-center backdrop-blur-md transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/70 hover:bg-brand text-white flex items-center justify-center backdrop-blur-md transition-all shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
                           >
                             <ChevronRight className="w-5 h-5 stroke-[2.5]" />
                           </button>
@@ -510,7 +510,7 @@ export default function Works() {
                             onClick={() => setModalImageIdx(tIdx)}
                             className={`relative aspect-[16/10] rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
                               modalImageIdx === tIdx
-                                ? "border-[#FF8A00] shadow-md ring-2 ring-[#FF8A00]/30 scale-[1.02]"
+                                ? "border-brand shadow-md ring-2 ring-brand/30 scale-[1.02]"
                                 : "border-black/10 opacity-70 hover:opacity-100 hover:border-black/30"
                             }`}
                           >
@@ -541,10 +541,10 @@ export default function Works() {
               </div>
 
               {/* Metrics */}
-              <div className="grid grid-cols-3 gap-3 p-5 bg-white/80 backdrop-blur-md rounded-2xl border border-[#FF8A00]/12 mb-6 shadow-[0_4px_20px_rgba(255,138,0,0.08)] ring-1 ring-[#FF8A00]/8">
+              <div className="grid grid-cols-3 gap-3 p-5 bg-white/80 backdrop-blur-md rounded-2xl border border-brand/12 mb-6 shadow-[0_4px_20px_rgba(var(--brand-rgb),0.08)] ring-1 ring-brand/8">
                 {activeProjectModal.metrics.map((m, idx) => (
                   <div key={idx} className="flex flex-col">
-                    <span className="text-2xl sm:text-3xl font-black text-[#FF8A00]">
+                    <span className="text-2xl sm:text-3xl font-black text-brand">
                       {m.value}
                     </span>
                     <span className="text-xs text-[#666666] mt-1 font-medium">
@@ -575,7 +575,7 @@ export default function Works() {
                     href={activeProjectModal.githubUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#111111] hover:bg-[#FF8A00] text-white hover:text-[#111111] text-xs font-bold transition-all shadow-sm hover:shadow-[0_8px_20px_rgba(255,138,0,0.3)]"
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] text-xs font-bold transition-all shadow-sm hover:shadow-[0_8px_20px_rgba(var(--brand-rgb),0.3)]"
                   >
                     <Code2 className="w-3.5 h-3.5" />
                     <span>View code</span>

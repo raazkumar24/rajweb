@@ -50,8 +50,8 @@ export default function SocialPill({ links = [], forwardRef, className = "" }) {
                 border border-white/80
                 shadow-[0_4px_12px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,0.95)]
                 transition-all duration-300
-                hover:bg-[#FF8A00] hover:text-white hover:border-[#FF8A00]
-                hover:shadow-[0_8px_22px_rgba(255,138,0,0.45)]
+                hover:bg-brand hover:text-white hover:border-brand
+                hover:shadow-[0_8px_22px_rgba(var(--brand-rgb),0.45)]
                 hover:scale-110 active:scale-95
               "
             >

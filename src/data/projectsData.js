@@ -18,7 +18,7 @@ export const projectsData = [
     client: "Retail & Apparel",
     role: "Full-stack development",
     year: "2025",
-    accent: "#FF8A00",
+    accent: "var(--brand-primary)",
     image: genz1,
     images: [genz1, genz2, genz3],
     summary:
@@ -43,7 +43,7 @@ export const projectsData = [
     client: "Restaurant & Hospitality",
     role: "Full-stack development",
     year: "2026",
-    accent: "#FF6B00",
+    accent: "var(--brand-primary-deep)",
     image: udupi1,
     images: [udupi1, udupi2, udupi3],
     summary:
@@ -68,7 +68,7 @@ export const projectsData = [
     client: "Personal Brand",
     role: "Frontend & interaction",
     year: "2026",
-    accent: "#FF8A00",
+    accent: "var(--brand-primary)",
     image: portfolioImg,
     images: [portfolioImg],
     summary:
@@ -93,7 +93,7 @@ export const projectsData = [
     client: "Productivity Tool",
     role: "Frontend engineering",
     year: "2026",
-    accent: "#FF6B00",
+    accent: "var(--brand-primary-deep)",
     image: taskManagerImg,
     images: [taskManagerImg],
     summary:

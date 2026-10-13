@@ -30,12 +30,12 @@ export default function SectionHeader({
                 {titleTop && <span className="text-[#111111] block">{titleTop}</span>}
                 {titleMain && <span className="text-[#111111]">{titleMain} </span>}
                 {titleAccent && (
-                  <span className="relative inline-block text-[#FF7700] drop-shadow-[0_2px_4px_rgba(0,0,0,0.32)]">
+                  <span className="relative inline-block text-brand-dark drop-shadow-[0_2px_4px_rgba(0,0,0,0.32)]">
                     {titleAccent}
                     <HandDrawnUnderline
                       className="absolute left-0 w-full"
                       style={{ bottom: "-0.12em" }}
-                      color="#FF8A00"
+                      color="var(--brand-primary)"
                     />
                   </span>
                 )}
@@ -66,12 +66,12 @@ export default function SectionHeader({
               {titleTop && <span className="text-[#111111] block">{titleTop}</span>}
               {titleMain && <span className="text-[#111111]">{titleMain} </span>}
               {titleAccent && (
-                <span className="relative inline-block text-[#FF7700] drop-shadow-[0_2px_4px_rgba(0,0,0,0.32)]">
+                <span className="relative inline-block text-brand-dark drop-shadow-[0_2px_4px_rgba(0,0,0,0.32)]">
                   {titleAccent}
                   <HandDrawnUnderline
                     className="absolute left-0 w-full"
                     style={{ bottom: "-0.12em" }}
-                    color="#FF8A00"
+                    color="var(--brand-primary)"
                   />
                 </span>
               )}

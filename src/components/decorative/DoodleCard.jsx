@@ -30,7 +30,7 @@ export default function DoodleCard({
           {text}
         </span>
         {showSunburst && (
-          <div className="pt-0.5 text-[#FF9500] flex-shrink-0">
+          <div className="pt-0.5 text-brand flex-shrink-0">
             <svg
               className="w-4 h-4 sm:w-5 sm:h-5"
               viewBox="0 0 24 24"

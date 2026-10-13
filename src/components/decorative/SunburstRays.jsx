@@ -10,13 +10,13 @@ import React from "react";
  * PROPS:
  * - forwardRef: GSAP animation / timeline ke liye ref pass kar sakte hain
  * - className: Custom positioning ya rotation ke liye
- * - color: Ray color (default: #FF9500 brand orange)
+ * - color: Ray color (default: #8B5CF6 brand orange)
  * =============================================================================
  */
 export default function SunburstRays({
   forwardRef,
   className = "",
-  color = "#FF9500",
+  color="var(--brand-primary)",
 }) {
   return (
     <div
@@ -50,7 +50,7 @@ export function AccentRays({ side = "left", className = "" }) {
     <div
       className={`pointer-events-none absolute top-[32%] ${
         isLeft ? "left-[4%] sm:left-[8%]" : "right-[6%] sm:right-[10%]"
-      } z-10 text-[#FF9500] select-none ${className}`}
+      } z-10 text-brand select-none ${className}`}
       aria-hidden="true"
     >
       <svg

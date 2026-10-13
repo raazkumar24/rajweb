@@ -144,10 +144,10 @@ function Navbar() {
           className="pointer-events-auto group flex items-center gap-1.5 transition-transform duration-300 hover:scale-105 select-none"
           aria-label="Raj Shekhar Portfolio"
         >
-          <span className="text-2xl sm:text-[1.7rem] font-black italic tracking-[-0.04em] text-[#111111] transition-colors duration-300 group-hover:text-[#FF8A00]">
+          <span className="text-2xl sm:text-[1.7rem] font-black italic tracking-[-0.04em] text-[#111111] transition-colors duration-300 group-hover:text-brand">
             RAJ
           </span>
-          <span className="h-2 w-2 rounded-full bg-[#FF8A00] shadow-[0_0_8px_rgba(255,138,0,0.7)] transition-transform duration-300 group-hover:scale-125" />
+          <span className="h-2 w-2 rounded-full bg-brand shadow-[0_0_8px_rgba(var(--brand-rgb),0.7)] transition-transform duration-300 group-hover:scale-125" />
         </a>
 
         {/* DESKTOP NAV PILL (GLASS) */}
@@ -166,8 +166,8 @@ function Navbar() {
                   onClick={(e) => handleSmoothScroll(e, item.href)}
                   className={`rounded-full px-4 py-2 text-xs font-bold tracking-wider uppercase transition-[background-color,color,box-shadow] duration-200 ${
                     isActive
-                      ? "bg-white/90 text-[#FF8A00] shadow-[0_4px_12px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,1)]"
-                      : "text-[#222222] hover:text-[#FF9500] hover:bg-white/55"
+                      ? "bg-white/90 text-brand shadow-[0_4px_12px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,1)]"
+                      : "text-[#222222] hover:text-brand hover:bg-white/55"
                   }`}
                 >
                   {item.label}
@@ -179,7 +179,7 @@ function Navbar() {
           <a
             href="#contact"
             onClick={(e) => handleSmoothScroll(e, "#contact")}
-            className="relative z-10 ml-2 inline-flex items-center justify-center rounded-full bg-[#111111]/90 px-6 py-2.5 text-xs font-bold tracking-wider text-white uppercase shadow-[0_6px_16px_rgba(0,0,0,0.22),inset_0_1px_1px_rgba(255,255,255,0.25)] transition-[background-color,color,box-shadow,transform] duration-300 hover:bg-[#FF9500] hover:text-[#111111] hover:shadow-[0_8px_22px_rgba(255,149,0,0.45)] hover:scale-105 active:scale-95"
+            className="relative z-10 ml-2 inline-flex items-center justify-center rounded-full bg-[#111111]/90 px-6 py-2.5 text-xs font-bold tracking-wider text-white uppercase shadow-[0_6px_16px_rgba(0,0,0,0.22),inset_0_1px_1px_rgba(255,255,255,0.25)] transition-[background-color,color,box-shadow,transform] duration-300 hover:bg-brand hover:text-[#111111] hover:shadow-[0_8px_22px_rgba(var(--brand-rgb),0.45)] hover:scale-105 active:scale-95"
           >
             CONTACT
           </a>
@@ -226,19 +226,19 @@ function Navbar() {
                   onClick={(e) => handleSmoothScroll(e, item.href)}
                   className={`rounded-xl px-3.5 py-2.5 text-xs font-bold tracking-wider uppercase transition-colors flex items-center justify-between ${
                     isActive
-                      ? "bg-white/80 text-[#FF8A00] shadow-[inset_0_1px_1px_rgba(255,255,255,1)]"
-                      : "text-[#222222] hover:text-[#FF9500] hover:bg-white/50"
+                      ? "bg-white/80 text-brand shadow-[inset_0_1px_1px_rgba(255,255,255,1)]"
+                      : "text-[#222222] hover:text-brand hover:bg-white/50"
                   }`}
                 >
                   <span>{item.label}</span>
-                  {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#FF8A00]" />}
+                  {isActive && <span className="w-1.5 h-1.5 rounded-full bg-brand" />}
                 </a>
               );
             })}
             <a
               href="#contact"
               onClick={(e) => handleSmoothScroll(e, "#contact")}
-              className="mt-2 block w-full rounded-full bg-[#111111]/90 py-3 text-center text-xs font-bold tracking-wider text-white uppercase shadow-[0_6px_16px_rgba(0,0,0,0.22),inset_0_1px_1px_rgba(255,255,255,0.25)] transition-colors hover:bg-[#FF9500] hover:text-[#111111]"
+              className="mt-2 block w-full rounded-full bg-[#111111]/90 py-3 text-center text-xs font-bold tracking-wider text-white uppercase shadow-[0_6px_16px_rgba(0,0,0,0.22),inset_0_1px_1px_rgba(255,255,255,0.25)] transition-colors hover:bg-brand hover:text-[#111111]"
             >
               CONTACT
             </a>

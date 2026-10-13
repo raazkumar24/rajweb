@@ -41,7 +41,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#FAF8F5] text-[#111111] flex flex-col overflow-x-hidden selection:bg-[#FF9500] selection:text-white">
+    <div className="min-h-screen w-full bg-[#FAF8F5] text-[#111111] flex flex-col overflow-x-hidden selection:bg-brand selection:text-white">
       <ScrollProgress />
       <CustomCursor />
       <Navbar />
@@ -70,7 +70,7 @@ function App() {
         <button
           onClick={scrollToTop}
           aria-label="Scroll back to top"
-          className="fixed bottom-6 right-6 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-[#111111] text-white shadow-xl hover:bg-[#FF9500] hover:text-[#111111] transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 cursor-pointer"
+          className="fixed bottom-6 right-6 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-[#111111] text-white shadow-xl hover:bg-brand hover:text-[#111111] transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 cursor-pointer"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 10l7-7m0 0l7 7m-7-7v18" />

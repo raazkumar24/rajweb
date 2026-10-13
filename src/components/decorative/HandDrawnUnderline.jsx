@@ -16,14 +16,14 @@ import React from "react";
  * - pathRef: GSAP animated path reference (strokeDashoffset)
  * - className: Custom sizing / positioning classes
  * - strokeWidth: Line thickness (default: 4)
- * - color: Stroke color (default: #FF8A00)
+ * - color: Stroke color (default: #8B5CF6)
  * =============================================================================
  */
 export default function HandDrawnUnderline({
   pathRef,
   className = "w-full",
   strokeWidth = 4,
-  color = "#FF8A00",
+  color = "var(--brand-primary)",
   style = {},
 }) {
   return (

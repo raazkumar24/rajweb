@@ -1,4 +1,4 @@
-export { OrangeButton, GhostButton } from "./Buttons.jsx";
+export { BrandButton, OrangeButton, GhostButton } from "./Buttons.jsx";
 export { default as SectionHeader } from "./SectionHeader.jsx";
 export { default as SectionBadge } from "./SectionBadge.jsx";
 export { StatItem, StatDivider } from "./StatItem.jsx";

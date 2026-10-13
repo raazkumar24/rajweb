@@ -1,7 +1,29 @@
 @import "tailwindcss";
 
+:root {
+  /* ═══════════════════════════════════════════════════════════════════
+     ACTIVE THEME: ELECTRIC PURPLE / VIOLET
+     To change colors manually, edit these CSS variables.
+     Or run: node scripts/switch-theme.mjs <theme-name>
+     ═══════════════════════════════════════════════════════════════════ */
+  --brand-primary: #8B5CF6;
+  --brand-primary-dark: #7C3AED;
+  --brand-primary-light: #A78BFA;
+  --brand-primary-deep: #6D28D9;
+  --brand-stop-0: #C084FC;
+  --brand-stop-1: #A855F7;
+  --brand-stop-2: #8B5CF6;
+  --brand-stop-3: #6D28D9;
+  --brand-rgb: 139, 92, 246;
+  --brand-rgb-dark: 124, 58, 237;
+}
+
 @theme {
   --breakpoint-xs: 30rem;
+  --color-brand: var(--brand-primary);
+  --color-brand-dark: var(--brand-primary-dark);
+  --color-brand-light: var(--brand-primary-light);
+  --color-brand-deep: var(--brand-primary-deep);
 }
 
 @keyframes cursorBadgeIn {
@@ -46,7 +68,7 @@ html {
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 149, 0, 0.6);
+  background: rgba(var(--brand-rgb), 0.6);
 }
 
 body {
@@ -134,7 +156,7 @@ body {
   background: linear-gradient(
     105deg,
     #ffffff 40%,
-    #fff7ec 50%,
+    #FAF5FF 50%,
     #ffffff 60%
   );
   background-size: 200% auto;
@@ -144,9 +166,10 @@ body {
   animation: shimmer 1.2s linear infinite;
 }
 
-/* ── Orange gradient text utility ── */
+/* ── Brand / Electric Purple gradient text utility ── */
+.text-gradient-brand,
 .text-gradient-orange {
-  background: linear-gradient(135deg, #FF9500 0%, #FF6B00 100%);
+  background: linear-gradient(135deg, var(--brand-primary, #8B5CF6) 0%, var(--brand-primary-deep, #6D28D9) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -185,19 +208,20 @@ body {
 
 @keyframes pulseGlow {
   0%, 100% {
-    box-shadow: 0 0 15px rgba(255, 149, 0, 0.35);
+    box-shadow: 0 0 15px rgba(var(--brand-rgb), 0.35);
   }
   50% {
-    box-shadow: 0 0 28px rgba(255, 149, 0, 0.65);
+    box-shadow: 0 0 28px rgba(var(--brand-rgb), 0.65);
   }
 }
 
+.glow-brand-pulse,
 .glow-orange-pulse {
   animation: pulseGlow 2.5s ease-in-out infinite;
 }
 
-/* ── OrangeShapes: Gentle slow float (up-down) ── */
-/* Used by: OrangeTopLeftShape, OrangeCtaBottomWave */
+/* ── BrandShapes: Gentle slow float (up-down) ── */
+/* Used by: BrandTopLeftShape, BrandCtaBottomWave */
 @keyframes floatSlow {
   0%, 100% { transform: translateY(0px); }
   50%       { transform: translateY(-10px); }
@@ -207,8 +231,8 @@ body {
   animation: floatSlow 7s ease-in-out infinite;
 }
 
-/* ── OrangeShapes: Breathing pulse (scale + opacity) ── */
-/* Used by: OrangeBottomHeroWave, OrangeJourneyCardBlob */
+/* ── BrandShapes: Breathing pulse (scale + opacity) ── */
+/* Used by: BrandBottomHeroWave, BrandJourneyCardBlob */
 @keyframes breathe {
   0%, 100% { transform: scale(1);    opacity: 1; }
   50%       { transform: scale(1.03); opacity: 0.92; }
@@ -218,8 +242,8 @@ body {
   animation: breathe 8s ease-in-out infinite;
 }
 
-/* ── OrangeShapes: Float with slight X drift (right-to-left shapes) ── */
-/* Used by: OrangeRightAccentShape */
+/* ── BrandShapes: Float with slight X drift (right-to-left shapes) ── */
+/* Used by: BrandRightAccentShape */
 @keyframes floatRight {
   0%, 100% { transform: translate(0px, 0px); }
   33%       { transform: translate(-6px, -5px); }
@@ -230,30 +254,34 @@ body {
   animation: floatRight 6s ease-in-out infinite;
 }
 
-/* ── Orange Text Highlight & High-Contrast Definition ── */
-/* Ensures orange text remains punchy, sharp, and clearly legible even when */
-/* overlapping or adjacent to rich orange background shapes and waves. */
+/* ── Brand Text Highlight & High-Contrast Definition ── */
+.brand-text-pop,
 .orange-text-pop,
-[class*="text-[#FF8A00]"],
-[class*="text-[#FF9500]"],
-[class*="text-[#FF7A00]"],
-[class*="text-[#FF7700]"] {
+[class*="text-brand"],
+[class*="text-brand-dark"],
+[class*="text-violet"],
+[class*="text-purple"] {
   text-shadow: 0 1px 2px rgba(17, 17, 17, 0.28), 0 0 1px rgba(17, 17, 17, 0.35);
 }
 
-/* Extra punch and crisp edge contour for prominent headlines with orange text */
-h1 [class*="text-[#FF"],
-h2 [class*="text-[#FF"],
-h3 [class*="text-[#FF"],
-h4 [class*="text-[#FF"] {
-  color: #FF7700 !important;
-  text-shadow: 0 1px 2.5px rgba(17, 17, 17, 0.45), 0 0 1.5px rgba(17, 17, 17, 0.5), 0 0 10px rgba(255, 119, 0, 0.25) !important;
+/* Extra punch and crisp edge contour for prominent headlines with brand accent text */
+h1 [class*="text-brand"],
+h2 [class*="text-brand"],
+h3 [class*="text-brand"],
+h4 [class*="text-brand"],
+h1 [class*="text-brand-dark"],
+h2 [class*="text-brand-dark"],
+h3 [class*="text-brand-dark"],
+h4 [class*="text-brand-dark"] {
+  color: var(--brand-primary-dark) !important;
+  text-shadow: 0 1px 2.5px rgba(17, 17, 17, 0.45), 0 0 1.5px rgba(17, 17, 17, 0.5), 0 0 10px rgba(var(--brand-rgb-dark), 0.25) !important;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.22));
 }
 
 /* Dark mode exception: keep crisp ambient glow in dark contact section */
-#contact [class*="text-[#FF"] {
-  text-shadow: 0 0 12px rgba(255, 138, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+#contact [class*="text-brand"],
+#contact [class*="text-brand-dark"] {
+  text-shadow: 0 0 12px rgba(var(--brand-rgb), 0.5), 0 1px 2px rgba(0, 0, 0, 0.7) !important;
 }
 
 /* ── Modal Smooth Scrollbar & Mobile Optimization ── */
@@ -289,6 +317,6 @@ h4 [class*="text-[#FF"] {
     border-radius: 9999px;
   }
   .modal-backdrop-scroll::-webkit-scrollbar-thumb:hover {
-    background: #FF8A00;
+    background: var(--brand-primary);
   }
 }

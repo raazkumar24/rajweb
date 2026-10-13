@@ -100,7 +100,7 @@ export default function ProjectImage3D({
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className={`wk-img-wrap group relative cursor-pointer overflow-hidden rounded-2xl sm:rounded-3xl border-2 border-black/12 hover:border-[#FF8A00]/50 aspect-[16/10] select-none ${className}`}
+        className={`wk-img-wrap group relative cursor-pointer overflow-hidden rounded-2xl sm:rounded-3xl border-2 border-black/12 hover:border-brand/50 aspect-[16/10] select-none ${className}`}
         style={{
           transform: transformStyle,
           transformStyle: "preserve-3d",
@@ -146,7 +146,7 @@ export default function ProjectImage3D({
             transform: isHovered ? "translateZ(32px)" : "translateZ(0px)",
           }}
         >
-          <span className="text-[#FF9500] font-bold">{year}</span> &bull; {client}
+          <span className="text-brand font-bold">{year}</span> &bull; {client}
         </div>
 
         {/* Center Floating 'Explore Case Study' Pill on Hover */}
@@ -157,9 +157,9 @@ export default function ProjectImage3D({
             transform: isHovered ? "translateZ(36px) scale(1)" : "translateZ(0px) scale(0.9)",
           }}
         >
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/95 backdrop-blur-xl text-[#111111] text-xs font-bold shadow-[0_8px_30px_rgba(0,0,0,0.35)] border border-white/80 ring-2 ring-[#FF8A00]/40">
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/95 backdrop-blur-xl text-[#111111] text-xs font-bold shadow-[0_8px_30px_rgba(0,0,0,0.35)] border border-white/80 ring-2 ring-brand/40">
             <span>Explore Case Study</span>
-            <span className="w-5 h-5 rounded-full bg-[#FF8A00] text-white flex items-center justify-center text-[10px]">
+            <span className="w-5 h-5 rounded-full bg-brand text-white flex items-center justify-center text-[10px]">
               ↗
             </span>
           </div>
@@ -173,7 +173,7 @@ export default function ProjectImage3D({
               type="button"
               aria-label="Previous preview image"
               onClick={handlePrev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-black/65 hover:bg-[#FF8A00] text-white flex items-center justify-center backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-200 cursor-pointer shadow-md hover:scale-110 active:scale-95"
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-black/65 hover:bg-brand text-white flex items-center justify-center backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-200 cursor-pointer shadow-md hover:scale-110 active:scale-95"
             >
               <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
             </button>
@@ -183,7 +183,7 @@ export default function ProjectImage3D({
               type="button"
               aria-label="Next preview image"
               onClick={handleNext}
-              className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-black/65 hover:bg-[#FF8A00] text-white flex items-center justify-center backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-200 cursor-pointer shadow-md hover:scale-110 active:scale-95"
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-black/65 hover:bg-brand text-white flex items-center justify-center backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-200 cursor-pointer shadow-md hover:scale-110 active:scale-95"
             >
               <ChevronRight className="w-4 h-4 stroke-[2.5]" />
             </button>
@@ -209,7 +209,7 @@ export default function ProjectImage3D({
                   }}
                   className={`h-1.5 rounded-full transition-all cursor-pointer ${
                     activeIdx === dotIdx
-                      ? "bg-[#FF8A00] w-3.5"
+                      ? "bg-brand w-3.5"
                       : "bg-white/40 hover:bg-white/80 w-1.5"
                   }`}
                 />

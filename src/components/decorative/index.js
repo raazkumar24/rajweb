@@ -1,13 +1,23 @@
 export {
-  default as OrangeBackgroundShapes,
-  OrangeTopLeftShape,
-  OrangeBottomHeroWave,
-  OrangeRightAccentShape,
-  OrangeBottomRightShape,
-  OrangeSectionSideWave,
-  OrangeSectionRightWave,
-  OrangeJourneyCardBlob,
-} from "./OrangeShapes.jsx";
+  default as BrandBackgroundShapes,
+  BrandTopLeftShape,
+  BrandBottomHeroWave,
+  BrandRightAccentShape,
+  BrandBottomRightShape,
+  BrandSectionSideWave,
+  BrandSectionRightWave,
+  BrandJourneyCardBlob,
+  BrandCtaBottomWave,
+  // Backward compatibility
+  BrandBackgroundShapes as OrangeBackgroundShapes,
+  BrandTopLeftShape as OrangeTopLeftShape,
+  BrandBottomHeroWave as OrangeBottomHeroWave,
+  BrandRightAccentShape as OrangeRightAccentShape,
+  BrandBottomRightShape as OrangeBottomRightShape,
+  BrandSectionSideWave as OrangeSectionSideWave,
+  BrandSectionRightWave as OrangeSectionRightWave,
+  BrandJourneyCardBlob as OrangeJourneyCardBlob,
+} from "./BrandShapes.jsx";
 
 export {
   default as SectionWaveDivider,

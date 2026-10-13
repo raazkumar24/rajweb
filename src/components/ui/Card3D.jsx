@@ -68,7 +68,7 @@ export default function Card3D({
           className="pointer-events-none absolute inset-0 z-30 rounded-[inherit] transition-opacity duration-300 overflow-hidden"
           style={{
             opacity: glarePos.opacity,
-            background: `radial-gradient(circle 280px at ${glarePos.x}% ${glarePos.y}%, rgba(255,255,255,0.45), rgba(255,149,0,0.15) 40%, transparent 80%)`,
+            background: `radial-gradient(circle 280px at ${glarePos.x}% ${glarePos.y}%, rgba(255,255,255,0.45), rgba(var(--brand-rgb),0.15) 40%, transparent 80%)`,
           }}
           aria-hidden="true"
         />

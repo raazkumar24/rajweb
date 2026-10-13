@@ -56,7 +56,7 @@ export default function LiveSitePreview({ url, title, onClose }) {
             target="_blank"
             rel="noreferrer"
             aria-label="Open in new tab"
-            className="flex h-6 w-6 items-center justify-center rounded-full text-[#666666] transition-colors hover:bg-black/8 hover:text-[#FF8A00]"
+            className="flex h-6 w-6 items-center justify-center rounded-full text-[#666666] transition-colors hover:bg-black/8 hover:text-brand"
           >
             <ArrowUpRight className="h-4 w-4" />
           </a>
@@ -104,7 +104,7 @@ export default function LiveSitePreview({ url, title, onClose }) {
           href={url}
           target="_blank"
           rel="noreferrer"
-          className="font-semibold text-[#FF8A00] underline-offset-2 hover:underline"
+          className="font-semibold text-brand underline-offset-2 hover:underline"
         >
           open in a new tab
         </a>

@@ -117,8 +117,8 @@ export default function WhatIUseTypographic() {
       className="ab-tech-section relative z-10 pt-20 sm:pt-28 pb-24 sm:pb-36 overflow-hidden select-none bg-[#FAF8F5] scroll-mt-28"
     >
       {/* Ambient glow blobs */}
-      <div className="pointer-events-none absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-[#FF8A00]/5 blur-[100px]" aria-hidden="true" />
-      <div className="pointer-events-none absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-[#FF9A1F]/4 blur-[80px]" aria-hidden="true" />
+      <div className="pointer-events-none absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-brand/5 blur-[100px]" aria-hidden="true" />
+      <div className="pointer-events-none absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-brand-light/4 blur-[80px]" aria-hidden="true" />
 
       <div className="relative mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14">
 
@@ -129,9 +129,9 @@ export default function WhatIUseTypographic() {
             <div className="flex items-end gap-4 flex-wrap">
               <h2 className="font-black italic uppercase text-3xl sm:text-5xl lg:text-6xl tracking-[-0.03em] leading-tight">
                 <span className="text-[#111111]">WHAT I </span>
-                <span className="relative inline-block text-[#FF7700] drop-shadow-[0_2px_6px_rgba(255,119,0,0.25)]">
+                <span className="relative inline-block text-brand-dark drop-shadow-[0_2px_6px_rgba(var(--brand-rgb-dark),0.25)]">
                   WORK WITH.
-                  <HandDrawnUnderline className="absolute -bottom-1 sm:-bottom-2 left-0 w-full" color="#FF8A00" />
+                  <HandDrawnUnderline className="absolute -bottom-1 sm:-bottom-2 left-0 w-full" color="var(--brand-primary)" />
                 </span>
               </h2>
               <HandwrittenBadge
@@ -154,18 +154,18 @@ export default function WhatIUseTypographic() {
                     className={`group relative flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold border transition-all duration-300 ${
                       isActive
                         ? "bg-[#111111] text-white border-[#111111] shadow-[0_4px_16px_rgba(0,0,0,0.18)]"
-                        : "bg-white/70 backdrop-blur-sm text-[#555555] border-black/10 hover:border-[#FF8A00]/40 hover:text-[#FF8A00] hover:bg-white shadow-sm"
+                        : "bg-white/70 backdrop-blur-sm text-[#555555] border-black/10 hover:border-brand/40 hover:text-brand hover:bg-white shadow-sm"
                     }`}
                   >
-                    <span className={`transition-colors duration-300 ${isActive ? "text-[#FF8A00]" : "text-current"}`}>
+                    <span className={`transition-colors duration-300 ${isActive ? "text-brand" : "text-current"}`}>
                       {tab.icon}
                     </span>
                     {tab.label}
                     <span
                       className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold leading-none transition-all duration-300 ${
                         isActive
-                          ? "bg-[#FF8A00] text-white"
-                          : "bg-black/8 text-[#777777] group-hover:bg-[#FF8A00]/15 group-hover:text-[#FF7700]"
+                          ? "bg-brand text-white"
+                          : "bg-black/8 text-[#777777] group-hover:bg-brand/15 group-hover:text-brand-dark"
                       }`}
                     >
                       {getCount(tab.id)}
@@ -177,7 +177,7 @@ export default function WhatIUseTypographic() {
           </div>
 
           {/* Gradient divider */}
-          <div className="mt-8 h-px bg-gradient-to-r from-black/10 via-[#FF8A00]/20 to-transparent" />
+          <div className="mt-8 h-px bg-gradient-to-r from-black/10 via-brand/20 to-transparent" />
         </div>
 
         {/* ── Tools List ── */}
@@ -192,18 +192,18 @@ export default function WhatIUseTypographic() {
                   className={`group relative cursor-pointer rounded-2xl px-5 sm:px-8 lg:px-10 py-5 sm:py-7
                     transition-all duration-300 overflow-hidden border ${
                     isActive
-                      ? "bg-white/90 backdrop-blur-xl border-[#FF8A00]/25 shadow-[0_8px_40px_rgba(255,138,0,0.12),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] translate-x-1 sm:translate-x-2 ring-1 ring-[#FF8A00]/15"
+                      ? "bg-white/90 backdrop-blur-xl border-brand/25 shadow-[0_8px_40px_rgba(var(--brand-rgb),0.12),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] translate-x-1 sm:translate-x-2 ring-1 ring-brand/15"
                       : "bg-transparent border-transparent hover:bg-white/50 hover:border-black/6 hover:shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
                   }`}
                 >
                   {/* Glass sheen on active */}
                   {isActive && (
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/60 via-transparent to-[#FF8A00]/5 opacity-70" aria-hidden="true" />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/60 via-transparent to-brand/5 opacity-70" aria-hidden="true" />
                   )}
 
                   {/* Active gradient left bar */}
                   <div
-                    className={`absolute left-0 top-4 bottom-4 w-[3px] rounded-r-full bg-gradient-to-b from-[#FFB52E] via-[#FF8A00] to-[#FF5500] transition-all duration-300 shadow-[2px_0_12px_rgba(255,138,0,0.5)] ${
+                    className={`absolute left-0 top-4 bottom-4 w-[3px] rounded-r-full bg-gradient-to-b from-brand-light via-brand to-brand-deep transition-all duration-300 shadow-[2px_0_12px_rgba(var(--brand-rgb),0.5)] ${
                       isActive ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0"
                     }`}
                     aria-hidden="true"
@@ -214,7 +214,7 @@ export default function WhatIUseTypographic() {
                     <div className="flex items-center gap-4 sm:gap-7 min-w-0">
                       <span
                         className={`font-mono text-xs sm:text-sm font-bold tracking-wider w-6 sm:w-8 shrink-0 transition-colors duration-300 select-none ${
-                          isActive ? "text-[#FF8A00]" : "text-[#CCCCCC] group-hover:text-[#FF8A00]/60"
+                          isActive ? "text-brand" : "text-[#CCCCCC] group-hover:text-brand/60"
                         }`}
                       >
                         {String(idx + 1).padStart(2, "0")}
@@ -224,7 +224,7 @@ export default function WhatIUseTypographic() {
                         <h3
                           className={`font-black italic uppercase tracking-[-0.03em] leading-none transition-all duration-300 text-3xl sm:text-5xl md:text-6xl lg:text-7xl ${
                             isActive
-                              ? "text-[#FF8A00] drop-shadow-[0_2px_8px_rgba(255,138,0,0.18)]"
+                              ? "text-brand drop-shadow-[0_2px_8px_rgba(var(--brand-rgb),0.18)]"
                               : "text-[#111111] group-hover:text-[#333333]"
                           }`}
                         >
@@ -238,7 +238,7 @@ export default function WhatIUseTypographic() {
                                 key={tag}
                                 className={`rounded-full border px-2.5 py-0.5 text-[11px] font-semibold transition-all duration-300 ${
                                   isActive
-                                    ? "border-[#FF8A00]/35 bg-[#FF8A00]/10 text-[#FF7700]"
+                                    ? "border-brand/35 bg-brand/10 text-brand-dark"
                                     : "border-black/8 bg-black/3 text-[#777777] group-hover:border-black/12"
                                 }`}
                               >
@@ -253,7 +253,7 @@ export default function WhatIUseTypographic() {
                     {/* Right: category + description + icon + arrow */}
                     <div className="flex items-center gap-4 sm:gap-6 justify-between lg:justify-end shrink-0">
                       <div className="flex flex-col lg:items-end gap-1 max-w-xs">
-                        <span className="text-[11px] font-bold tracking-wider uppercase text-[#FF8A00] lg:text-right">
+                        <span className="text-[11px] font-bold tracking-wider uppercase text-brand lg:text-right">
                           {tech.categoryLabel}
                         </span>
                         <p className="text-xs sm:text-sm text-[#4B5563] font-normal leading-relaxed lg:text-right">
@@ -265,8 +265,8 @@ export default function WhatIUseTypographic() {
                       <div
                         className={`flex h-14 w-14 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl p-2.5 transition-all duration-300 ${
                           isActive
-                            ? "bg-white border border-[#FF8A00]/30 shadow-[0_8px_24px_rgba(255,138,0,0.2)] scale-105"
-                            : "bg-white border border-black/8 shadow-sm group-hover:scale-105 group-hover:shadow-[0_6px_18px_rgba(255,138,0,0.15)] group-hover:border-[#FF8A00]/30"
+                            ? "bg-white border border-brand/30 shadow-[0_8px_24px_rgba(var(--brand-rgb),0.2)] scale-105"
+                            : "bg-white border border-black/8 shadow-sm group-hover:scale-105 group-hover:shadow-[0_6px_18px_rgba(var(--brand-rgb),0.15)] group-hover:border-brand/30"
                         }`}
                       >
                         {tech.icon}
@@ -274,7 +274,7 @@ export default function WhatIUseTypographic() {
 
                       {/* Arrow indicator */}
                       <svg
-                        className={`hidden sm:block h-5 w-5 shrink-0 text-[#FF8A00] transition-all duration-300 ${
+                        className={`hidden sm:block h-5 w-5 shrink-0 text-brand transition-all duration-300 ${
                           isActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-3"
                         }`}
                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -295,13 +295,13 @@ export default function WhatIUseTypographic() {
         <div className="mt-8 pt-5 border-t border-black/8 flex items-center justify-between">
           <span className="text-xs font-mono text-[#999999]">
             Showing{" "}
-            <span className="text-[#FF8A00] font-bold">{filteredTech.length}</span>
+            <span className="text-brand font-bold">{filteredTech.length}</span>
             {" "}of{" "}
             <span className="font-semibold text-[#555555]">{techStackData.length}</span>{" "}
             tools
           </span>
           <span className="hidden sm:flex items-center gap-2 text-xs font-medium text-[#999999]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#FF8A00] animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
             Hover to explore
           </span>
         </div>

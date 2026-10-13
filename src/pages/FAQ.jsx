@@ -3,8 +3,8 @@ import SectionHeader from "../components/ui/SectionHeader";
 import { faqData } from "../data/faqData";
 import {
   SectionWaveDivider,
-  OrangeSectionSideWave,
-  OrangeSectionRightWave,
+  BrandSectionSideWave,
+  BrandSectionRightWave,
 } from "../components/decorative";
 
 export default function FAQ() {
@@ -33,8 +33,8 @@ export default function FAQ() {
       className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-0 pb-0 font-sans scroll-mt-20 sm:scroll-mt-28"
     >
       {/* ── Background Organic Shapes: Left at TOP, Right at BOTTOM ── */}
-      <OrangeSectionSideWave position="top" />
-      <OrangeSectionRightWave position="bottom-raised" />
+      <BrandSectionSideWave position="top" />
+      <BrandSectionRightWave position="bottom-raised" />
 
       <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14 relative z-10">
         {/* Header */}
@@ -61,8 +61,8 @@ export default function FAQ() {
                 key={item.id}
                 className={`rounded-2xl sm:rounded-3xl border transition-all duration-300 overflow-hidden ${
                   isOpen
-                    ? "bg-white/95 border-[#FF8A00]/50 shadow-[0_16px_36px_rgba(255,138,0,0.12)] ring-1 ring-[#FF8A00]/25"
-                    : "bg-white/70 backdrop-blur-xl border-black/8 hover:border-[#FF8A00]/40 hover:bg-white/90 shadow-[0_8px_20px_rgba(0,0,0,0.02)]"
+                    ? "bg-white/95 border-brand/50 shadow-[0_16px_36px_rgba(var(--brand-rgb),0.12)] ring-1 ring-brand/25"
+                    : "bg-white/70 backdrop-blur-xl border-black/8 hover:border-brand/40 hover:bg-white/90 shadow-[0_8px_20px_rgba(0,0,0,0.02)]"
                 }`}
               >
                 <button
@@ -76,8 +76,8 @@ export default function FAQ() {
                     <span
                       className={`font-mono font-black text-sm sm:text-base px-2.5 py-1 rounded-xl transition-colors shrink-0 ${
                         isOpen
-                          ? "bg-[#FF8A00] text-white shadow-xs"
-                          : "bg-black/5 text-[#666666] group-hover:text-[#FF7700] group-hover:bg-[#FF8A00]/10"
+                          ? "bg-brand text-white shadow-xs"
+                          : "bg-black/5 text-[#666666] group-hover:text-brand-dark group-hover:bg-brand/10"
                       }`}
                     >
                       {item.id}
@@ -86,7 +86,7 @@ export default function FAQ() {
                       className={`font-black italic uppercase tracking-[-0.025em] text-base sm:text-xl lg:text-2xl transition-colors duration-200 ${
                         isOpen
                           ? "text-[#111111]"
-                          : "text-[#111111] group-hover:text-[#FF7700]"
+                          : "text-[#111111] group-hover:text-brand-dark"
                       }`}
                     >
                       {item.question}
@@ -97,8 +97,8 @@ export default function FAQ() {
                   <div
                     className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full border flex items-center justify-center shrink-0 transition-all duration-300 ${
                       isOpen
-                        ? "border-[#FF8A00] bg-[#FF8A00] text-white rotate-45 shadow-[0_4px_12px_rgba(255,138,0,0.35)]"
-                        : "border-black/15 bg-white text-[#111111] group-hover:border-[#FF8A00] group-hover:text-[#FF8A00]"
+                        ? "border-brand bg-brand text-white rotate-45 shadow-[0_4px_12px_rgba(var(--brand-rgb),0.35)]"
+                        : "border-black/15 bg-white text-[#111111] group-hover:border-brand group-hover:text-brand"
                     }`}
                     aria-hidden="true"
                   >
@@ -137,7 +137,7 @@ export default function FAQ() {
           <a
             href="#contact"
             onClick={handleScrollToContact}
-            className="inline-flex items-center gap-1.5 font-bold text-[#111111] hover:text-[#FF7700] underline decoration-[#FF8A00] underline-offset-4 transition-colors"
+            className="inline-flex items-center gap-1.5 font-bold text-[#111111] hover:text-brand-dark underline decoration-brand underline-offset-4 transition-colors"
           >
             <span>Ask me directly in the contact form</span>
             <span>&rarr;</span>

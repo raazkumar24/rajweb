@@ -71,7 +71,7 @@ export const techStackData = [
           strokeLinejoin="round"
           fill="none"
         />
-        <circle cx="20" cy="20" r="3" fill="#FF8A00" />
+        <circle cx="20" cy="20" r="3" fill="var(--brand-primary)" />
       </svg>
     ),
   },

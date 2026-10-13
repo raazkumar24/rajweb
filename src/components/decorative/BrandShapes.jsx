@@ -2,7 +2,7 @@ import React, { useId } from "react";
 
 /**
  * =============================================================================
- * ORANGE BACKGROUND SHAPES  v2
+ * BRAND BACKGROUND SHAPES  v2
  * =============================================================================
  * Naye shapes: layered "paper-cut" waves + concentric arcs + dot-grid texture.
  * Fixes / improvements:
@@ -19,10 +19,10 @@ import React, { useId } from "react";
 /* ----------------------------- shared helpers ----------------------------- */
 
 const STOPS = [
-  ["0%", "#FFC85A"],
-  ["38%", "#FF9A1F"],
-  ["72%", "#FF6A00"],
-  ["100%", "#E94A00"],
+  ["0%", "var(--brand-stop-0)"],
+  ["38%", "var(--brand-stop-1)"],
+  ["72%", "var(--brand-stop-2)"],
+  ["100%", "var(--brand-stop-3)"],
 ];
 
 const FLOAT_CSS = `
@@ -98,11 +98,11 @@ function Frame({ className, children, viewBox, hideOnMobile = false }) {
 /* =============================================================================
    1. TOP LEFT SHAPE  (hero + about)
    ============================================================================= */
-export function OrangeTopLeftShape({
+export function BrandTopLeftShape({
   variant = "hero",
   className = "",
   opacity = 1,
-  color = "#FF9500",
+  color = "var(--brand-primary)",
 }) {
   const id = useIds();
   const about = variant === "about";
@@ -221,18 +221,18 @@ function SideWave({ mirror, className, opacity, color, position = "top" }) {
   );
 }
 
-export function OrangeSectionSideWave({ className = "", opacity = 0.9, color = "#FF9500", position = "top" }) {
+export function BrandSectionSideWave({ className = "", opacity = 0.9, color="var(--brand-primary)", position = "top" }) {
   return <SideWave mirror={false} className={className} opacity={opacity} color={color} position={position} />;
 }
 
-export function OrangeSectionRightWave({ className = "", opacity = 0.9, color = "#FF9500", position = "top" }) {
+export function BrandSectionRightWave({ className = "", opacity = 0.9, color="var(--brand-primary)", position = "top" }) {
   return <SideWave mirror className={className} opacity={opacity} color={color} position={position} />;
 }
 
 /* =============================================================================
    4. BOTTOM HERO WAVE  (3 phase-shifted waves)
    ============================================================================= */
-export function OrangeBottomHeroWave({ className = "", opacity = 1, color = "#FF9500" }) {
+export function BrandBottomHeroWave({ className = "", opacity = 1, color="var(--brand-primary)" }) {
   const id = useIds();
   const back = "M0 215 C220 120 360 260 560 250 C760 240 820 110 1010 140 C1190 168 1290 250 1440 120 V340 H0 Z";
   const mid = "M0 250 C190 175 330 285 500 285 C690 285 745 150 920 180 C1100 212 1170 300 1440 160 V340 H0 Z";
@@ -287,9 +287,9 @@ function Accent({ mirror, className, opacity, color }) {
         <Sheen id={id("s")} />
         <Blur id={id("b")} std={22} />
         <radialGradient id={id("o")} cx="35%" cy="30%" r="75%">
-          <stop offset="0%" stopColor="#FFD98A" />
-          <stop offset="60%" stopColor="#FF9A1F" />
-          <stop offset="100%" stopColor="#FF6A00" />
+          <stop offset="0%" stopColor="var(--brand-stop-0)" />
+          <stop offset="60%" stopColor="var(--brand-stop-1)" />
+          <stop offset="100%" stopColor="var(--brand-stop-3)" />
         </radialGradient>
       </defs>
       <g transform={t}>
@@ -335,18 +335,18 @@ function Accent({ mirror, className, opacity, color }) {
   );
 }
 
-export function OrangeLeftAccentShape({ className = "", opacity = 0.9, color = "#FF9500" }) {
+export function BrandLeftAccentShape({ className = "", opacity = 0.9, color="var(--brand-primary)" }) {
   return <Accent mirror={false} className={className} opacity={opacity} color={color} />;
 }
 
-export function OrangeRightAccentShape({ className = "", opacity = 0.9, color = "#FF9500" }) {
+export function BrandRightAccentShape({ className = "", opacity = 0.9, color="var(--brand-primary)" }) {
   return <Accent mirror className={className} opacity={opacity} color={color} />;
 }
 
 /* =============================================================================
    7. BOTTOM RIGHT SHAPE  (diagonal sweep + rings from the corner)
    ============================================================================= */
-export function OrangeBottomRightShape({ className = "", opacity = 0.95, color = "#FF9500" }) {
+export function BrandBottomRightShape({ className = "", opacity = 0.95, color="var(--brand-primary)" }) {
   const id = useIds();
   const back = "M460 400 H60 C150 330 235 285 275 205 C320 118 385 40 460 0 Z";
   const mid = "M460 400 H100 C180 332 252 292 288 222 C328 145 388 72 460 36 Z";
@@ -382,11 +382,11 @@ export function OrangeBottomRightShape({ className = "", opacity = 0.95, color =
    8. JOURNEY CARD BLOB  (organic blob, floating)
    ============================================================================= */
 
-export function OrangeJourneyCardBlob({
+export function BrandJourneyCardBlob({
   position = "top-right",
   size = "md",
   className = "",
-  color = "#FF9500",
+  color="var(--brand-primary)",
 }) {
   const sizeMap = {
     sm: "w-44 h-44 sm:w-52 sm:h-52",
@@ -416,7 +416,7 @@ export function OrangeJourneyCardBlob({
         viewBox="0 0 260 260"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-full drop-shadow-[0_20px_40px_rgba(255,138,0,0.45)]"
+        className="w-full h-full drop-shadow-[0_20px_40px_rgba(var(--brand-rgb),0.45)]"
       >
         <defs>
           <linearGradient
@@ -427,10 +427,10 @@ export function OrangeJourneyCardBlob({
             y2="240"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0%" stopColor="#FFD080" />
-            <stop offset="35%" stopColor="#FF9500" />
-            <stop offset="70%" stopColor="#FF6800" />
-            <stop offset="100%" stopColor="#FF4800" />
+            <stop offset="0%" stopColor="var(--brand-stop-0)" />
+            <stop offset="35%" stopColor="var(--brand-stop-1)" />
+            <stop offset="70%" stopColor="var(--brand-stop-2)" />
+            <stop offset="100%" stopColor="var(--brand-stop-3)" />
           </linearGradient>
 
           <linearGradient
@@ -506,9 +506,9 @@ export function OrangeJourneyCardBlob({
 /* =============================================================================
    9. CTA BOTTOM WAVE
    ============================================================================= */
-export function OrangeCtaBottomWave({
+export function BrandCtaBottomWave({
   className = "",
-  color = "#FF8A00",
+  color="var(--brand-primary)",
   opacity = 1,
 }) {
   return (
@@ -535,10 +535,10 @@ export function OrangeCtaBottomWave({
             y2="0"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0%" stopColor="#FFB52E" />
-            <stop offset="45%" stopColor="#FF9500" />
-            <stop offset="75%" stopColor="#FF7800" />
-            <stop offset="100%" stopColor="#FF5A00" />
+            <stop offset="0%" stopColor="var(--brand-stop-0)" />
+            <stop offset="45%" stopColor="var(--brand-stop-1)" />
+            <stop offset="75%" stopColor="var(--brand-stop-2)" />
+            <stop offset="100%" stopColor="var(--brand-stop-3)" />
           </linearGradient>
 
           <filter id="ctaWaveGlow" x="-20%" y="-30%" width="160%" height="180%">
@@ -581,19 +581,19 @@ export function OrangeCtaBottomWave({
 /* =============================================================================
    10. UNIFIED EXPORT WRAPPER  (API unchanged)
    ============================================================================= */
-export default function OrangeBackgroundShapes({
+export function BrandBackgroundShapes({
   position = "top-left",
   variant = "hero",
   className = "",
   blobPos = "top-right",
   blobSize = "md",
   opacity,
-  color = "#FF9500",
+  color="var(--brand-primary)",
 }) {
   switch (position) {
     case "top-left":
       return (
-        <OrangeTopLeftShape
+        <BrandTopLeftShape
           variant={variant}
           className={className}
           opacity={opacity ?? (variant === "about" ? 0.95 : 1)}
@@ -601,20 +601,35 @@ export default function OrangeBackgroundShapes({
         />
       );
     case "bottom-hero":
-      return <OrangeBottomHeroWave className={className} opacity={opacity ?? 1} color={color} />;
+      return <BrandBottomHeroWave className={className} opacity={opacity ?? 1} color={color} />;
     case "right-accent":
-      return <OrangeRightAccentShape className={className} opacity={opacity ?? 0.9} color={color} />;
+      return <BrandRightAccentShape className={className} opacity={opacity ?? 0.9} color={color} />;
     case "left-accent":
-      return <OrangeLeftAccentShape className={className} opacity={opacity ?? 0.9} color={color} />;
+      return <BrandLeftAccentShape className={className} opacity={opacity ?? 0.9} color={color} />;
     case "bottom-right":
-      return <OrangeBottomRightShape className={className} opacity={opacity ?? 0.95} color={color} />;
+      return <BrandBottomRightShape className={className} opacity={opacity ?? 0.95} color={color} />;
     case "card-blob":
       return (
-        <OrangeJourneyCardBlob position={blobPos} size={blobSize} className={className} color={color} />
+        <BrandJourneyCardBlob position={blobPos} size={blobSize} className={className} color={color} />
       );
     case "cta-bottom":
-      return <OrangeCtaBottomWave className={className} color={color} opacity={opacity ?? 1} />;
+      return <BrandCtaBottomWave className={className} color={color} opacity={opacity ?? 1} />;
     default:
       return null;
   }
 }
+// ── Backward-compatibility aliases ──
+export {
+  BrandTopLeftShape as OrangeTopLeftShape,
+  BrandSectionSideWave as OrangeSectionSideWave,
+  BrandSectionRightWave as OrangeSectionRightWave,
+  BrandBottomHeroWave as OrangeBottomHeroWave,
+  BrandLeftAccentShape as OrangeLeftAccentShape,
+  BrandRightAccentShape as OrangeRightAccentShape,
+  BrandBottomRightShape as OrangeBottomRightShape,
+  BrandJourneyCardBlob as OrangeJourneyCardBlob,
+  BrandCtaBottomWave as OrangeCtaBottomWave,
+  BrandBackgroundShapes as OrangeBackgroundShapes,
+};
+
+export default BrandBackgroundShapes;

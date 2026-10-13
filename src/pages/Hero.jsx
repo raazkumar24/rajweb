@@ -16,8 +16,8 @@ import {
   StatDivider,
 } from "../components/ui";
 import {
-  OrangeTopLeftShape,
-  OrangeBottomHeroWave,
+  BrandTopLeftShape,
+  BrandBottomHeroWave,
   AccentRays,
   HandDrawnUnderline,
   DoodleCard,
@@ -346,9 +346,9 @@ function Hero() {
       onMouseMove={handleHeroMouseMove}
       className="relative w-full flex-1 min-h-0 flex flex-col justify-end overflow-hidden bg-[#FAF8F5] pt-20 sm:pt-24 lg:pt-[72px] xl:pt-[78px] select-none"
     >
-      {/* ── REDESIGNED PREMIUM ORANGE BACKGROUND SHAPES ── */}
-      <OrangeTopLeftShape variant="hero" />
-      <OrangeBottomHeroWave className="bg-bottom-wave" />
+      {/* ── REDESIGNED PREMIUM BRAND BACKGROUND SHAPES ── */}
+      <BrandTopLeftShape variant="hero" />
+      <BrandBottomHeroWave className="bg-bottom-wave" />
 
       {/* ── AMBIENT INTERACTIVE CURSOR SPOTLIGHT ── */}
       <div
@@ -357,7 +357,7 @@ function Hero() {
           left: mousePos.x,
           top: mousePos.y,
           background:
-            "radial-gradient(circle, rgba(255,138,0,0.18) 0%, rgba(255,170,0,0.06) 45%, transparent 70%)",
+            "radial-gradient(circle, rgba(var(--brand-rgb),0.18) 0%, rgba(var(--brand-rgb),0.06) 45%, transparent 70%)",
         }}
         aria-hidden="true"
       />
@@ -377,7 +377,7 @@ function Hero() {
                 Available for Work
               </span>
               <span className="text-[#888888]">&bull;</span>
-              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#FF8A00]/12 text-[#FF7700] border border-[#FF8A00]/25">
+              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-brand/12 text-brand-dark border border-brand/25">
                 Creative Dev
               </span>
             </div>
@@ -404,11 +404,11 @@ function Hero() {
                   I design &amp; build&nbsp;
                 </span>
                 <span className="relative inline-flex items-center shrink-0">
-                  <span className="bg-gradient-to-r from-[#FF6A00] via-[#FF8A00] to-[#FFAA00] bg-clip-text text-transparent font-black tracking-tight drop-shadow-[0_1px_2px_rgba(255,119,0,0.25)]">
+                  <span className="bg-gradient-to-r from-brand-deep via-brand to-brand-light bg-clip-text text-transparent font-black tracking-tight drop-shadow-[0_1px_2px_rgba(var(--brand-rgb-dark),0.25)]">
                     {displayedText}
                   </span>
                   <span
-                    className={`inline-block w-[2.5px] sm:w-[3px] h-[1.15em] bg-[#FF7700] ml-1 sm:ml-1.5 rounded-full align-middle shadow-[0_0_10px_rgba(255,119,0,0.7)] transition-opacity duration-150 ${
+                    className={`inline-block w-[2.5px] sm:w-[3px] h-[1.15em] bg-brand-dark ml-1 sm:ml-1.5 rounded-full align-middle shadow-[0_0_10px_rgba(var(--brand-rgb-dark),0.7)] transition-opacity duration-150 ${
                       phase === "pausing" || phase === "waiting"
                         ? "animate-blink"
                         : "opacity-100"
@@ -434,7 +434,7 @@ function Hero() {
                 target="_blank"
                 rel="noopener noreferrer"
                 download="Raj_Shekhar_Resume.pdf"
-                className="group relative inline-flex items-center gap-2.5 rounded-full bg-[#111111] hover:bg-[#FF8A00] text-white hover:text-[#111111] px-6 py-3.5 sm:px-7 sm:py-3.5 text-sm font-semibold shadow-[0_8px_24px_rgba(0,0,0,0.18)] hover:shadow-[0_12px_28px_rgba(255,138,0,0.38)] transition-all duration-300 hover:-translate-y-0.5 active:scale-95 cursor-pointer overflow-hidden"
+                className="group relative inline-flex items-center gap-2.5 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-6 py-3.5 sm:px-7 sm:py-3.5 text-sm font-semibold shadow-[0_8px_24px_rgba(0,0,0,0.18)] hover:shadow-[0_12px_28px_rgba(var(--brand-rgb),0.38)] transition-all duration-300 hover:-translate-y-0.5 active:scale-95 cursor-pointer overflow-hidden"
               >
                 <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                 <span>My Resume</span>
@@ -455,10 +455,10 @@ function Hero() {
               <a
                 href="#contact"
                 onClick={(e) => handleSmoothScroll(e, "contact")}
-                className="group inline-flex items-center gap-2.5 rounded-full border border-black/15 hover:border-[#FF8A00] text-[#111111] hover:text-[#FF8A00] px-6 py-3.5 sm:px-7 sm:py-3.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-95 bg-white/70 backdrop-blur-md shadow-2xs hover:shadow-[0_6px_20px_rgba(255,138,0,0.15)] cursor-pointer"
+                className="group inline-flex items-center gap-2.5 rounded-full border border-black/15 hover:border-brand text-[#111111] hover:text-brand px-6 py-3.5 sm:px-7 sm:py-3.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-95 bg-white/70 backdrop-blur-md shadow-2xs hover:shadow-[0_6px_20px_rgba(var(--brand-rgb),0.15)] cursor-pointer"
               >
                 <span>Get in touch</span>
-                <span className="text-[#888888] group-hover:text-[#FF8A00] group-hover:translate-x-1 transition-all duration-200">
+                <span className="text-[#888888] group-hover:text-brand group-hover:translate-x-1 transition-all duration-200">
                   &rarr;
                 </span>
               </a>
@@ -481,7 +481,9 @@ function Hero() {
                       )}
                       <span
                         className={`text-base sm:text-lg font-black italic leading-none ${
-                          stat.isHighlight ? "text-[#FF7700]" : "text-[#111111]"
+                          stat.isHighlight
+                            ? "text-brand-dark"
+                            : "text-[#111111]"
                         }`}
                       >
                         {stat.value}
@@ -526,14 +528,14 @@ function Hero() {
             >
               {/* Studio Backlight Aura */}
               <div
-                className="absolute inset-x-6 sm:inset-x-12 bottom-0 h-[65%] bg-gradient-to-t from-[#FF8A00]/28 via-[#FFAA00]/14 to-transparent rounded-full blur-3xl pointer-events-none -z-10"
+                className="absolute inset-x-6 sm:inset-x-12 bottom-0 h-[65%] bg-gradient-to-t from-brand/28 via-brand-light/14 to-transparent rounded-full blur-3xl pointer-events-none -z-10"
                 aria-hidden="true"
               />
 
               <picture>
-                <source srcSet="/profile.webp" type="image/webp" />
+                {/* <source srcSet="/profile2.webp" type="image/webp" /> */}
                 <img
-                  src="/profile.png"
+                  src="/profile2.png"
                   alt="Raj Shekhar - Web Developer"
                   width={700}
                   height={780}

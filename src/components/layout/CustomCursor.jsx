@@ -83,7 +83,7 @@ export default function CustomCursor() {
 
       {/* ── Main Circular VIEW Badge with Clean Black 3D Shadow ── */}
       <div
-        className="relative flex h-20 w-20 items-center justify-center rounded-full bg-[#FF8A00] text-white border border-white/30 text-xs font-black uppercase tracking-wider transition-all duration-200 animate-cursor-pop"
+        className="relative flex h-20 w-20 items-center justify-center rounded-full bg-brand text-white border border-white/30 text-xs font-black uppercase tracking-wider transition-all duration-200 animate-cursor-pop"
         style={{
           boxShadow:
             "0 22px 42px -6px rgba(0, 0, 0, 0.55), 0 10px 20px -4px rgba(0, 0, 0, 0.35), inset 0 1.5px 2px rgba(255, 255, 255, 0.45)",

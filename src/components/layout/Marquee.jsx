@@ -2,13 +2,13 @@ import React from "react";
 
 const techItems = [
   { name: "HTML", color: "white" },
-  { name: "CSS", color: "orange" },
+  { name: "CSS", color: "brand" },
   { name: "JAVASCRIPT", color: "white" },
-  { name: "REACT", color: "orange" },
+  { name: "REACT", color: "brand" },
   { name: "NODE.JS", color: "white" },
-  { name: "MONGODB", color: "orange" },
+  { name: "MONGODB", color: "brand" },
   { name: "EXPRESS.JS", color: "white" },
-  { name: "TAILWIND", color: "orange" },
+  { name: "TAILWIND", color: "brand" },
 ];
 
 export default function Marquee() {
@@ -33,15 +33,15 @@ export default function Marquee() {
               <div key={`${copyIndex}-${idx}`} className="flex items-center gap-6 sm:gap-10">
                 <span
                   className={`whitespace-nowrap font-black italic uppercase text-lg sm:text-2xl md:text-[1.65rem] tracking-tight transition-all duration-300 hover:scale-105 ${
-                    item.color === "orange" ? "text-[#FF9500]" : "text-white"
+                    item.color === "brand" ? "text-brand" : "text-white"
                   }`}
                   style={{ letterSpacing: "-0.02em" }}
                 >
                   {item.name}
                 </span>
 
-                {/* Orange plus '+' symbol matching image */}
-                <span className="text-[#FF9500] font-bold text-base sm:text-xl">
+                {/* Brand accent plus '+' symbol matching image */}
+                <span className="text-brand font-bold text-base sm:text-xl">
                   +
                 </span>
               </div>
@@ -63,7 +63,7 @@ export default function Marquee() {
               </svg>
             </div>
 
-            <span className="text-[#FF9500] font-bold text-base sm:text-xl">
+            <span className="text-brand font-bold text-base sm:text-xl">
               +
             </span>
           </div>

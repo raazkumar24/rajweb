@@ -15,8 +15,8 @@ import { servicesData } from "../data/servicesData";
 import SectionHeader from "../components/ui/SectionHeader";
 import {
   SectionWaveDivider,
-  OrangeSectionSideWave,
-  OrangeSectionRightWave,
+  BrandSectionSideWave,
+  BrandSectionRightWave,
 } from "../components/decorative";
 
 import { useGsapScope } from "../animation/useGsapScope";
@@ -91,8 +91,8 @@ export default function Services() {
     >
 
       {/* ── Background Organic Shapes: Left at TOP, Right at BOTTOM ── */}
-      <OrangeSectionSideWave position="top" />
-      <OrangeSectionRightWave position="bottom" />
+      <BrandSectionSideWave position="top" />
+      <BrandSectionRightWave position="bottom" />
 
       <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14 relative z-10">
         {/* Full-Width Section Header */}
@@ -116,8 +116,8 @@ export default function Services() {
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Available for new projects</span>
             </div>
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF8A00]/10 border border-[#FF8A00]/25 text-xs font-semibold text-[#FF7700] backdrop-blur-md">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#FF7700]" />
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-brand/10 border border-brand/25 text-xs font-semibold text-brand-dark backdrop-blur-md">
+              <ShieldCheck className="w-3.5 h-3.5 text-brand-dark" />
               <span>30-Day Support Included</span>
             </div>
           </div>
@@ -135,8 +135,8 @@ export default function Services() {
                 onMouseEnter={() => setActiveServiceId(svc.id)}
                 className={`sv-service-card group relative rounded-[2rem] sm:rounded-[2.25rem] backdrop-blur-2xl transition-all duration-300 p-7 sm:p-9 lg:p-10 transform-gpu will-change-transform overflow-hidden ${
                   isActive
-                    ? "bg-white/85 border border-[#FF8A00]/40 shadow-[0_20px_50px_rgba(255,138,0,0.14),inset_0_1px_2px_rgba(255,255,255,1)] ring-1 ring-[#FF8A00]/20"
-                    : "bg-white/65 hover:bg-white/80 border border-white/80 hover:border-[#FF8A00]/30 shadow-[0_12px_36px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9)] hover:shadow-[0_22px_45px_rgba(255,138,0,0.1)]"
+                    ? "bg-white/85 border border-brand/40 shadow-[0_20px_50px_rgba(var(--brand-rgb),0.14),inset_0_1px_2px_rgba(255,255,255,1)] ring-1 ring-brand/20"
+                    : "bg-white/65 hover:bg-white/80 border border-white/80 hover:border-brand/30 shadow-[0_12px_36px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9)] hover:shadow-[0_22px_45px_rgba(var(--brand-rgb),0.1)]"
                 } hover:-translate-y-1`}
               >
                 {/* Frosted Glass Specular Top Border Sheen */}
@@ -147,13 +147,13 @@ export default function Services() {
 
                 {/* Soft Ambient Warm Glow on Card Hover */}
                 <div
-                  className="pointer-events-none absolute -top-24 -right-24 w-80 h-80 bg-gradient-to-br from-[#FF8A00]/15 via-[#FF8A00]/5 to-transparent rounded-full blur-3xl transition-opacity duration-500 opacity-40 group-hover:opacity-100"
+                  className="pointer-events-none absolute -top-24 -right-24 w-80 h-80 bg-gradient-to-br from-brand/15 via-brand/5 to-transparent rounded-full blur-3xl transition-opacity duration-500 opacity-40 group-hover:opacity-100"
                   aria-hidden="true"
                 />
 
                 {/* Active Indicator Left Accent Bar */}
                 <div
-                  className={`absolute left-0 top-6 bottom-6 w-1.5 rounded-r-full bg-gradient-to-b from-[#FF9500] to-[#FF5500] transition-opacity duration-300 ${
+                  className={`absolute left-0 top-6 bottom-6 w-1.5 rounded-r-full bg-gradient-to-b from-brand to-brand-deep transition-opacity duration-300 ${
                     isActive
                       ? "opacity-100"
                       : "opacity-0 group-hover:opacity-60"
@@ -165,11 +165,11 @@ export default function Services() {
                   <div className="lg:col-span-5 flex flex-col justify-between">
                     <div>
                       <div className="flex items-center gap-3 mb-3">
-                        <span className="font-mono font-black text-2xl sm:text-3xl text-[#FF7700] drop-shadow-xs">
+                        <span className="font-mono font-black text-2xl sm:text-3xl text-brand-dark drop-shadow-xs">
                           {svc.num}
                         </span>
-                        <div className="w-8 h-8 rounded-xl bg-white/80 backdrop-blur-md border border-white/90 shadow-xs flex items-center justify-center text-[#FF7700]">
-                          <IconComponent className="w-4 h-4 text-[#FF7700]" />
+                        <div className="w-8 h-8 rounded-xl bg-white/80 backdrop-blur-md border border-white/90 shadow-xs flex items-center justify-center text-brand-dark">
+                          <IconComponent className="w-4 h-4 text-brand-dark" />
                         </div>
                         <span className="text-xs font-semibold tracking-wide uppercase px-2.5 py-0.5 rounded-full bg-black/5 text-[#555555]">
                           {svc.subtitle}
@@ -180,7 +180,7 @@ export default function Services() {
                         className={`font-black italic uppercase text-2xl sm:text-3xl lg:text-4xl tracking-tight leading-snug transition-colors duration-200 ${
                           isActive
                             ? "text-[#111111]"
-                            : "text-[#111111] group-hover:text-[#FF7700]"
+                            : "text-[#111111] group-hover:text-brand-dark"
                         }`}
                       >
                         {svc.title}
@@ -189,8 +189,8 @@ export default function Services() {
 
                     {/* Timeline & Speed Badge with SVG Icon */}
                     <div className="mt-5 pt-4 border-t border-black/6 flex items-center gap-2">
-                      <span className="text-xs font-semibold text-[#FF7700] bg-[#FF8A00]/10 px-3 py-1 rounded-full border border-[#FF8A00]/20 inline-flex items-center gap-1.5 backdrop-blur-md">
-                        <Zap className="w-3.5 h-3.5 text-[#FF7700]" />
+                      <span className="text-xs font-semibold text-brand-dark bg-brand/10 px-3 py-1 rounded-full border border-brand/20 inline-flex items-center gap-1.5 backdrop-blur-md">
+                        <Zap className="w-3.5 h-3.5 text-brand-dark" />
                         <span>{svc.timeline}</span>
                       </span>
                     </div>
@@ -232,7 +232,7 @@ export default function Services() {
                         {svc.stack.map((tag) => (
                           <span
                             key={tag}
-                            className="px-2.5 py-1 rounded-lg bg-white/70 backdrop-blur-md border border-white/80 hover:bg-[#FF8A00]/15 text-xs font-semibold text-[#333333] transition-colors shadow-xs"
+                            className="px-2.5 py-1 rounded-lg bg-white/70 backdrop-blur-md border border-white/80 hover:bg-brand/15 text-xs font-semibold text-[#333333] transition-colors shadow-xs"
                           >
                             {tag}
                           </span>
@@ -244,7 +244,7 @@ export default function Services() {
                         <a
                           href="#contact"
                           onClick={(e) => handleRequestQuote(e, svc.title)}
-                          className="group/btn inline-flex items-center gap-2 rounded-full bg-[#111111] hover:bg-[#FF8A00] text-white hover:text-[#111111] px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all duration-300 shadow-sm hover:shadow-[0_8px_20px_rgba(255,138,0,0.35)] active:scale-95 shrink-0 cursor-pointer"
+                          className="group/btn inline-flex items-center gap-2 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all duration-300 shadow-sm hover:shadow-[0_8px_20px_rgba(var(--brand-rgb),0.35)] active:scale-95 shrink-0 cursor-pointer"
                         >
                           <span>Get a quote</span>
                           <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" />

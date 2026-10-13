@@ -1,6 +1,6 @@
 import React from "react";
 
-export function OrangeButton({ href, children, className = "", ...rest }) {
+export function BrandButton({ href, children, className = "", ...rest }) {
   return (
     <a
       href={href}
@@ -10,7 +10,7 @@ export function OrangeButton({ href, children, className = "", ...rest }) {
         text-sm font-semibold text-white
         shadow-[0_8px_20px_rgba(0,0,0,0.16)]
         transition-all duration-300
-        hover:bg-[#FF9500] hover:text-[#111111] hover:shadow-[0_10px_24px_rgba(255,149,0,0.3)]
+        hover:bg-brand hover:text-[#111111] hover:shadow-[0_10px_24px_rgba(var(--brand-rgb),0.3)]
         hover:-translate-y-0.5 active:translate-y-0 active:scale-95
         ${className}
       `}
@@ -51,3 +51,6 @@ export function GhostButton({ href, children, className = "", ...rest }) {
     </a>
   );
 }
+
+// Backward-compatibility alias
+export const OrangeButton = BrandButton;

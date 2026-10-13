@@ -146,9 +146,9 @@ export default function Contact() {
         <div className="mb-14 sm:mb-20">
           <h2 className="font-black italic uppercase leading-[0.88] tracking-[-0.045em] text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-white">
             LET&apos;S{" "}
-            <span className="relative inline-block text-[#FF8A00]">
+            <span className="relative inline-block text-brand">
               TALK.
-              <HandDrawnUnderline className="absolute -bottom-1 sm:-bottom-2 left-0 w-full" color="#FF8A00" />
+              <HandDrawnUnderline className="absolute -bottom-1 sm:-bottom-2 left-0 w-full" color="var(--brand-primary)" />
             </span>
           </h2>
 
@@ -159,9 +159,9 @@ export default function Contact() {
               </span>
               <a
                 href="mailto:raazverma625@gmail.com"
-                className="group inline-flex items-baseline gap-2 text-2xl sm:text-4xl md:text-5xl font-black italic tracking-tight text-white hover:text-[#FF8A00] transition-colors"
+                className="group inline-flex items-baseline gap-2 text-2xl sm:text-4xl md:text-5xl font-black italic tracking-tight text-white hover:text-brand transition-colors"
               >
-                <span className="underline underline-offset-8 decoration-white/20 group-hover:decoration-[#FF8A00]">
+                <span className="underline underline-offset-8 decoration-white/20 group-hover:decoration-brand">
                   raazverma625@gmail.com
                 </span>
                 <ArrowUpRight className="w-6 h-6 sm:w-8 sm:h-8 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 inline-block" />
@@ -179,7 +179,7 @@ export default function Contact() {
           
           {/* LEFT: Underline-Only Minimal Form */}
           <div className="lg:col-span-8">
-            <span className="text-sm font-semibold text-[#FF8A00] block mb-8">
+            <span className="text-sm font-semibold text-brand block mb-8">
               Send a message
             </span>
 
@@ -198,7 +198,7 @@ export default function Contact() {
                 <button
                   type="button"
                   onClick={() => setSent(false)}
-                  className="inline-flex items-center gap-1.5 text-sm text-[#FF8A00] hover:text-white underline mt-2 font-medium cursor-pointer"
+                  className="inline-flex items-center gap-1.5 text-sm text-brand hover:text-white underline mt-2 font-medium cursor-pointer"
                 >
                   <span>Send another message</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -231,7 +231,7 @@ export default function Contact() {
                         onClick={() => setFormData((p) => ({ ...p, topic: t }))}
                         className={`text-sm font-medium px-4 py-2 rounded-full transition-all duration-200 cursor-pointer ${
                           formData.topic === t
-                            ? "bg-[#FF8A00] text-[#111111] font-semibold"
+                            ? "bg-brand text-[#111111] font-semibold"
                             : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10"
                         }`}
                       >
@@ -254,7 +254,7 @@ export default function Contact() {
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="e.g. Alex Rivera"
-                      className="w-full bg-transparent border-b-2 border-white/20 focus:border-[#FF8A00] pb-3 text-white placeholder-white/25 outline-none transition-colors text-base font-normal"
+                      className="w-full bg-transparent border-b-2 border-white/20 focus:border-brand pb-3 text-white placeholder-white/25 outline-none transition-colors text-base font-normal"
                     />
                   </div>
 
@@ -269,7 +269,7 @@ export default function Contact() {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="alex@company.com"
-                      className="w-full bg-transparent border-b-2 border-white/20 focus:border-[#FF8A00] pb-3 text-white placeholder-white/25 outline-none transition-colors text-base font-normal"
+                      className="w-full bg-transparent border-b-2 border-white/20 focus:border-brand pb-3 text-white placeholder-white/25 outline-none transition-colors text-base font-normal"
                     />
                   </div>
                 </div>
@@ -286,7 +286,7 @@ export default function Contact() {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Tell me a bit about what you're building, target timeline, or what you need..."
-                    className="w-full bg-transparent border-b-2 border-white/20 focus:border-[#FF8A00] pb-3 text-white placeholder-white/25 outline-none transition-colors text-base font-normal resize-none"
+                    className="w-full bg-transparent border-b-2 border-white/20 focus:border-brand pb-3 text-white placeholder-white/25 outline-none transition-colors text-base font-normal resize-none"
                   />
                 </div>
 
@@ -303,8 +303,8 @@ export default function Contact() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className={`group inline-flex items-center gap-3 rounded-full bg-[#FF8A00] hover:bg-white text-[#111111] px-8 py-3.5 text-sm font-bold transition-all duration-300 hover:-translate-y-1 active:scale-95 shadow-[0_8px_24px_rgba(255,138,0,0.3)] ${
-                      submitting ? "opacity-60 cursor-not-allowed hover:bg-[#FF8A00] hover:translate-y-0" : "cursor-pointer"
+                    className={`group inline-flex items-center gap-3 rounded-full bg-brand hover:bg-white text-[#111111] px-8 py-3.5 text-sm font-bold transition-all duration-300 hover:-translate-y-1 active:scale-95 shadow-[0_8px_24px_rgba(var(--brand-rgb),0.3)] ${
+                      submitting ? "opacity-60 cursor-not-allowed hover:bg-brand hover:translate-y-0" : "cursor-pointer"
                     }`}
                   >
                     <span>{submitting ? "Sending..." : "Send message"}</span>
@@ -323,7 +323,7 @@ export default function Contact() {
           <div className="lg:col-span-4 flex flex-col justify-between gap-10">
             <div className="flex flex-col gap-8">
               <div>
-                <span className="text-sm font-semibold text-[#FF8A00] block mb-2">
+                <span className="text-sm font-semibold text-brand block mb-2">
                   Where I am
                 </span>
                 <p className="text-base text-white font-medium">
@@ -335,7 +335,7 @@ export default function Contact() {
               </div>
 
               <div>
-                <span className="text-sm font-semibold text-[#FF8A00] block mb-3">
+                <span className="text-sm font-semibold text-brand block mb-3">
                   Find me online
                 </span>
                 <div className="flex flex-col gap-3 text-sm">
@@ -348,10 +348,10 @@ export default function Contact() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={item.title}
-                        className="text-white/80 hover:text-[#FF8A00] flex items-center justify-between border-b border-white/10 pb-2.5 transition-colors group"
+                        className="text-white/80 hover:text-brand flex items-center justify-between border-b border-white/10 pb-2.5 transition-colors group"
                       >
                         <span className="flex items-center gap-2.5">
-                          <span className="w-4 h-4 text-[#FF8A00] inline-flex items-center justify-center shrink-0">
+                          <span className="w-4 h-4 text-brand inline-flex items-center justify-center shrink-0">
                             <IconComponent className="h-4 w-4" />
                           </span>
                           <span>{item.label}</span>

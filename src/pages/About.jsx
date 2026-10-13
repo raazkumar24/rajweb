@@ -6,9 +6,9 @@ import { RobotHead } from "robot-heads";
 import { SectionBadge } from "../components/ui";
 import {
   HandDrawnUnderline,
-  OrangeTopLeftShape,
-  OrangeSectionRightWave,
-  OrangeJourneyCardBlob,
+  BrandTopLeftShape,
+  BrandSectionRightWave,
+  BrandJourneyCardBlob,
   HandwrittenBadge,
   SectionWaveDivider,
 } from "../components/decorative";
@@ -18,6 +18,7 @@ import {
 } from "../components/features";
 import { useGsapScope } from "../animation/useGsapScope";
 import { ANIM } from "../animation/config";
+import { CURRENT_THEME } from "../config/theme";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -63,7 +64,6 @@ export default function About() {
   const [robotSize, setRobotSize] = useState(() =>
     typeof window !== "undefined" && window.innerWidth < 640 ? 220 : 270,
   );
-
   useEffect(() => {
     const updateSize = () => {
       if (window.innerWidth < 480) {
@@ -234,7 +234,7 @@ export default function About() {
       id="about"
       className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none font-sans"
     >
-      <OrangeTopLeftShape variant="about" />
+      <BrandTopLeftShape variant="about" />
 
       {/* 1. ABOUT ME (HERO / INTRO SECTION) */}
       <section className="ab-intro-section relative z-10 pt-20 sm:pt-24 lg:pt-[72px] xl:pt-[78px] pb-16 sm:pb-24">
@@ -249,12 +249,12 @@ export default function About() {
                 <h1 className="font-black italic uppercase leading-[0.92] tracking-[-0.04em] text-[3.2rem] sm:text-[4.4rem] lg:text-[5.2rem]">
                   <span className="text-[#111111] block">A LITTLE</span>
                   <span className="text-[#111111]">ABOUT </span>
-                  <span className="relative inline-block text-[#FF7700] drop-shadow-[0_2px_4px_rgba(0,0,0,0.32)]">
+                  <span className="relative inline-block text-brand-dark drop-shadow-[0_2px_4px_rgba(0,0,0,0.32)]">
                     ME
                     <HandDrawnUnderline
                       className="absolute left-0 w-full"
                       style={{ bottom: "-0.12em" }}
-                      color="#FF8A00"
+                      color="var(--brand-primary)"
                     />
                   </span>
                 </h1>
@@ -273,7 +273,7 @@ export default function About() {
               <div className="ab-intro-stagger flex flex-wrap items-center gap-3.5">
                 <a
                   href="#works"
-                  className="group inline-flex items-center gap-3 rounded-full bg-[#111111] hover:bg-[#FF8A00] text-white hover:text-[#111111] px-8 py-3.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-1 shadow-[0_8px_20px_rgba(0,0,0,0.15)] hover:shadow-[0_12px_28px_rgba(255,138,0,0.4)] active:scale-95"
+                  className="group inline-flex items-center gap-3 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-8 py-3.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-1 shadow-[0_8px_20px_rgba(0,0,0,0.15)] hover:shadow-[0_12px_28px_rgba(var(--brand-rgb),0.4)] active:scale-95"
                 >
                   <span>View my work</span>
                   <svg
@@ -303,7 +303,7 @@ export default function About() {
                   </span>
                   <span>Available for Hire</span>
                   <span className="text-[#888888]">&bull;</span>
-                  <span className="text-[10.5px] uppercase font-bold tracking-wider text-[#FF7700]">
+                  <span className="text-[10.5px] uppercase font-bold tracking-wider text-brand-dark">
                     Open for Work
                   </span>
                 </div>
@@ -313,7 +313,7 @@ export default function About() {
                   <RobotHead
                     shape="hexagon"
                     state="idle"
-                    color="#e2762a"
+                    color={CURRENT_THEME.primary}
                     size={robotSize}
                     interactive={true}
                     aria-label="Raj Shekhar - Frontend & MERN Developer Mascot"
@@ -326,7 +326,7 @@ export default function About() {
                     <h3 className="font-black italic uppercase text-xl sm:text-2xl text-[#111111] tracking-tight">
                       RAJ SHEKHAR
                     </h3>
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#FF8A00]/12 text-[#FF7700] border border-[#FF8A00]/25">
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-brand/12 text-brand-dark border border-brand/25">
                       Creative Dev
                     </span>
                   </div>
@@ -334,7 +334,7 @@ export default function About() {
                     Frontend Engineer &amp; MERN Stack Developer
                   </p>
                   <p className="text-[11px] text-[#777777] flex items-center gap-1.5 font-medium mt-0.5">
-                    <MapPin className="w-3.5 h-3.5 text-[#FF7700]" />
+                    <MapPin className="w-3.5 h-3.5 text-brand-dark" />
                     <span>India</span>
                     <span>&bull;</span>
                     <span>Remote Worldwide</span>
@@ -343,7 +343,7 @@ export default function About() {
 
                 {/* ── Refined Metrics Bar ── */}
                 <div className="grid grid-cols-3 gap-2 sm:gap-2.5 w-full">
-                  <div className="p-3 rounded-2xl bg-white/75 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-xs hover:border-[#FF8A00]/40 transition-colors">
+                  <div className="p-3 rounded-2xl bg-white/75 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-xs hover:border-brand/40 transition-colors">
                     <span className="font-black italic text-lg sm:text-xl text-[#111111] leading-none">
                       10+
                     </span>
@@ -351,15 +351,15 @@ export default function About() {
                       Projects
                     </span>
                   </div>
-                  <div className="p-3 rounded-2xl bg-white/75 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-xs hover:border-[#FF8A00]/40 transition-colors">
-                    <span className="font-black italic text-lg sm:text-xl text-[#FF7700] leading-none">
+                  <div className="p-3 rounded-2xl bg-white/75 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-xs hover:border-brand/40 transition-colors">
+                    <span className="font-black italic text-lg sm:text-xl text-brand-dark leading-none">
                       2+ Yrs
                     </span>
                     <span className="text-[10px] font-semibold text-[#666666] mt-1 uppercase tracking-tight">
                       Experience
                     </span>
                   </div>
-                  <div className="p-3 rounded-2xl bg-white/75 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-xs hover:border-[#FF8A00]/40 transition-colors">
+                  <div className="p-3 rounded-2xl bg-white/75 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-xs hover:border-brand/40 transition-colors">
                     <span className="font-black italic text-lg sm:text-xl text-[#111111] leading-none">
                       MERN
                     </span>
@@ -376,7 +376,7 @@ export default function About() {
 
       {/* 2. MY JOURNEY */}
       <section className="relative z-10 pt-20 sm:pt-24 pb-20 sm:pb-32">
-        <OrangeSectionRightWave />
+        <BrandSectionRightWave />
 
         <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14">
           <div className="ab-journey-header grid grid-cols-1 lg:grid-cols-12 gap-6 items-end mb-16 sm:mb-20">
@@ -388,11 +388,11 @@ export default function About() {
                 <h2 className="font-black italic uppercase leading-[0.92] tracking-[-0.03em] text-[2.8rem] sm:text-[3.8rem] lg:text-[4.6rem]">
                   <span className="text-[#111111] block">FROM CURIOSITY</span>
                   <span className="text-[#111111]">TO </span>
-                  <span className="relative inline-block text-[#FF8A00]">
+                  <span className="relative inline-block text-brand">
                     CREATION
                     <HandDrawnUnderline
                       className="absolute -bottom-1 sm:-bottom-1.5 left-0 w-full"
-                      color="#FF8A00"
+                      color="var(--brand-primary)"
                     />
                   </span>
                 </h2>
@@ -427,16 +427,16 @@ export default function About() {
               >
                 <defs>
                   <linearGradient
-                    id="journeyOrangeGradDesktop"
+                    id="journeyBrandGradDesktop"
                     x1="0"
                     y1="0"
                     x2="0"
                     y2="1"
                   >
-                    <stop offset="0%" stopColor="#FFB52E" />
-                    <stop offset="35%" stopColor="#FF8A00" />
-                    <stop offset="70%" stopColor="#FF7700" />
-                    <stop offset="100%" stopColor="#FF5500" />
+                    <stop offset="0%" stopColor="var(--brand-stop-0)" />
+                    <stop offset="35%" stopColor="var(--brand-primary)" />
+                    <stop offset="70%" stopColor="var(--brand-primary-dark)" />
+                    <stop offset="100%" stopColor="var(--brand-primary-deep)" />
                   </linearGradient>
                 </defs>
                 {/* Background Dashed True Zigzag Line */}
@@ -447,11 +447,11 @@ export default function About() {
                   strokeDasharray="8 8"
                   strokeLinecap="round"
                 />
-                {/* Active Scroll-Animated Orange Zigzag Line */}
+                {/* Active Scroll-Animated Brand Zigzag Line */}
                 <path
                   ref={pathDesktopRef}
                   d="M 500 20 C 500 70, 360 90, 360 160 C 360 260, 640 300, 640 440 C 640 580, 360 620, 360 760 C 360 900, 640 940, 640 1050 C 640 1110, 500 1140, 500 1180"
-                  stroke="url(#journeyOrangeGradDesktop)"
+                  stroke="url(#journeyBrandGradDesktop)"
                   strokeWidth="4.5"
                   strokeLinecap="round"
                 />
@@ -478,9 +478,9 @@ export default function About() {
                     x2="0"
                     y2="1"
                   >
-                    <stop offset="0%" stopColor="#FFB52E" />
-                    <stop offset="50%" stopColor="#FF8A00" />
-                    <stop offset="100%" stopColor="#FF5500" />
+                    <stop offset="0%" stopColor="var(--brand-stop-0)" />
+                    <stop offset="50%" stopColor="var(--brand-primary)" />
+                    <stop offset="100%" stopColor="var(--brand-primary-deep)" />
                   </linearGradient>
                 </defs>
                 {/* Mobile Dashed Zigzag Base */}
@@ -519,8 +519,8 @@ export default function About() {
                     {/* <div
                       className={`hidden lg:block absolute top-1/2 -translate-y-1/2 z-10 h-[2px] ${
                         isLeft
-                          ? "right-[50%] w-[6%] bg-gradient-to-r from-transparent to-[#FF8A00]"
-                          : "left-[50%] w-[6%] bg-gradient-to-r from-[#FF8A00] to-transparent"
+                          ? "right-[50%] w-[6%] bg-gradient-to-r from-transparent to-brand"
+                          : "left-[50%] w-[6%] bg-gradient-to-r from-brand to-transparent"
                       }`}
                     /> */}
 
@@ -535,42 +535,39 @@ export default function About() {
                       <div className="relative group">
                         {/* Organic decorative shape behind card corner */}
                         {isLeft ? (
-                          <OrangeJourneyCardBlob
+                          <BrandJourneyCardBlob
                             position="top-right"
                             size="md"
                           />
                         ) : (
-                          <OrangeJourneyCardBlob
-                            position="top-left"
-                            size="lg"
-                          />
+                          <BrandJourneyCardBlob position="top-left" size="lg" />
                         )}
 
-                        <div className="ab-card-inner relative z-10 rounded-[2rem] bg-white/60 backdrop-blur-3xl border border-white/70 p-6 sm:p-8 shadow-[0_8px_32px_rgba(255,138,0,0.18),0_20px_60px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,1),inset_0_-1px_0_rgba(255,138,0,0.1)] ring-1 ring-[#FF8A00]/20 hover:ring-[#FF8A00]/40 hover:shadow-[0_12px_48px_rgba(255,138,0,0.28),0_26px_70px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,1)] transition-all duration-300 hover:-translate-y-2 overflow-hidden">
+                        <div className="ab-card-inner relative z-10 rounded-[2rem] bg-white/60 backdrop-blur-3xl border border-white/70 p-6 sm:p-8 shadow-[0_8px_32px_rgba(var(--brand-rgb),0.18),0_20px_60px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,1),inset_0_-1px_0_rgba(var(--brand-rgb),0.1)] ring-1 ring-brand/20 hover:ring-brand/40 hover:shadow-[0_12px_48px_rgba(var(--brand-rgb),0.28),0_26px_70px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,1)] transition-all duration-300 hover:-translate-y-2 overflow-hidden">
                           {/* Multi-layer glass sheen */}
                           <div
                             className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/80 via-white/20 to-transparent opacity-80"
                             aria-hidden="true"
                           />
-                          {/* Orange accent bottom glow */}
+                          {/* Brand accent bottom glow */}
                           <div
-                            className="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#FF8A00]/40 to-transparent"
+                            className="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand/40 to-transparent"
                             aria-hidden="true"
                           />
 
                           {/* Top Meta Header */}
                           <div className="relative z-10 flex items-center justify-between gap-3 mb-4">
                             <div className="flex items-center gap-3">
-                              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-[#FF9500] to-[#FF5500] text-white flex items-center justify-center font-black text-sm shadow-[0_4px_14px_rgba(255,138,0,0.4)]">
+                              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-brand to-brand-deep text-white flex items-center justify-center font-black text-sm shadow-[0_4px_14px_rgba(var(--brand-rgb),0.4)]">
                                 {step.num}
                               </div>
-                              <span className="text-xs font-bold text-[#FF7700] uppercase tracking-wider">
+                              <span className="text-xs font-bold text-brand-dark uppercase tracking-wider">
                                 {step.year}
                               </span>
                             </div>
 
                             {/* Mobile Directional Zigzag Badge */}
-                            <span className="lg:hidden text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#FF8A00]/10 text-[#FF7700] border border-[#FF8A00]/20 inline-flex items-center">
+                            <span className="lg:hidden text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-brand/10 text-brand-dark border border-brand/20 inline-flex items-center">
                               {idx === 0 && (
                                 <span className="inline-flex items-center gap-1">
                                   Start <ArrowDownRight className="w-3 h-3" />
@@ -590,7 +587,7 @@ export default function About() {
                               )}
                               {idx === 3 && (
                                 <span className="inline-flex items-center gap-1.5">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-[#FF7700] animate-pulse" />{" "}
+                                  <span className="w-1.5 h-1.5 rounded-full bg-brand-dark animate-pulse" />{" "}
                                   Present
                                 </span>
                               )}
@@ -616,7 +613,7 @@ export default function About() {
                                 </span>
                                 {tagIdx < step.tags.length - 1 && (
                                   <span
-                                    className="text-[#FF8A00] font-bold"
+                                    className="text-brand font-bold"
                                     aria-hidden="true"
                                   >
                                     &bull;
@@ -647,40 +644,40 @@ export default function About() {
         <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14">
           <div className="relative group">
             {/* Organic corner blob */}
-            <OrangeJourneyCardBlob position="bottom-right" size="md" />
+            <BrandJourneyCardBlob position="bottom-right" size="md" />
 
-            <div className="ab-cta-banner-wrap relative z-10 rounded-2xl sm:rounded-3xl bg-white/60 backdrop-blur-2xl border border-white/70 py-6 px-6 sm:py-7 sm:px-9 lg:py-8 lg:px-10 shadow-[0_8px_30px_rgba(255,138,0,0.12),0_12px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,1)] ring-1 ring-[#FF8A00]/20 hover:ring-[#FF8A00]/35 transition-all duration-300 overflow-hidden">
+            <div className="ab-cta-banner-wrap relative z-10 rounded-2xl sm:rounded-3xl bg-white/60 backdrop-blur-2xl border border-white/70 py-6 px-6 sm:py-7 sm:px-9 lg:py-8 lg:px-10 shadow-[0_8px_30px_rgba(var(--brand-rgb),0.12),0_12px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,1)] ring-1 ring-brand/20 hover:ring-brand/35 transition-all duration-300 overflow-hidden">
               {/* Subtle glass sheen */}
               <div
                 className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/70 via-white/10 to-transparent opacity-70"
                 aria-hidden="true"
               />
-              {/* Orange accent bottom line */}
+              {/* Brand accent bottom line */}
               <div
-                className="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#FF8A00]/40 to-transparent"
+                className="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand/40 to-transparent"
                 aria-hidden="true"
               />
 
               {/* Main Content Layout */}
               <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div>
-                  <div className="inline-flex items-center gap-2 mb-2 px-3 py-0.5 rounded-full bg-white/80 border border-[#FF8A00]/25 shadow-2xs">
+                  <div className="inline-flex items-center gap-2 mb-2 px-3 py-0.5 rounded-full bg-white/80 border border-brand/25 shadow-2xs">
                     <span className="relative flex h-1.5 w-1.5">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF8A00] opacity-75" />
-                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#FF7700]" />
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-75" />
+                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand-dark" />
                     </span>
-                    <span className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-[#FF7700]">
+                    <span className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-brand-dark">
                       Let's Build Together
                     </span>
                   </div>
 
                   <h2 className="font-black italic uppercase text-2xl sm:text-3xl lg:text-4xl leading-tight tracking-[-0.03em] text-[#111111]">
                     LET'S CREATE SOMETHING{" "}
-                    <span className="relative inline-block text-[#FF7700]">
+                    <span className="relative inline-block text-brand-dark">
                       AMAZING
                       <HandDrawnUnderline
                         className="absolute -bottom-1 left-0 w-full"
-                        color="#FF8A00"
+                        color="var(--brand-primary)"
                       />
                     </span>{" "}
                     TOGETHER
@@ -696,7 +693,7 @@ export default function About() {
                 <div className="relative flex items-center gap-3 flex-shrink-0">
                   <a
                     href="#contact"
-                    className="group relative inline-flex items-center gap-2 rounded-full bg-[#111111] hover:bg-[#FF8A00] text-white hover:text-[#111111] px-6 py-3 sm:px-7 sm:py-3.5 text-xs sm:text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 shadow-md hover:shadow-[0_8px_20px_rgba(255,138,0,0.35)] active:scale-95 cursor-pointer overflow-hidden"
+                    className="group relative inline-flex items-center gap-2 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-6 py-3 sm:px-7 sm:py-3.5 text-xs sm:text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 shadow-md hover:shadow-[0_8px_20px_rgba(var(--brand-rgb),0.35)] active:scale-95 cursor-pointer overflow-hidden"
                   >
                     <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                     <span>Start a Project</span>
@@ -717,7 +714,7 @@ export default function About() {
 
                   <a
                     href="#works"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-black/15 hover:border-[#FF8A00] text-[#111111] hover:text-[#FF8A00] px-5 py-3 sm:px-6 sm:py-3.5 text-xs sm:text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-95 bg-white/70 backdrop-blur-md shadow-2xs hover:shadow-[0_6px_20px_rgba(255,138,0,0.15)] cursor-pointer"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-black/15 hover:border-brand text-[#111111] hover:text-brand px-5 py-3 sm:px-6 sm:py-3.5 text-xs sm:text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-95 bg-white/70 backdrop-blur-md shadow-2xs hover:shadow-[0_6px_20px_rgba(var(--brand-rgb),0.15)] cursor-pointer"
                   >
                     <span>View work</span>
                     <span className="text-[#888888]">&rarr;</span>
