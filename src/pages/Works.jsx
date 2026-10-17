@@ -337,7 +337,7 @@ export default function Works() {
                       </p>
 
                       {/* Metric Cards */}
-                      <div className="grid grid-cols-1 xs:grid-cols-3 gap-2 sm:gap-2.5 mb-6">
+                      <div className="grid min-w-0 grid-cols-1 xs:grid-cols-3 gap-2 sm:gap-2.5 pr-1 sm:pr-2 mb-6">
                         {project.metrics.map((m, mIdx) => (
                           <div
                             key={mIdx}
