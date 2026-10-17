@@ -290,12 +290,12 @@ export default function Works() {
                   }`}
                 >
                   {/* Glass card wrapper */}
-                  <div className="relative rounded-[2rem] bg-white/55 backdrop-blur-2xl border border-white/70 p-6 sm:p-8 shadow-[0_8px_40px_rgba(var(--brand-rgb),0.1),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] ring-1 ring-brand/10 overflow-hidden">
+                  <div className="relative rounded-[1.25rem] bg-white border border-black/10 p-6 sm:p-8 shadow-[0_12px_32px_rgba(17,17,17,0.08)] overflow-hidden">
                     {/* Top brand gradient bar */}
                     <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-brand/60 to-transparent" />
                     {/* Subtle glass sheen */}
                     <div
-                      className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/50 via-transparent to-brand/4 opacity-80"
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-brand/3 opacity-60"
                       aria-hidden="true"
                     />
 

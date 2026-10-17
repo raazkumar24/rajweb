@@ -15,20 +15,20 @@
  */
 
 export const THEME_PALETTES = {
-  // Current Active Theme: Electric Purple / Violet
+  // Current Active Theme: Editorial Coral
   purple: {
-    name: "Electric Purple / Violet",
-    primary: "#8B5CF6",
-    primaryDark: "#7C3AED",
-    primaryLight: "#A78BFA",
-    primaryDeep: "#6D28D9",
-    stop0: "#C084FC",
-    stop1: "#A855F7",
-    stop2: "#8B5CF6",
-    stop3: "#6D28D9",
-    rgb: "139, 92, 246",
-    rgbDark: "124, 58, 237",
-    shimmerBg: "#FAF5FF",
+    name: "Editorial Coral",
+    primary: "#E85D3F",
+    primaryDark: "#C9432C",
+    primaryLight: "#F08B72",
+    primaryDeep: "#9F2F20",
+    stop0: "#F08B72",
+    stop1: "#E85D3F",
+    stop2: "#C9432C",
+    stop3: "#9F2F20",
+    rgb: "232, 93, 63",
+    rgbDark: "201, 67, 44",
+    shimmerBg: "#FFF7F3",
   },
 
   // Royal Blue / Indigo (Tech & Professional)

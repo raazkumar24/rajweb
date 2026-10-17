@@ -382,7 +382,7 @@ function Hero() {
           {/* ── LEFT COLUMN ── */}
           <div className="lg:col-span-6 flex flex-col justify-center z-20 pt-2 pb-4 sm:pb-6 lg:py-0 self-center">
             {/* Upgraded Pill SectionBadge */}
-            <div className="hero-stagger mb-2 sm:mb-2.5 inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-black/8 shadow-2xs w-fit">
+            <div className="hero-stagger mb-2 sm:mb-2.5 inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white border border-black/10 shadow-sm w-fit">
               <span className="relative flex h-2 w-2 shrink-0">
                 <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
@@ -461,7 +461,7 @@ function Hero() {
               <a
                 href="#contact"
                 onClick={(e) => handleSmoothScroll(e, "contact")}
-                className="group inline-flex items-center gap-2.5 rounded-full border border-black/15 hover:border-brand text-[#111111] hover:text-brand px-6 py-3.5 sm:px-7 sm:py-3.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-95 bg-white/70 backdrop-blur-md shadow-2xs hover:shadow-[0_6px_20px_rgba(var(--brand-rgb),0.15)] cursor-pointer"
+                className="group inline-flex items-center gap-2.5 rounded-full border border-black/20 hover:border-brand text-[#111111] hover:text-brand px-6 py-3.5 sm:px-7 sm:py-3.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-95 bg-white shadow-sm hover:shadow-md cursor-pointer"
               >
                 <span>Get in touch</span>
                 <span className="text-[#888888] group-hover:text-brand group-hover:translate-x-1 transition-all duration-200">

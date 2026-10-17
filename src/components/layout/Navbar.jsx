@@ -12,7 +12,7 @@ const navItems = [
 
 /* Glass ke common styles (ek jagah, taaki baar-baar na likhna pade) */
 const GLASS_PANEL =
-  "bg-gradient-to-b from-white/65 via-white/35 to-white/20 backdrop-blur-2xl backdrop-saturate-150 border border-white/70 shadow-[0_10px_34px_rgba(0,0,0,0.10),inset_0_1px_1px_rgba(255,255,255,0.95),inset_0_-1px_2px_rgba(255,255,255,0.45)]";
+  "bg-[#FAF8F5]/95 backdrop-blur-md border border-black/10 shadow-[0_8px_24px_rgba(17,17,17,0.10)]";
 
 /* Upar ki soft shine (sirf look, click nahi rokti) */
 function GlassShine({ rounded = "rounded-full" }) {
