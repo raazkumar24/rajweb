@@ -530,7 +530,7 @@ function Hero() {
             {/* Profile Image with studio backlight */}
             <div
               ref={profileRef}
-              className="relative z-10 w-full max-w-[420px] sm:max-w-[520px] md:max-w-[580px] lg:max-w-[620px] xl:max-w-[700px] 2xl:max-w-[760px] flex items-end justify-center -mb-2"
+              className="relative z-10 w-full max-w-[420px] sm:max-w-[520px] md:max-w-[580px] lg:max-w-[620px] xl:max-w-[700px] 2xl:max-w-[760px] flex items-end justify-center -mb-2 lg:-mb-8 xl:-mb-10"
             >
               {/* Studio Backlight Aura */}
               <div
