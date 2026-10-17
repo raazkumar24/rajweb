@@ -505,7 +505,7 @@ function Hero() {
           </div>
 
           {/* ── RIGHT COLUMN ── */}
-          <div className="lg:col-span-6 relative flex items-center justify-center self-center w-full min-w-0 overflow-visible">
+          <div className="lg:col-span-6 relative flex items-end justify-center self-end w-full min-w-0 overflow-visible">
             {/* Doodle 1: Top-right */}
             <DoodleCard
               forwardRef={doodle1Ref}
@@ -530,7 +530,7 @@ function Hero() {
             {/* Profile Image with studio backlight */}
             <div
               ref={profileRef}
-              className="relative z-10 w-full max-w-[420px] sm:max-w-[520px] md:max-w-[580px] lg:max-w-[620px] xl:max-w-[700px] 2xl:max-w-[760px] flex items-end justify-center -mb-2 lg:-mb-8 xl:-mb-10"
+              className="relative z-10 w-full max-w-[420px] sm:max-w-[520px] md:max-w-[580px] lg:max-w-[620px] xl:max-w-[700px] 2xl:max-w-[760px] flex items-end justify-center -mb-1 lg:-mb-1 xl:-mb-2"
             >
               {/* Studio Backlight Aura */}
               <div
