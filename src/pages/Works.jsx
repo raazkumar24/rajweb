@@ -206,7 +206,12 @@ export default function Works() {
           {/* Refined Filter Tabs - own row */}
           <div className="flex items-center gap-1 sm:gap-2 bg-white/60 backdrop-blur-xl p-1.5 rounded-full border border-black/8 shadow-xs w-fit">
             {[
-              { id: "all", labelFull: "All work", labelShort: "All", count: projectsData.length },
+              {
+                id: "all",
+                labelFull: "All work",
+                labelShort: "All",
+                count: projectsData.length,
+              },
               {
                 id: "fullstack",
                 labelFull: "Full-stack apps",
@@ -292,7 +297,10 @@ export default function Works() {
                   {/* Glass card wrapper */}
                   <div className="relative border-t-2 border-[#111111] border-b border-black/10 py-6 sm:py-8 overflow-hidden">
                     {/* Top brand gradient bar */}
-                    <div className="absolute right-0 top-0 h-full w-px bg-brand/30" aria-hidden="true" />
+                    <div
+                      className="absolute right-0 top-0 h-full w-px bg-brand/30"
+                      aria-hidden="true"
+                    />
 
                     <div className="relative z-10">
                       {/* Clean Project Meta */}
@@ -337,13 +345,13 @@ export default function Works() {
                       </p>
 
                       {/* Metric Cards */}
-                      <div className="grid min-w-0 grid-cols-1 xs:grid-cols-3 gap-2 sm:gap-2.5 pr-1 sm:pr-2 mb-6">
+                      <div className="grid min-w-0 grid-cols-3 gap-1.5 sm:gap-2.5 pr-1 sm:pr-2 mb-6">
                         {project.metrics.map((m, mIdx) => (
                           <div
                             key={mIdx}
-                            className="group flex flex-col p-3 sm:p-3.5 rounded-2xl bg-white/80 backdrop-blur-md border border-black/8 shadow-sm hover:border-brand/35 hover:shadow-[0_4px_16px_rgba(var(--brand-rgb),0.1)] transition-all duration-300"
+                            className="group flex flex-col p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/80 backdrop-blur-md border border-black/8 shadow-sm hover:border-brand/35 hover:shadow-[0_4px_16px_rgba(var(--brand-rgb),0.1)] transition-all duration-300"
                           >
-                            <span className="text-xl sm:text-2xl font-black text-[#111111] tracking-tight group-hover:text-brand transition-colors duration-300">
+                            <span className="text-lg sm:text-2xl font-black text-[#111111] tracking-tight group-hover:text-brand transition-colors duration-300">
                               {m.value}
                             </span>
                             <span className="text-[10px] sm:text-[11px] text-[#777777] mt-0.5 leading-snug font-medium">

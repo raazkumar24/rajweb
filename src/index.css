@@ -6,14 +6,14 @@
      To change colors manually, edit these CSS variables.
      Or run: node scripts/switch-theme.mjs <theme-name>
      ═══════════════════════════════════════════════════════════════════ */
-  --brand-primary: #8b5cf6;
-  --brand-primary-dark: #7c3aed;
-  --brand-primary-light: #a78bfa;
-  --brand-primary-deep: #6d28d9;
-  --brand-stop-0: #c4b5fd;
-  --brand-stop-1: #a78bfa;
-  --brand-stop-2: #8b5cf6;
-  --brand-stop-3: #6d28d9;
+  --brand-primary: #8B5CF6;
+  --brand-primary-dark: #7C3AED;
+  --brand-primary-light: #A78BFA;
+  --brand-primary-deep: #6D28D9;
+  --brand-stop-0: #C4B5FD;
+  --brand-stop-1: #A78BFA;
+  --brand-stop-2: #8B5CF6;
+  --brand-stop-3: #6D28D9;
   --brand-rgb: 139, 92, 246;
   --brand-rgb-dark: 124, 58, 237;
 }
