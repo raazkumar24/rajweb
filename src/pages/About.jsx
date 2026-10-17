@@ -27,7 +27,7 @@ const journeySteps = [
     num: "01",
     year: "2024",
     title: "CURIOUS BEGINNINGS",
-    desc: "Discovered the craft of thoughtful web interfaces.",
+    desc: "Started by exploring how thoughtful interfaces guide attention, communicate clearly, and make every interaction feel intentional.",
     tags: ["HTML", "CSS"],
     side: "left",
   },
@@ -35,7 +35,7 @@ const journeySteps = [
     num: "02",
     year: "2024 – 2025",
     title: "LEARNING TO BUILD",
-    desc: "Built a strong foundation in modern frontend development.",
+    desc: "Moved from small experiments to polished interfaces, learning how structure, motion, and responsive thinking turn ideas into dependable products.",
     tags: ["HTML", "CSS", "JavaScript", "React"],
     side: "right",
   },
@@ -43,7 +43,7 @@ const journeySteps = [
     num: "03",
     year: "2025 – Now",
     title: "GOING FULL-STACK",
-    desc: "Expanded into backend and full-stack development.",
+    desc: "Stepped beyond the browser to build complete systems with APIs, databases, and the practical backend decisions that keep products reliable.",
     tags: ["Node.js", "Express.js", "MongoDB"],
     side: "left",
   },
@@ -51,7 +51,7 @@ const journeySteps = [
     num: "04",
     year: "Now",
     title: "BUILDING PROJECTS",
-    desc: "Turning ideas into useful full-stack products.",
+    desc: "Today, I turn rough ideas into useful full-stack products—balancing a clear visual point of view with thoughtful details and real-world performance.",
     tags: ["Full-Stack", "Web Apps"],
     side: "right",
   },
@@ -543,7 +543,7 @@ export default function About() {
                           <BrandJourneyCardBlob position="top-left" size="lg" />
                         )}
 
-                        <div className="ab-card-inner relative z-10 rounded-[2rem] bg-white/60 backdrop-blur-3xl border border-white/70 p-6 sm:p-8 shadow-[0_8px_24px_rgba(var(--brand-rgb),0.08),0_16px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,1)] ring-1 ring-brand/15 hover:ring-brand/30 hover:shadow-[0_12px_36px_rgba(var(--brand-rgb),0.14),0_20px_50px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,1)] transition-all duration-300 hover:-translate-y-2 overflow-hidden">
+                        <div className="ab-card-inner relative z-10 rounded-[2rem] bg-white/60 backdrop-blur-3xl border border-white/70 p-7 sm:p-9 shadow-[0_8px_24px_rgba(var(--brand-rgb),0.08),0_16px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,1)] ring-1 ring-brand/15 hover:ring-brand/30 hover:shadow-[0_12px_36px_rgba(var(--brand-rgb),0.14),0_20px_50px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,1)] transition-all duration-300 hover:-translate-y-2 overflow-hidden">
                           {/* Multi-layer glass sheen */}
                           <div
                             className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/80 via-white/20 to-transparent opacity-80"
@@ -594,11 +594,11 @@ export default function About() {
                             </span>
                           </div>
 
-                          <h3 className="relative z-10 font-black italic uppercase text-lg sm:text-xl text-[#111111] tracking-tight leading-snug mb-3">
+                          <h3 className="relative z-10 font-black italic uppercase text-xl sm:text-2xl text-[#111111] tracking-tight leading-snug mb-4">
                             {step.title}
                           </h3>
 
-                          <p className="relative z-10 max-w-[34rem] text-[#4B5563] text-sm sm:text-base leading-relaxed mb-6 font-normal line-clamp-2 min-h-[2.75rem]">
+                          <p className="relative z-10 max-w-[34rem] text-[#4B5563] text-base sm:text-[1.12rem] leading-[1.75] mb-7 font-normal line-clamp-none overflow-visible">
                             {step.desc}
                           </p>
 
