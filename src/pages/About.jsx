@@ -27,7 +27,7 @@ const journeySteps = [
     num: "01",
     year: "2024",
     title: "CURIOUS BEGINNINGS",
-    desc: "Maine samjha ki website kya hoti hai aur kaise kaam karti hai.",
+    desc: "Discovered how websites work and why thoughtful interfaces matter.",
     tags: ["HTML", "CSS"],
     side: "left",
   },
@@ -35,7 +35,7 @@ const journeySteps = [
     num: "02",
     year: "2024 – 2025",
     title: "LEARNING TO BUILD",
-    desc: "HTML, CSS, JavaScript aur React seekha.",
+    desc: "Learned the foundations of HTML, CSS, JavaScript, and React.",
     tags: ["HTML", "CSS", "JavaScript", "React"],
     side: "right",
   },
@@ -43,7 +43,7 @@ const journeySteps = [
     num: "03",
     year: "2025 – Now",
     title: "GOING FULL-STACK",
-    desc: "Backend seekh raha hoon (Node.js, Express.js, MongoDB).",
+    desc: "Expanded into backend development with Node.js, Express, and MongoDB.",
     tags: ["Node.js", "Express.js", "MongoDB"],
     side: "left",
   },
@@ -51,7 +51,7 @@ const journeySteps = [
     num: "04",
     year: "Now",
     title: "BUILDING PROJECTS",
-    desc: "Full-stack project bana chuka hoon aur aage badh raha hoon.",
+    desc: "Building full-stack products that turn ideas into useful experiences.",
     tags: ["Full-Stack", "Web Apps"],
     side: "right",
   },
@@ -598,7 +598,7 @@ export default function About() {
                             {step.title}
                           </h3>
 
-                          <p className="relative z-10 text-[#4B5563] text-sm sm:text-base leading-relaxed mb-6 font-normal">
+                          <p className="relative z-10 max-w-[34rem] text-[#4B5563] text-sm sm:text-base leading-relaxed mb-6 font-normal line-clamp-2 min-h-[2.75rem]">
                             {step.desc}
                           </p>
 
