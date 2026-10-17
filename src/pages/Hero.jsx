@@ -540,7 +540,7 @@ function Hero() {
 
               <picture>
                 <img
-                  src="/profile2.png"
+                  src="/images/purple-profile.png"
                   alt="Raj Shekhar - Web Developer"
                   width={700}
                   height={780}
