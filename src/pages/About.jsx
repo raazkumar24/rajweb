@@ -379,9 +379,9 @@ export default function About() {
         <BrandSectionRightWave />
 
         <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14">
-          <div className="ab-journey-header grid grid-cols-1 lg:grid-cols-12 gap-6 items-end mb-16 sm:mb-20">
+          <div className="ab-journey-header grid grid-cols-1 lg:grid-cols-12 gap-6 items-end mb-14 sm:mb-18 border-b border-black/8 pb-6 sm:pb-8">
             <div className="lg:col-span-7">
-              <div className="mb-3">
+              <div className="mb-2.5">
                 <SectionBadge label="My journey" />
               </div>
               <div className="relative inline-block">
@@ -690,7 +690,7 @@ export default function About() {
                 </div>
 
                 {/* Right Action Buttons */}
-                <div className="relative flex items-center gap-3 flex-shrink-0">
+                <div className="relative flex flex-wrap items-center gap-3 flex-shrink-0">
                   <a
                     href="#contact"
                     className="group relative inline-flex items-center gap-2 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-6 py-3 sm:px-7 sm:py-3.5 text-xs sm:text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 shadow-md hover:shadow-[0_8px_20px_rgba(var(--brand-rgb),0.35)] active:scale-95 cursor-pointer overflow-hidden"

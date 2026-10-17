@@ -20,7 +20,7 @@ export default function SectionHeader({
 }) {
   return (
     <div className={`mb-14 sm:mb-20 ${className}`}>
-      {badge && <SectionBadge label={badge} className="mb-3.5 sm:mb-4" />}
+      {badge && <SectionBadge label={badge} className="mb-2.5 sm:mb-3" />}
 
       {align === "split" ? (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">

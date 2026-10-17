@@ -10,6 +10,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { strengthsData } from "../../data/strengthsData";
+import SectionBadge from "../ui/SectionBadge";
 import HandDrawnUnderline from "../decorative/HandDrawnUnderline";
 import { HandwrittenBadge } from "../decorative/DoodleCard";
 import { BrandSectionRightWave } from "../decorative/BrandShapes";
@@ -90,15 +91,7 @@ export default function WhatDrivesMePinned() {
         {/* Top Header Row */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-black/8 pb-6">
           <div>
-            <div className="mb-2.5 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/70 backdrop-blur-md border border-black/8 shadow-2xs">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-brand opacity-75 animate-ping" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
-              </span>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#333333]">
-                Work Philosophy &amp; Standards
-              </span>
-            </div>
+            <SectionBadge label="Work Philosophy & Standards" className="mb-2.5" />
             <div className="flex items-center gap-4 flex-wrap">
               <h2 className="font-black italic uppercase text-2xl sm:text-3xl lg:text-4xl tracking-[-0.03em] leading-tight text-[#111111]">
                 WHAT DRIVES{" "}
@@ -117,15 +110,6 @@ export default function WhatDrivesMePinned() {
                 className="hidden sm:inline-flex"
               />
             </div>
-          </div>
-
-          {/* Quick Counter */}
-          <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 backdrop-blur-md border border-black/8 shadow-2xs text-xs font-semibold text-[#555555]">
-            <span>Principle</span>
-            <span className="font-mono font-black text-sm text-brand-dark px-2 py-0.5 rounded-md bg-brand/12 border border-brand/25">
-              0{activeStep + 1}
-            </span>
-            <span>of 0{strengthsData.length}</span>
           </div>
         </div>
 
