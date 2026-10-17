@@ -29,19 +29,24 @@ function App() {
       }
 
       const mm = gsap.matchMedia();
-      mm.add("(min-width: 768px)", () => {
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
         gsap.utils.toArray("[data-scroll-section]").forEach((section) => {
+          const children = Array.from(section.children);
+          const revealTargets = children.length > 0 ? children : [section];
+
           gsap.fromTo(
-            section,
-            { autoAlpha: 0, y: 34 },
+            revealTargets,
+            { autoAlpha: 0, y: window.innerWidth < 768 ? 22 : 34 },
             {
               autoAlpha: 1,
               y: 0,
-              duration: 0.9,
+              duration: window.innerWidth < 768 ? 0.7 : 0.9,
+              stagger: window.innerWidth < 768 ? 0.06 : 0.1,
               ease: "power3.out",
+              clearProps: "transform,opacity,visibility",
               scrollTrigger: {
                 trigger: section,
-                start: "top 88%",
+                start: window.innerWidth < 768 ? "top 92%" : "top 88%",
                 once: true,
               },
             },
