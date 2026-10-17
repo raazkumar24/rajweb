@@ -290,7 +290,7 @@ export default function Works() {
                   }`}
                 >
                   {/* Glass card wrapper */}
-                  <div className="relative border-t-2 border-[#111111] border-b border-black/10 py-6 sm:py-8 overflow-hidden">
+                  <div className="relative rounded-[1.75rem] sm:rounded-[2rem] border border-black/10 bg-white/70 backdrop-blur-xl p-5 sm:p-7 lg:p-8 shadow-[0_18px_45px_rgba(17,17,17,0.07)] overflow-hidden transition-transform duration-500 hover:-translate-y-1">
                     {/* Top brand gradient bar */}
                     <div className="absolute right-0 top-0 h-full w-px bg-brand/30" aria-hidden="true" />
 
@@ -337,11 +337,11 @@ export default function Works() {
                       </p>
 
                       {/* Metric Cards */}
-                      <div className="grid min-w-0 grid-cols-1 xs:grid-cols-3 gap-2 sm:gap-2.5 pr-1 sm:pr-2 mb-6">
+                      <div className="grid min-w-0 grid-cols-1 xs:grid-cols-3 gap-3 sm:gap-3.5 mb-7">
                         {project.metrics.map((m, mIdx) => (
                           <div
                             key={mIdx}
-                            className="group flex flex-col p-3 sm:p-3.5 rounded-2xl bg-white/80 backdrop-blur-md border border-black/8 shadow-sm hover:border-brand/35 hover:shadow-[0_4px_16px_rgba(var(--brand-rgb),0.1)] transition-all duration-300"
+                            className="group flex min-w-0 flex-col p-3.5 sm:p-4 rounded-2xl bg-[#FAF8F5]/90 backdrop-blur-md border border-black/8 shadow-sm hover:-translate-y-0.5 hover:border-brand/35 hover:shadow-[0_8px_20px_rgba(var(--brand-rgb),0.12)] transition-all duration-300"
                           >
                             <span className="text-xl sm:text-2xl font-black text-[#111111] tracking-tight group-hover:text-brand transition-colors duration-300">
                               {m.value}
