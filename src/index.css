@@ -136,6 +136,26 @@ body {
   outline-offset: 4px;
 }
 
+@media (max-width: 639px) {
+  .ab-timeline-container {
+    isolation: isolate;
+  }
+
+  .ab-timeline-container > div[aria-hidden="true"] {
+    opacity: 0.42;
+    left: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .ab-journey-card-row {
+    padding-inline: 0;
+  }
+
+  .ab-card-inner {
+    width: 100%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

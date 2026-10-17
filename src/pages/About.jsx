@@ -503,13 +503,13 @@ export default function About() {
             </div>
 
             {/* ── ALTERNATING ZIGZAG CARDS CONTAINER ── */}
-            <div className="relative z-10 flex flex-col gap-14 sm:gap-20 lg:gap-28">
+            <div className="relative z-10 flex flex-col gap-8 xs:gap-10 sm:gap-20 lg:gap-28">
               {journeySteps.map((step, idx) => {
                 const isLeft = idx % 2 === 0;
                 return (
                   <div
                     key={step.num}
-                    className={`ab-journey-card-row relative flex items-center w-full px-0 ${
+                    className={`ab-journey-card-row relative flex items-center w-full px-0 max-[639px]:px-1 ${
                       isLeft
                         ? "justify-start lg:flex-row"
                         : "justify-end lg:flex-row-reverse"
@@ -526,7 +526,7 @@ export default function About() {
 
                     {/* The Card Component */}
                     <div
-                      className={`w-[88%] sm:w-[84%] lg:w-[44%] ${
+                      className={`w-full sm:w-[84%] lg:w-[44%] ${
                         isLeft
                           ? "mr-auto lg:mr-auto lg:ml-0"
                           : "ml-auto lg:ml-auto lg:mr-0"
@@ -543,7 +543,7 @@ export default function About() {
                           <BrandJourneyCardBlob position="top-left" size="lg" />
                         )}
 
-                        <div className="ab-card-inner relative z-10 rounded-[2rem] bg-white/60 backdrop-blur-3xl border border-white/70 p-7 sm:p-9 shadow-[0_8px_24px_rgba(var(--brand-rgb),0.08),0_16px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,1)] ring-1 ring-brand/15 hover:ring-brand/30 hover:shadow-[0_12px_36px_rgba(var(--brand-rgb),0.14),0_20px_50px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,1)] transition-all duration-300 hover:-translate-y-2 overflow-hidden">
+                        <div className="ab-card-inner relative z-10 rounded-[1.5rem] sm:rounded-[2rem] bg-white/60 backdrop-blur-3xl border border-white/70 p-5 xs:p-6 sm:p-9 shadow-[0_8px_24px_rgba(var(--brand-rgb),0.08),0_16px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,1)] ring-1 ring-brand/15 hover:ring-brand/30 hover:shadow-[0_12px_36px_rgba(var(--brand-rgb),0.14),0_20px_50px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,1)] transition-all duration-300 hover:-translate-y-2 overflow-hidden">
                           {/* Multi-layer glass sheen */}
                           <div
                             className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/80 via-white/20 to-transparent opacity-80"
@@ -594,11 +594,11 @@ export default function About() {
                             </span>
                           </div>
 
-                          <h3 className="relative z-10 font-black italic uppercase text-xl sm:text-2xl text-[#111111] tracking-tight leading-snug mb-4">
+                          <h3 className="relative z-10 font-black italic uppercase text-lg xs:text-xl sm:text-2xl text-[#111111] tracking-tight leading-snug mb-4">
                             {step.title}
                           </h3>
 
-                          <p className="relative z-10 max-w-[34rem] text-[#4B5563] text-base sm:text-[1.12rem] leading-[1.75] mb-7 font-normal line-clamp-none overflow-visible">
+                          <p className="relative z-10 max-w-[34rem] text-[#4B5563] text-[0.95rem] xs:text-base sm:text-[1.12rem] leading-[1.7] sm:leading-[1.75] mb-5 sm:mb-7 font-normal line-clamp-none overflow-visible">
                             {step.desc}
                           </p>
 
