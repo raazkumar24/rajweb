@@ -378,9 +378,9 @@ function Hero() {
 
       {/* ── MAIN CONTAINER ── */}
       <div className="relative z-10 mx-auto w-full max-w-[1320px] px-6 sm:px-10 lg:px-16 flex-1 min-h-0 flex flex-col justify-end pb-0">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-16 items-end flex-1 min-h-0">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-12 items-center flex-1 min-h-0">
           {/* ── LEFT COLUMN ── */}
-          <div className="lg:col-span-7 flex flex-col justify-center z-20 pt-2 pb-4 sm:pb-6 lg:py-0 self-center border-l-2 border-brand/35 pl-5 sm:pl-8 lg:pl-10">
+          <div className="lg:col-span-6 flex flex-col justify-center z-20 pt-2 pb-4 sm:pb-6 lg:py-0 self-center border-l-2 border-brand/35 pl-5 sm:pl-8 lg:pl-10">
             {/* Upgraded Pill SectionBadge */}
             <div className="hero-stagger mb-2 sm:mb-2.5 inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white border border-black/10 shadow-sm w-fit">
               <span className="relative flex h-2 w-2 shrink-0">
@@ -505,7 +505,7 @@ function Hero() {
           </div>
 
           {/* ── RIGHT COLUMN ── */}
-          <div className="lg:col-span-6 relative flex items-end justify-center self-end w-full overflow-visible">
+          <div className="lg:col-span-6 relative flex items-center justify-center self-center w-full min-w-0 overflow-visible">
             {/* Doodle 1: Top-right */}
             <DoodleCard
               forwardRef={doodle1Ref}
