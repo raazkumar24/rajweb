@@ -6,16 +6,16 @@
      To change colors manually, edit these CSS variables.
      Or run: node scripts/switch-theme.mjs <theme-name>
      ═══════════════════════════════════════════════════════════════════ */
-  --brand-primary: #e85d3f;
-  --brand-primary-dark: #c9432c;
-  --brand-primary-light: #f08b72;
-  --brand-primary-deep: #9f2f20;
-  --brand-stop-0: #f08b72;
-  --brand-stop-1: #e85d3f;
-  --brand-stop-2: #c9432c;
-  --brand-stop-3: #9f2f20;
-  --brand-rgb: 232, 93, 63;
-  --brand-rgb-dark: 201, 67, 44;
+  --brand-primary: #8b5cf6;
+  --brand-primary-dark: #7c3aed;
+  --brand-primary-light: #a78bfa;
+  --brand-primary-deep: #6d28d9;
+  --brand-stop-0: #c4b5fd;
+  --brand-stop-1: #a78bfa;
+  --brand-stop-2: #8b5cf6;
+  --brand-stop-3: #6d28d9;
+  --brand-rgb: 139, 92, 246;
+  --brand-rgb-dark: 124, 58, 237;
 }
 
 @theme {
@@ -181,7 +181,7 @@ body {
   background: linear-gradient(
     105deg,
     #ffffff 40%,
-    #fff7f3 50%,
+    #f5f3ff 50%,
     #ffffff 60%
   );
   background-size: 200% auto;
