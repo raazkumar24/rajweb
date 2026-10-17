@@ -505,7 +505,7 @@ function Hero() {
           </div>
 
           {/* ── RIGHT COLUMN ── */}
-          <div className="lg:col-span-6 relative flex items-end justify-center self-end w-full min-w-0 overflow-visible rounded-[2rem] sm:rounded-[2.5rem] bg-white/35 border border-white/70 shadow-[0_24px_70px_rgba(17,17,17,0.08)] backdrop-blur-sm min-h-[22rem] sm:min-h-[28rem] lg:min-h-[34rem]">
+          <div className="lg:col-span-6 relative flex items-end justify-center self-end w-full min-w-0 overflow-visible">
             {/* Doodle 1: Top-right */}
             <DoodleCard
               forwardRef={doodle1Ref}
