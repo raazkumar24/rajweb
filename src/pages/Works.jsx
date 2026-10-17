@@ -290,14 +290,9 @@ export default function Works() {
                   }`}
                 >
                   {/* Glass card wrapper */}
-                  <div className="relative rounded-[2rem] bg-white/55 backdrop-blur-2xl border border-white/70 p-6 sm:p-8 shadow-[0_8px_40px_rgba(var(--brand-rgb),0.1),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] ring-1 ring-brand/10 overflow-hidden">
+                  <div className="relative border-t-2 border-[#111111] border-b border-black/10 py-6 sm:py-8 overflow-hidden">
                     {/* Top brand gradient bar */}
-                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-brand/60 to-transparent" />
-                    {/* Subtle glass sheen */}
-                    <div
-                      className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/50 via-transparent to-brand/4 opacity-80"
-                      aria-hidden="true"
-                    />
+                    <div className="absolute right-0 top-0 h-full w-px bg-brand/30" aria-hidden="true" />
 
                     <div className="relative z-10">
                       {/* Clean Project Meta */}
@@ -342,7 +337,7 @@ export default function Works() {
                       </p>
 
                       {/* Metric Cards */}
-                      <div className="grid grid-cols-3 gap-2 sm:gap-2.5 mb-6">
+                      <div className="grid min-w-0 grid-cols-1 xs:grid-cols-3 gap-2 sm:gap-2.5 pr-1 sm:pr-2 mb-6">
                         {project.metrics.map((m, mIdx) => (
                           <div
                             key={mIdx}

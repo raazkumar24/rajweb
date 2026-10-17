@@ -22,13 +22,13 @@ export const THEME_PALETTES = {
     primaryDark: "#7C3AED",
     primaryLight: "#A78BFA",
     primaryDeep: "#6D28D9",
-    stop0: "#C084FC",
-    stop1: "#A855F7",
+    stop0: "#C4B5FD",
+    stop1: "#A78BFA",
     stop2: "#8B5CF6",
     stop3: "#6D28D9",
     rgb: "139, 92, 246",
     rgbDark: "124, 58, 237",
-    shimmerBg: "#FAF5FF",
+    shimmerBg: "#F5F3FF",
   },
 
   // Royal Blue / Indigo (Tech & Professional)
