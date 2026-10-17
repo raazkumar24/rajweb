@@ -290,14 +290,9 @@ export default function Works() {
                   }`}
                 >
                   {/* Glass card wrapper */}
-                  <div className="relative rounded-[1.25rem] bg-white border border-black/10 p-6 sm:p-8 shadow-[0_12px_32px_rgba(17,17,17,0.08)] overflow-hidden">
+                  <div className="relative border-t-2 border-[#111111] border-b border-black/10 py-6 sm:py-8 overflow-hidden">
                     {/* Top brand gradient bar */}
-                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-brand/60 to-transparent" />
-                    {/* Subtle glass sheen */}
-                    <div
-                      className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-brand/3 opacity-60"
-                      aria-hidden="true"
-                    />
+                    <div className="absolute right-0 top-0 h-full w-px bg-brand/30" aria-hidden="true" />
 
                     <div className="relative z-10">
                       {/* Clean Project Meta */}
