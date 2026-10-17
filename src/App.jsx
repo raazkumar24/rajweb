@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "./components/layout/Navbar.jsx";
@@ -19,6 +19,39 @@ ScrollTrigger.config({ ignoreMobileResize: true });
 
 function App() {
   const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useLayoutEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const ctx = gsap.context(() => {
+      if (reduceMotion) {
+        gsap.set("[data-scroll-section]", { clearProps: "all" });
+        return;
+      }
+
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 768px)", () => {
+        gsap.utils.toArray("[data-scroll-section]").forEach((section) => {
+          gsap.fromTo(
+            section,
+            { autoAlpha: 0, y: 34 },
+            {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.9,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: section,
+                start: "top 88%",
+                once: true,
+              },
+            },
+          );
+        });
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,11 +91,21 @@ function App() {
         </div>
 
         {/* Core content sections with smooth scroll alignment */}
-        <About />
-        <Works />
-        <Services />
-        <FAQ />
-        <Contact />
+        <div data-scroll-section>
+          <About />
+        </div>
+        <div data-scroll-section>
+          <Works />
+        </div>
+        <div data-scroll-section>
+          <Services />
+        </div>
+        <div data-scroll-section>
+          <FAQ />
+        </div>
+        <div data-scroll-section>
+          <Contact />
+        </div>
       </main>
 
       {/* Floating smooth back to top control */}
