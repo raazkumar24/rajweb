@@ -401,7 +401,7 @@ function Hero() {
               <h1
                 ref={nameRef}
                 id="hero-name"
-                className="relative z-30 whitespace-nowrap text-[2.75rem] xs:text-[3.4rem] sm:text-[4.4rem] md:text-[5.2rem] lg:text-[4.9rem] xl:text-[6.75rem] 2xl:text-[7.6rem] font-black italic uppercase text-[#111111] leading-none tracking-[-0.04em] select-none"
+                className="relative z-30 whitespace-nowrap max-[380px]:text-[2.45rem] text-[2.75rem] xs:text-[3.4rem] sm:text-[4.4rem] md:text-[5.2rem] lg:text-[4.9rem] xl:text-[6.75rem] 2xl:text-[7.6rem] font-black italic uppercase text-[#111111] leading-none tracking-[-0.04em] select-none"
               >
                 RAJ SHEKHAR
               </h1>

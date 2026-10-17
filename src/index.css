@@ -156,6 +156,129 @@ body {
   }
 }
 
+/* ── Shared mobile layout guardrails ── */
+@media (max-width: 639px) {
+  section {
+    min-width: 0;
+  }
+
+  .ab-intro-section,
+  #works,
+  #services,
+  #faq,
+  #contact {
+    scroll-margin-top: 4.5rem;
+  }
+
+  #home h2 {
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.25;
+  }
+
+  #home .hero-stagger {
+    max-width: 100%;
+  }
+
+  #home .hero-stagger h2 {
+    flex-wrap: wrap;
+    row-gap: 0.2rem;
+  }
+
+  #home .hero-stagger h2 > span:first-child {
+    white-space: nowrap;
+  }
+
+  #home .hero-stagger:last-of-type {
+    overflow: visible;
+  }
+
+  #works .flex.items-center.gap-1,
+  #works .flex.items-center.gap-1\.5 {
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  #works .flex.items-center.gap-1::-webkit-scrollbar,
+  #works .flex.items-center.gap-1\.5::-webkit-scrollbar {
+    display: none;
+  }
+
+  #works .wk-project-info,
+  #services .sv-service-card,
+  #contact form,
+  #contact .lg\\:col-span-4 {
+    min-width: 0;
+  }
+
+  #works .wk-project-info h3,
+  #services h3 {
+    overflow-wrap: anywhere;
+  }
+
+  #works .wk-project-info > div {
+    border-right: 0;
+  }
+
+  #contact a[href^="mailto:"] {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    font-size: clamp(1.35rem, 7vw, 2rem);
+  }
+
+  #contact .grid {
+    min-width: 0;
+  }
+
+  #faq h3 {
+    overflow-wrap: anywhere;
+  }
+
+  #faq button {
+    min-width: 0;
+  }
+
+  #about .ab-card-inner {
+    padding: 1.25rem;
+  }
+
+  #about .ab-card-inner p {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 399px) {
+  #home h1#hero-name {
+    letter-spacing: -0.055em;
+  }
+
+  #home .grid {
+    gap: 1.25rem;
+  }
+
+  #home .hero-stagger.mt-5 {
+    gap: 0.55rem;
+  }
+
+  #home .hero-stagger.mt-5 a {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+
+  #about .grid-cols-3 {
+    gap: 0.35rem;
+  }
+
+  #about .grid-cols-3 > div {
+    padding-inline: 0.5rem;
+  }
+
+  #contact .flex-wrap > button {
+    flex: 1 1 auto;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
