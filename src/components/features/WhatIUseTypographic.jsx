@@ -226,7 +226,7 @@ export default function WhatIUseTypographic() {
                       setActiveHoverId(tech.id);
                     }
                   }}
-                  className={`group relative cursor-pointer rounded-[1.35rem] px-5 sm:px-8 lg:px-10 py-5 sm:py-7
+                  className={`group relative cursor-pointer rounded-[1.35rem] px-3.5 sm:px-8 lg:px-10 py-4 sm:py-7
                     transition-all duration-300 overflow-hidden border focus-within:ring-2 focus-within:ring-brand/40 ${
                       isActive
                         ? "bg-white/90 backdrop-blur-xl border-brand/25 shadow-[0_8px_40px_rgba(var(--brand-rgb),0.12),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] translate-x-1 sm:translate-x-2 ring-1 ring-brand/15"
@@ -251,9 +251,9 @@ export default function WhatIUseTypographic() {
                     aria-hidden="true"
                   />
 
-                  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-5 pl-3 sm:pl-4">
+                  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-5 pl-2 sm:pl-4">
                     {/* Left: index + name + tags */}
-                    <div className="flex items-center gap-4 sm:gap-7 min-w-0">
+                    <div className="flex items-center gap-3 sm:gap-7 min-w-0">
                       <span
                         className={`font-mono text-xs sm:text-sm font-bold tracking-wider w-6 sm:w-8 shrink-0 transition-colors duration-300 select-none ${
                           isActive
@@ -266,7 +266,7 @@ export default function WhatIUseTypographic() {
 
                       <div className="flex flex-col gap-2.5 min-w-0">
                         <h3
-                          className={`font-black italic uppercase tracking-[-0.03em] leading-none transition-all duration-300 text-3xl sm:text-5xl md:text-6xl lg:text-7xl ${
+                          className={`font-black italic uppercase tracking-[-0.03em] leading-none transition-all duration-300 text-2xl xs:text-3xl sm:text-5xl md:text-6xl lg:text-7xl ${
                             isActive
                               ? "text-brand drop-shadow-[0_2px_8px_rgba(var(--brand-rgb),0.18)]"
                               : "text-[#111111] group-hover:text-[#333333]"
@@ -295,7 +295,7 @@ export default function WhatIUseTypographic() {
                     </div>
 
                     {/* Right: category + description + icon + arrow */}
-                    <div className="flex items-center gap-4 sm:gap-6 justify-between lg:justify-end shrink-0">
+                    <div className="flex items-center gap-2.5 sm:gap-6 justify-between lg:justify-end shrink-0">
                       <div className="flex flex-col lg:items-end gap-1 max-w-xs">
                         <span className="text-[11px] font-bold tracking-wider uppercase text-brand lg:text-right">
                           {tech.categoryLabel}
@@ -307,7 +307,7 @@ export default function WhatIUseTypographic() {
 
                       {/* Icon tile */}
                       <div
-                        className={`flex h-14 w-14 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl p-2.5 transition-all duration-300 ${
+                        className={`flex h-11 w-11 sm:h-16 sm:w-16 shrink-0 items-center justify-center rounded-2xl p-2.5 transition-all duration-300 ${
                           isActive
                             ? "bg-white border border-brand/30 shadow-[0_8px_24px_rgba(var(--brand-rgb),0.2)] scale-105"
                             : "bg-white border border-black/8 shadow-sm group-hover:scale-105 group-hover:shadow-[0_6px_18px_rgba(var(--brand-rgb),0.15)] group-hover:border-brand/30"
