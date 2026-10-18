@@ -290,17 +290,17 @@ export default function Works() {
 
                 {/* TEXT & METRICS COLUMN */}
                 <div
-                  className={`wk-project-info lg:col-span-5 flex flex-col justify-center relative z-20 rounded-[1.75rem] sm:rounded-[2rem] bg-white/70 backdrop-blur-sm border border-black/8 px-5 py-6 sm:px-7 sm:py-8 lg:px-0 lg:py-0 lg:bg-transparent lg:border-0 ${
+                    className={`wk-project-info lg:col-span-5 flex flex-col justify-center relative z-20 rounded-[1.75rem] sm:rounded-[2rem] bg-white/70 backdrop-blur-sm border-0 px-5 py-6 sm:px-7 sm:py-8 lg:px-0 lg:py-0 lg:bg-transparent ${
                     isImageLeft
                       ? "lg:order-2 lg:pl-2 xl:pl-4"
                       : "lg:order-1 lg:pr-2 xl:pr-4"
                   }`}
                 >
                   {/* Glass card wrapper */}
-                  <div className="relative border-t-2 border-[#111111] border-b border-black/10 py-7 sm:py-9 overflow-hidden">
+                  <div className="relative border-0 sm:border-t-2 sm:border-b sm:border-[#111111] py-2 sm:py-9 overflow-hidden">
                     {/* Top brand gradient bar */}
                     <div
-                      className="absolute right-0 top-0 h-full w-px bg-brand/30"
+                      className="absolute right-0 top-0 hidden sm:block h-full w-px bg-brand/30"
                       aria-hidden="true"
                     />
 
@@ -345,23 +345,6 @@ export default function Works() {
                       <p className="text-sm sm:text-base text-[#4B5563] leading-relaxed mb-6 font-normal">
                         {project.summary}
                       </p>
-
-                      {/* Metric Cards */}
-                      <div className="grid min-w-0 grid-cols-1 xs:grid-cols-3 gap-2 sm:gap-2.5 pr-0 sm:pr-2 mb-6">
-                        {project.metrics.map((m, mIdx) => (
-                          <div
-                            key={mIdx}
-                            className="group flex flex-col p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/80 backdrop-blur-md border border-black/8 shadow-sm hover:border-brand/35 hover:shadow-[0_4px_16px_rgba(var(--brand-rgb),0.1)] transition-all duration-300"
-                          >
-                            <span className="text-lg sm:text-2xl font-black text-[#111111] tracking-tight group-hover:text-brand transition-colors duration-300">
-                              {m.value}
-                            </span>
-                            <span className="text-[10px] sm:text-[11px] text-[#777777] mt-0.5 leading-snug font-medium">
-                              {m.label}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
 
                       {/* Action Buttons */}
                       <div className="flex items-center gap-3 flex-wrap">
