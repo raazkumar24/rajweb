@@ -262,18 +262,18 @@ export default function Works() {
         </div>
 
         {/* Project Rows with Generous Breathing Room */}
-        <div className="flex flex-col gap-24 sm:gap-32 lg:gap-36">
+        <div className="flex flex-col gap-16 sm:gap-24 lg:gap-32">
           {filteredProjects.map((project, idx) => {
             const isImageLeft = idx % 2 === 0;
 
             return (
               <div
                 key={project.id}
-                className="wk-project-row relative grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-14 lg:gap-16 xl:gap-20 items-center"
+                className="wk-project-row relative grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-12 lg:gap-16 xl:gap-20 items-stretch"
               >
                 {/* IMAGE COLUMN WITH 3D HOVER EFFECT */}
                 <div
-                  className={`lg:col-span-7 relative ${
+                  className={`lg:col-span-7 relative rounded-[1.75rem] sm:rounded-[2rem] overflow-hidden ${
                     isImageLeft ? "lg:order-1" : "lg:order-2"
                   }`}
                 >
@@ -288,7 +288,7 @@ export default function Works() {
 
                 {/* TEXT & METRICS COLUMN */}
                 <div
-                  className={`wk-project-info lg:col-span-5 flex flex-col justify-center relative z-20 ${
+                  className={`wk-project-info lg:col-span-5 flex flex-col justify-center relative z-20 rounded-[1.75rem] sm:rounded-[2rem] bg-white/55 backdrop-blur-sm border border-black/8 px-5 py-5 sm:px-7 sm:py-7 lg:px-0 lg:py-0 lg:bg-transparent lg:border-0 ${
                     isImageLeft
                       ? "lg:order-2 lg:pl-2 xl:pl-4"
                       : "lg:order-1 lg:pr-2 xl:pr-4"
@@ -345,7 +345,7 @@ export default function Works() {
                       </p>
 
                       {/* Metric Cards */}
-                      <div className="grid min-w-0 grid-cols-3 gap-1.5 sm:gap-2.5 pr-1 sm:pr-2 mb-6">
+                      <div className="grid min-w-0 grid-cols-1 xs:grid-cols-3 gap-2 sm:gap-2.5 pr-0 sm:pr-2 mb-6">
                         {project.metrics.map((m, mIdx) => (
                           <div
                             key={mIdx}
