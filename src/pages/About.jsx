@@ -1,8 +1,7 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowDownRight, ArrowDownLeft, MapPin } from "lucide-react";
-import { RobotHead } from "robot-heads";
 import { SectionBadge } from "../components/ui";
 import {
   HandDrawnUnderline,
@@ -18,7 +17,6 @@ import {
 } from "../components/features";
 import { useGsapScope } from "../animation/useGsapScope";
 import { ANIM } from "../animation/config";
-import { CURRENT_THEME } from "../config/theme";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -61,24 +59,6 @@ export default function About() {
   const containerRef = useRef(null);
   const pathDesktopRef = useRef(null);
   const pathMobileRef = useRef(null);
-  const [robotSize, setRobotSize] = useState(() =>
-    typeof window !== "undefined" && window.innerWidth < 640 ? 220 : 270,
-  );
-  useEffect(() => {
-    const updateSize = () => {
-      if (window.innerWidth < 480) {
-        setRobotSize(220);
-      } else if (window.innerWidth < 768) {
-        setRobotSize(250);
-      } else {
-        setRobotSize(270);
-      }
-    };
-    updateSize();
-    window.addEventListener("resize", updateSize);
-    return () => window.removeEventListener("resize", updateSize);
-  }, []);
-
   useGsapScope(containerRef, () => {
     const mm = gsap.matchMedia();
 
@@ -263,11 +243,11 @@ export default function About() {
               <p className="ab-intro-stagger text-[#4B5563] text-base sm:text-lg leading-relaxed max-w-lg mb-8 font-normal">
                 I'm Raj Shekhar, a{" "}
                 <strong className="text-[#111111] font-semibold">
-                  frontend and web developer
+                  Frontend Developer: React, Figma-to-React, WordPress
                 </strong>{" "}
-                who loves building modern, reliable websites. I focus on
-                creating interfaces that look great, work smoothly on every
-                phone, and help businesses turn visitors into customers.
+                who builds responsive websites from clear design files. I focus on
+                React interfaces, practical WordPress builds, and the details
+                that help a site feel easy to use.
               </p>
 
               <div className="ab-intro-stagger flex flex-wrap items-center gap-3.5">
@@ -308,15 +288,14 @@ export default function About() {
                   </span>
                 </div>
 
-                {/* ── Interactive 3D Robot Mascot ── */}
                 <div className="relative flex items-center justify-center">
-                  <RobotHead
-                    shape="hexagon"
-                    state="idle"
-                    color={CURRENT_THEME.primary}
-                    size={robotSize}
-                    interactive={true}
-                    aria-label="Raj Shekhar - Frontend & MERN Developer Mascot"
+                  <img
+                    src="/profile.webp"
+                    alt="Raj Shekhar"
+                    width="420"
+                    height="520"
+                    loading="lazy"
+                    className="h-auto w-full max-w-[280px] rounded-[2rem] object-cover shadow-[0_18px_45px_rgba(34,22,72,0.16)]"
                   />
                 </div>
 
@@ -327,11 +306,11 @@ export default function About() {
                       RAJ SHEKHAR
                     </h3>
                     <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-brand/12 text-brand-dark border border-brand/25">
-                      Creative Dev
+                      Frontend Developer
                     </span>
                   </div>
                   <p className="text-xs sm:text-sm font-semibold text-[#4B5563]">
-                    Frontend Engineer &amp; MERN Stack Developer
+                    Frontend Developer: React, Figma-to-React, WordPress
                   </p>
                   <p className="text-[11px] text-[#777777] flex items-center gap-1.5 font-medium mt-0.5">
                     <MapPin className="w-3.5 h-3.5 text-brand-dark" />
@@ -345,7 +324,7 @@ export default function About() {
                 <div className="grid grid-cols-3 gap-2 sm:gap-2.5 w-full">
                   <div className="p-3 rounded-2xl bg-white/75 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-xs hover:border-brand/40 transition-colors">
                     <span className="font-black italic text-lg sm:text-xl text-[#111111] leading-none">
-                      10+
+                      4
                     </span>
                     <span className="text-[10px] font-semibold text-[#666666] mt-1 uppercase tracking-tight">
                       Projects
@@ -353,7 +332,7 @@ export default function About() {
                   </div>
                   <div className="p-3 rounded-2xl bg-white/75 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-xs hover:border-brand/40 transition-colors">
                     <span className="font-black italic text-lg sm:text-xl text-brand-dark leading-none">
-                      2+ Yrs
+                      React
                     </span>
                     <span className="text-[10px] font-semibold text-[#666666] mt-1 uppercase tracking-tight">
                       Experience
@@ -361,7 +340,7 @@ export default function About() {
                   </div>
                   <div className="p-3 rounded-2xl bg-white/75 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-xs hover:border-brand/40 transition-colors">
                     <span className="font-black italic text-lg sm:text-xl text-[#111111] leading-none">
-                      MERN
+                      3
                     </span>
                     <span className="text-[10px] font-semibold text-[#666666] mt-1 uppercase tracking-tight">
                       Full Stack

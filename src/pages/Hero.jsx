@@ -23,12 +23,7 @@ import { socialLinks as siteSocialLinks } from "../config/site";
 import { ANIM } from "../animation/config";
 
 // ─── Typewriter roles ─────────────────────────────────────────────────────────
-const roles = [
-  "Modern Web Apps",
-  "Frontend Experiences",
-  "Full-Stack MERN Apps",
-  "Interactive Websites",
-];
+const roles = ["fast React websites."];
 
 const iconMap = {
   github: GitHubIcon,
@@ -38,9 +33,8 @@ const iconMap = {
 
 // ─── Stats data ───────────────────────────────────────────────────────────────
 const stats = [
-  { value: "10+", label: "Projects Deployed" },
-  { value: "MERN", label: "Stack Specialist", isHighlight: true },
-  { value: "Available", label: "Open for Projects", isLive: true },
+  { value: "4", label: "Selected projects" },
+  { value: "React", label: "Frontend focus", isHighlight: true },
 ];
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -390,10 +384,7 @@ function Hero() {
               <span className="text-[11px] sm:text-xs font-semibold text-[#222222] whitespace-nowrap">
                 Available for Work
               </span>
-              <span className="hidden xs:inline text-[#888888]">&bull;</span>
-              <span className="hidden xs:inline text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-brand/12 text-brand-dark border border-brand/25 whitespace-nowrap">
-                Creative Dev
-              </span>
+
             </div>
 
             {/* Title & Animated Underline */}
@@ -415,7 +406,7 @@ function Hero() {
             <div className="hero-stagger mt-2 sm:mt-3 lg:mt-2 xl:mt-2.5 min-h-[2.1rem] sm:min-h-[2.6rem] flex items-center overflow-hidden">
               <h2 className="text-[15px] xs:text-[17px] sm:text-[1.35rem] md:text-[1.65rem] lg:text-[1.45rem] xl:text-[1.75rem] 2xl:text-[2rem] font-bold text-[#111111] flex items-center whitespace-nowrap">
                 <span className="text-[#222222]">
-                  I design &amp; build&nbsp;
+                  I turn Figma designs into&nbsp;
                 </span>
                 <span className="relative inline-flex items-center shrink-0">
                   <span className="bg-gradient-to-r from-brand-deep via-brand to-brand-light bg-clip-text text-transparent font-black tracking-tight drop-shadow-[0_1px_2px_rgba(var(--brand-rgb-dark),0.25)]">
@@ -436,36 +427,24 @@ function Hero() {
             {/* CTA Buttons with Smooth Scroll & Sheen */}
             <div className="hero-stagger mt-5 sm:mt-6 lg:mt-4 xl:mt-5 flex flex-wrap items-center gap-3">
               <a
+                href="#contact"
+                onClick={(e) => handleSmoothScroll(e, "contact")}
+                className="group relative inline-flex items-center gap-2.5 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-6 py-3.5 sm:px-7 sm:py-3.5 text-sm font-semibold shadow-[0_8px_24px_rgba(0,0,0,0.18)] hover:shadow-[0_12px_28px_rgba(var(--brand-rgb),0.38)] transition-all duration-300 hover:-translate-y-0.5 active:scale-95 cursor-pointer overflow-hidden"
+              >
+                <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+                <span>Get in touch</span>
+                <span className="text-base transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
+              </a>
+              <a
                 href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 download="Raj_Shekhar_Resume.pdf"
-                className="group relative inline-flex items-center gap-2.5 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-6 py-3.5 sm:px-7 sm:py-3.5 text-sm font-semibold shadow-[0_8px_24px_rgba(0,0,0,0.18)] hover:shadow-[0_12px_28px_rgba(var(--brand-rgb),0.38)] transition-all duration-300 hover:-translate-y-0.5 active:scale-95 cursor-pointer overflow-hidden"
-              >
-                <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-                <span>My Resume</span>
-                <svg
-                  className="w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
-                  />
-                </svg>
-              </a>
-              <a
-                href="#contact"
-                onClick={(e) => handleSmoothScroll(e, "contact")}
                 className="group inline-flex items-center gap-2.5 rounded-full border border-black/20 hover:border-brand text-[#111111] hover:text-brand px-6 py-3.5 sm:px-7 sm:py-3.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-95 bg-white shadow-sm hover:shadow-md cursor-pointer"
               >
-                <span>Get in touch</span>
+                <span>My Resume</span>
                 <span className="text-[#888888] group-hover:text-brand group-hover:translate-x-1 transition-all duration-200">
-                  &rarr;
+                  &darr;
                 </span>
               </a>
             </div>
@@ -512,11 +491,11 @@ function Hero() {
               containerClass="absolute -top-2 sm:top-0 right-1 sm:right-4 lg:-right-4 items-end z-20"
               text={
                 <>
-                  Turning
+                  Figma to
                   <br />
-                  Ideas Into
+                  React,
                   <br />
-                  Real Websites
+                  carefully
                 </>
               }
               arrowPath="M 55 10 C 50 35, 30 45, 15 52"
