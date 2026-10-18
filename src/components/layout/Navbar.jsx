@@ -94,6 +94,15 @@ function Navbar() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === "Escape") closeMenu();
+    };
+
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, []);
+
   const closeMenu = () => setIsMenuOpen(false);
 
   const handleSmoothScroll = (e, href) => {
@@ -164,13 +173,15 @@ function Navbar() {
                   key={item.label}
                   href={item.href}
                   onClick={(e) => handleSmoothScroll(e, item.href)}
-                  className={`rounded-full px-4 py-2 text-xs font-bold tracking-wider uppercase transition-[background-color,color,box-shadow] duration-200 ${
+                  aria-current={isActive ? "page" : undefined}
+                  className={`group relative rounded-full px-4 py-2 text-xs font-bold tracking-wider uppercase transition-[background-color,color,box-shadow] duration-200 ${
                     isActive
                       ? "bg-white/90 text-brand shadow-[0_4px_12px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,1)]"
                       : "text-[#222222] hover:text-brand hover:bg-white/55"
                   }`}
                 >
                   {item.label}
+                  <span className={`absolute inset-x-4 -bottom-0.5 h-0.5 origin-left rounded-full bg-brand transition-transform duration-300 ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-60"}`} aria-hidden="true" />
                 </a>
               );
             })}
@@ -213,7 +224,9 @@ function Navbar() {
       {/* MOBILE DROPDOWN (GLASS) */}
       {isMenuOpen && (
         <div
-          className={`pointer-events-auto relative mx-auto mt-3 max-w-md rounded-3xl p-5 md:hidden ${GLASS_PANEL}`}
+          role="dialog"
+          aria-label="Mobile navigation"
+          className={`pointer-events-auto relative mx-auto mt-3 max-w-md origin-top rounded-3xl p-5 md:hidden ${GLASS_PANEL} animate-in fade-in-0 slide-in-from-top-2 duration-300`}
         >
           <GlassShine rounded="rounded-3xl" />
           <nav className="relative z-10 flex flex-col gap-2">
