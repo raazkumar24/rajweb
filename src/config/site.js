@@ -26,18 +26,6 @@ export const siteConfig = {
       title: "Instagram Profile",
       label: "Instagram (@raaz__kumar_)",
     },
-    {
-      key: "fiverr",
-      href: "https://www.fiverr.com/raaz__kumar_",
-      title: "Fiverr Profile",
-      label: "Fiverr (raaz__kumar_)",
-    },
-    {
-      key: "contra",
-      href: "https://contra.com/[YOUR_USERNAME]", 
-      title: "Contra Profile",
-      label: "Contra (add your profile URL)",
-    },
   ],
 };
 

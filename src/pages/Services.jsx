@@ -25,10 +25,10 @@ import { ANIM } from "../animation/config";
 gsap.registerPlugin(ScrollTrigger);
 
 const serviceIcons = {
-  "figma-react": Palette,
-  wordpress: Monitor,
-  "custom-react": Layers,
-  "optional-stack": Database,
+  "web-apps": Monitor,
+  "full-stack": Database,
+  "ui-motion": Palette,
+  "cloud-integrations": Layers,
 };
 
 export default function Services() {
@@ -104,14 +104,14 @@ export default function Services() {
               titleMain="BUILD &amp;"
               titleAccent="DELIVER."
               description="Focused development services for businesses who want a fast, reliable website delivered on schedule without agency overhead."
-              annotation=""
+              annotation="Available for new projects"
               align="split"
               className="!mb-0"
             />
           </div>
 
           {/* Quick value guarantee pills */}
-          <div className="hidden flex items-center gap-2.5 flex-wrap shrink-0">
+          <div className="flex items-center gap-2.5 flex-wrap shrink-0">
             <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-white/90 text-xs font-semibold text-[#111111] shadow-xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Available for new projects</span>

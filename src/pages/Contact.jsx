@@ -23,7 +23,7 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-topic: "",
+    topic: "Full-stack web app",
     message: "",
   });
   const [botcheck, setBotcheck] = useState(false);
@@ -97,7 +97,7 @@ topic: "",
       if (result.success) {
         setSent(true);
         setErrorMsg("");
-        setFormData({ name: "", email: "", topic: "", message: "" });
+        setFormData({ name: "", email: "", topic: "Full-stack web app", message: "" });
       } else {
         setErrorMsg(result.message || "Failed to send message. Please try again or reach out directly.");
       }
@@ -110,8 +110,8 @@ topic: "",
 
   const topics = [
     "New website",
-    "Figma to React",
-    "WordPress",
+    "Full-stack web app",
+    "Design & polish",
     "Contract role",
   ];
 
@@ -260,7 +260,7 @@ topic: "",
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="e.g. Alex Rivera"
-                      className="w-full bg-transparent border-b-2 border-white/30 focus:border-brand pb-3 text-white placeholder-white/55 outline-none transition-colors text-base font-normal focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#111111]"
+                      className="w-full bg-transparent border-b-2 border-white/20 focus:border-brand pb-3 text-white placeholder-white/25 outline-none transition-colors text-base font-normal"
                     />
                   </div>
 
@@ -275,7 +275,7 @@ topic: "",
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="alex@company.com"
-                      className="w-full bg-transparent border-b-2 border-white/30 focus:border-brand pb-3 text-white placeholder-white/55 outline-none transition-colors text-base font-normal focus-visible:ring-2 focus-visible:ring-brand/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#111111]"
+                      className="w-full bg-transparent border-b-2 border-white/20 focus:border-brand pb-3 text-white placeholder-white/25 outline-none transition-colors text-base font-normal"
                     />
                   </div>
                 </div>
