@@ -210,11 +210,11 @@ export default function WhatIUseTypographic() {
         </div>
 
         {/* ── Tools List ── */}
-        <div className="wiu-list flex flex-col gap-1.5">
+        <div className="wiu-list flex flex-col gap-3 sm:gap-4 px-1 sm:px-4">
           {filteredTech.map((tech, idx) => {
             const isActive = activeHoverId === tech.id;
             return (
-              <div key={tech.id} data-id={tech.id} className="wiu-row">
+              <div key={tech.id} data-id={tech.id} className={`wiu-row relative ${isActive ? "z-30" : "z-10"}`}>
                 <div
                   onMouseEnter={() => setActiveHoverId(tech.id)}
                   onClick={() => setActiveHoverId(tech.id)}
@@ -226,11 +226,11 @@ export default function WhatIUseTypographic() {
                       setActiveHoverId(tech.id);
                     }
                   }}
-                  className={`group relative cursor-pointer rounded-[1.35rem] px-3.5 sm:px-8 lg:px-10 py-3.5 sm:py-7
-                    transition-all duration-300 overflow-hidden border focus-within:ring-2 focus-within:ring-brand/40 ${
+                  className={`group relative cursor-pointer rounded-[1.35rem] px-3.5 sm:px-8 lg:px-10 py-4 sm:py-6
+                    transition-[background-color,border-color,box-shadow,transform] duration-300 overflow-hidden border focus-within:ring-2 focus-within:ring-brand/40 ${
                       isActive
-                        ? "bg-white/90 backdrop-blur-xl border-brand/25 shadow-[0_8px_40px_rgba(var(--brand-rgb),0.12),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] translate-x-1 sm:translate-x-2 ring-1 ring-brand/15"
-                        : "bg-transparent border-transparent hover:bg-white/50 hover:border-black/6 hover:shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
+                        ? "bg-white/95 backdrop-blur-xl border-brand/25 shadow-[0_18px_45px_rgba(var(--brand-rgb),0.16),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] translate-x-1 sm:translate-x-2 ring-1 ring-brand/15"
+                        : "bg-white/75 backdrop-blur-md border-black/8 shadow-[0_5px_18px_rgba(0,0,0,0.05)] hover:bg-white/90 hover:border-brand/20"
                     }`}
                 >
                   {/* Glass sheen on active */}
@@ -276,7 +276,7 @@ export default function WhatIUseTypographic() {
                         </h3>
 
                         {Array.isArray(tech.tags) && tech.tags.length > 0 && (
-                          <div className="hidden flex-wrap gap-1.5 sm:flex">
+                          <div className="flex flex-wrap gap-1.5">
                             {tech.tags.slice(0, 3).map((tag) => (
                               <span
                                 key={tag}
@@ -295,12 +295,12 @@ export default function WhatIUseTypographic() {
                     </div>
 
                     {/* Right: category + description + icon + arrow */}
-                    <div className="flex items-center gap-2.5 sm:gap-6 justify-between lg:justify-end shrink-0">
-                      <div className="hidden flex-col lg:items-end gap-1 max-w-xs sm:flex">
-                        <span className="text-[11px] font-bold tracking-wider uppercase text-brand lg:text-right">
+                    <div className="flex min-w-0 items-center gap-2.5 sm:gap-6 justify-between lg:justify-end shrink-0">
+                      <div className="flex min-w-0 max-w-[11rem] flex-col gap-1 lg:items-end sm:max-w-xs">
+                        <span className="text-[10px] sm:text-[11px] font-bold tracking-wider uppercase text-brand lg:text-right">
                           {tech.categoryLabel}
                         </span>
-                        <p className="text-xs sm:text-sm text-[#4B5563] font-normal leading-relaxed lg:text-right">
+                        <p className="text-[11px] sm:text-sm text-[#4B5563] font-normal leading-snug sm:leading-relaxed lg:text-right">
                           {tech.description}
                         </p>
                       </div>
@@ -354,7 +354,7 @@ export default function WhatIUseTypographic() {
           </span>
           <span className="hidden sm:flex items-center gap-2 text-xs font-medium text-[#999999]">
             <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
-            Hover to explore
+            Click to highlight
           </span>
         </div>
       </div>
