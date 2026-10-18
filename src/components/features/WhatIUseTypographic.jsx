@@ -276,7 +276,7 @@ export default function WhatIUseTypographic() {
                         </h3>
 
                         {Array.isArray(tech.tags) && tech.tags.length > 0 && (
-                          <div className="hidden flex-wrap gap-1.5 sm:flex">
+                          <div className="flex flex-wrap gap-1.5">
                             {tech.tags.slice(0, 3).map((tag) => (
                               <span
                                 key={tag}
@@ -295,12 +295,12 @@ export default function WhatIUseTypographic() {
                     </div>
 
                     {/* Right: category + description + icon + arrow */}
-                    <div className="flex items-center gap-2.5 sm:gap-6 justify-between lg:justify-end shrink-0">
-                      <div className="hidden flex-col lg:items-end gap-1 max-w-xs sm:flex">
-                        <span className="text-[11px] font-bold tracking-wider uppercase text-brand lg:text-right">
+                    <div className="flex min-w-0 items-center gap-2.5 sm:gap-6 justify-between lg:justify-end shrink-0">
+                      <div className="flex min-w-0 max-w-[11rem] flex-col gap-1 lg:items-end sm:max-w-xs">
+                        <span className="text-[10px] sm:text-[11px] font-bold tracking-wider uppercase text-brand lg:text-right">
                           {tech.categoryLabel}
                         </span>
-                        <p className="text-xs sm:text-sm text-[#4B5563] font-normal leading-relaxed lg:text-right">
+                        <p className="text-[11px] sm:text-sm text-[#4B5563] font-normal leading-snug sm:leading-relaxed lg:text-right">
                           {tech.description}
                         </p>
                       </div>
