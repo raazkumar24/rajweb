@@ -363,21 +363,6 @@ export default function Works() {
                         ))}
                       </div>
 
-                      {/* Tech Stack Chips */}
-                      <div className="flex flex-wrap items-center gap-1.5 mb-6">
-                        <span className="text-[11px] font-bold text-[#888888] uppercase tracking-wider mr-1">
-                          Stack:
-                        </span>
-                        {project.stack.map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2.5 py-1 rounded-lg bg-black/5 border border-black/8 text-[11px] font-semibold text-[#444444] hover:bg-brand/10 hover:border-brand/30 hover:text-brand-dark transition-all duration-200"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-
                       {/* Action Buttons */}
                       <div className="flex items-center gap-3 flex-wrap">
                         <button
