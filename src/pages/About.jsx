@@ -263,11 +263,11 @@ export default function About() {
               <p className="ab-intro-stagger text-[#4B5563] text-base sm:text-lg leading-relaxed max-w-lg mb-8 font-normal">
                 I'm Raj Shekhar, a{" "}
                 <strong className="text-[#111111] font-semibold">
-                  frontend and web developer
+                  Full-Stack MERN Developer &amp; Designer
                 </strong>{" "}
-                who loves building modern, reliable websites. I focus on
-                creating interfaces that look great, work smoothly on every
-                phone, and help businesses turn visitors into customers.
+                who designs in Figma/XD and builds full-stack MERN websites and web apps.
+                I work across interface design, React frontend development,
+                APIs, databases, and practical e-commerce experiences.
               </p>
 
               <div className="ab-intro-stagger flex flex-wrap items-center gap-3.5">
@@ -301,7 +301,7 @@ export default function About() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
                   </span>
-                  <span>Available for Hire</span>
+                  <span>Open to projects</span>
                   <span className="text-[#888888]">&bull;</span>
                   <span className="text-[10.5px] uppercase font-bold tracking-wider text-brand-dark">
                     Open for Work
@@ -327,11 +327,11 @@ export default function About() {
                       RAJ SHEKHAR
                     </h3>
                     <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-brand/12 text-brand-dark border border-brand/25">
-                      Creative Dev
+                      MERN + Figma/XD
                     </span>
                   </div>
                   <p className="text-xs sm:text-sm font-semibold text-[#4B5563]">
-                    Frontend Engineer &amp; MERN Stack Developer
+                    Full-Stack MERN Developer &amp; Designer
                   </p>
                   <p className="text-[11px] text-[#777777] flex items-center gap-1.5 font-medium mt-0.5">
                     <MapPin className="w-3.5 h-3.5 text-brand-dark" />
