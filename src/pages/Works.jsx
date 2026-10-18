@@ -239,6 +239,7 @@ export default function Works() {
                   key={tab.id}
                   type="button"
                   onClick={() => setActiveFilter(tab.id)}
+                  aria-pressed={active}
                   className={`text-xs sm:text-sm font-semibold transition-all duration-300 px-3.5 py-2 sm:px-4 sm:py-2 rounded-full cursor-pointer flex items-center gap-1.5 sm:gap-2 whitespace-nowrap ${
                     active
                       ? "bg-[#111111] text-white shadow-md shadow-black/20 ring-1 ring-white/10"
