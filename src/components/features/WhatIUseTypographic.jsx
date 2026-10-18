@@ -210,11 +210,11 @@ export default function WhatIUseTypographic() {
         </div>
 
         {/* ── Tools List ── */}
-        <div className="wiu-list flex flex-col gap-0 px-1 sm:px-4">
+        <div className="wiu-list flex flex-col gap-3 sm:gap-4 px-1 sm:px-4">
           {filteredTech.map((tech, idx) => {
             const isActive = activeHoverId === tech.id;
             return (
-              <div key={tech.id} data-id={tech.id} className={`wiu-row relative ${idx > 0 ? "-mt-3 sm:-mt-5" : ""} ${isActive ? "z-30" : "z-10"}`}>
+              <div key={tech.id} data-id={tech.id} className={`wiu-row relative ${isActive ? "z-30" : "z-10"}`}>
                 <div
                   onMouseEnter={() => setActiveHoverId(tech.id)}
                   onClick={() => setActiveHoverId(tech.id)}
@@ -226,7 +226,7 @@ export default function WhatIUseTypographic() {
                       setActiveHoverId(tech.id);
                     }
                   }}
-                  className={`group relative cursor-pointer rounded-[1.35rem] px-3.5 sm:px-8 lg:px-10 py-4 sm:py-7
+                  className={`group relative cursor-pointer rounded-[1.35rem] px-3.5 sm:px-8 lg:px-10 py-4 sm:py-6
                     transition-[background-color,border-color,box-shadow,transform] duration-300 overflow-hidden border focus-within:ring-2 focus-within:ring-brand/40 ${
                       isActive
                         ? "bg-white/95 backdrop-blur-xl border-brand/25 shadow-[0_18px_45px_rgba(var(--brand-rgb),0.16),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] translate-x-1 sm:translate-x-2 ring-1 ring-brand/15"
@@ -296,7 +296,7 @@ export default function WhatIUseTypographic() {
 
                     {/* Right: category + description + icon + arrow */}
                     <div className="flex min-w-0 items-center gap-2.5 sm:gap-6 justify-between lg:justify-end shrink-0">
-                      <div className={`min-w-0 max-w-[11rem] flex-col gap-1 lg:items-end sm:max-w-xs ${isActive ? "flex" : "hidden md:flex"}`}>
+                      <div className="flex min-w-0 max-w-[11rem] flex-col gap-1 lg:items-end sm:max-w-xs">
                         <span className="text-[10px] sm:text-[11px] font-bold tracking-wider uppercase text-brand lg:text-right">
                           {tech.categoryLabel}
                         </span>
@@ -354,7 +354,7 @@ export default function WhatIUseTypographic() {
           </span>
           <span className="hidden sm:flex items-center gap-2 text-xs font-medium text-[#999999]">
             <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
-            Click to expand
+            Click to highlight
           </span>
         </div>
       </div>
