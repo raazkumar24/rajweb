@@ -23,12 +23,7 @@ import { socialLinks as siteSocialLinks } from "../config/site";
 import { ANIM } from "../animation/config";
 
 // ─── Typewriter roles ─────────────────────────────────────────────────────────
-const roles = [
-  "Modern Web Apps",
-  "Frontend Experiences",
-  "Full-Stack MERN Apps",
-  "Interactive Websites",
-];
+const roles = ["full-stack MERN websites and web apps."];
 
 const iconMap = {
   github: GitHubIcon,
@@ -38,9 +33,8 @@ const iconMap = {
 
 // ─── Stats data ───────────────────────────────────────────────────────────────
 const stats = [
-  { value: "10+", label: "Projects Deployed" },
-  { value: "MERN", label: "Stack Specialist", isHighlight: true },
-  { value: "Available", label: "Open for Projects", isLive: true },
+  { value: "4", label: "Live projects" },
+  { value: "MERN", label: "Core stack", isHighlight: true },
 ];
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -391,9 +385,7 @@ function Hero() {
                 Available for Work
               </span>
               <span className="hidden xs:inline text-[#888888]">&bull;</span>
-              <span className="hidden xs:inline text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-brand/12 text-brand-dark border border-brand/25 whitespace-nowrap">
-                Creative Dev
-              </span>
+              
             </div>
 
             {/* Title & Animated Underline */}

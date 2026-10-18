@@ -23,7 +23,7 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    topic: "Full-stack web app",
+topic: "",
     message: "",
   });
   const [botcheck, setBotcheck] = useState(false);
@@ -97,7 +97,7 @@ export default function Contact() {
       if (result.success) {
         setSent(true);
         setErrorMsg("");
-        setFormData({ name: "", email: "", topic: "Full-stack web app", message: "" });
+        setFormData({ name: "", email: "", topic: "", message: "" });
       } else {
         setErrorMsg(result.message || "Failed to send message. Please try again or reach out directly.");
       }
@@ -111,7 +111,7 @@ export default function Contact() {
   const topics = [
     "New website",
     "Full-stack web app",
-    "Design & polish",
+    "Custom design",
     "Contract role",
   ];
 
