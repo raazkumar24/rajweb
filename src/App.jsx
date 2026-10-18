@@ -64,14 +64,21 @@ function App() {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
 
-    // Refresh ScrollTrigger once custom web fonts are fully rendered
-    if (document.fonts?.ready) {
-      document.fonts.ready.then(() => {
-        ScrollTrigger.refresh();
-      });
-    }
+    let refreshFrame = 0;
+    const refreshAnimations = () => {
+      cancelAnimationFrame(refreshFrame);
+      refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh());
+    };
+    const refreshAfterFonts = document.fonts?.ready?.then(refreshAnimations);
+    window.addEventListener("load", refreshAnimations, { once: true });
+    window.addEventListener("resize", refreshAnimations, { passive: true });
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("load", refreshAnimations);
+      window.removeEventListener("resize", refreshAnimations);
+      void refreshAfterFonts;
+    };
   }, []);
 
   const scrollToTop = () => {
