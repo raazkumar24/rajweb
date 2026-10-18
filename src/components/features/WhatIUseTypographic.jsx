@@ -218,8 +218,16 @@ export default function WhatIUseTypographic() {
                 <div
                   onMouseEnter={() => setActiveHoverId(tech.id)}
                   onClick={() => setActiveHoverId(tech.id)}
-                  className={`group relative cursor-pointer rounded-2xl px-5 sm:px-8 lg:px-10 py-5 sm:py-7
-                    transition-all duration-300 overflow-hidden border ${
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      setActiveHoverId(tech.id);
+                    }
+                  }}
+                  className={`group relative cursor-pointer rounded-[1.35rem] px-5 sm:px-8 lg:px-10 py-5 sm:py-7
+                    transition-all duration-300 overflow-hidden border focus-within:ring-2 focus-within:ring-brand/40 ${
                       isActive
                         ? "bg-white/90 backdrop-blur-xl border-brand/25 shadow-[0_8px_40px_rgba(var(--brand-rgb),0.12),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] translate-x-1 sm:translate-x-2 ring-1 ring-brand/15"
                         : "bg-transparent border-transparent hover:bg-white/50 hover:border-black/6 hover:shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
