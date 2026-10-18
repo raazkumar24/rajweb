@@ -272,9 +272,9 @@ export default function Works() {
                 key={project.id}
                 className="wk-project-row group relative grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 xl:gap-20 items-center"
               >
-                {/* IMAGE COLUMN WITH 3D HOVER EFFECT */}
+                {/* IMAGE COLUMN */}
                 <div
-                  className={`lg:col-span-7 relative rounded-[1.75rem] sm:rounded-[2rem] overflow-hidden bg-[#e9e2ff] shadow-[0_24px_70px_rgba(34,22,72,0.12)] ring-1 ring-black/8 transition-transform duration-700 group-hover:-translate-y-2 ${
+                  className={`lg:col-span-7 relative rounded-[1.75rem] sm:rounded-[2rem] overflow-visible bg-[#e9e2ff] shadow-[0_24px_70px_rgba(34,22,72,0.12)] ring-1 ring-black/8 ${
                     isImageLeft ? "lg:order-1" : "lg:order-2"
                   }`}
                 >
