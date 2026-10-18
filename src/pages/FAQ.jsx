@@ -88,9 +88,6 @@ export default function FAQ() {
                       {item.id}
                     </span>
                     <div className="min-w-0">
-                      <span className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.18em] text-brand/80">
-                        Question {item.id}
-                      </span>
                       <h3
                         className={`font-black uppercase tracking-[-0.025em] text-base sm:text-xl lg:text-2xl leading-tight transition-colors duration-200 ${
                           isOpen ? "text-[#111111]" : "text-[#111111] group-hover:text-brand-dark"
