@@ -43,7 +43,7 @@ export default function Works() {
       "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
       () => {
         const rows = gsap.utils.toArray(".wk-project-row");
-        rows.forEach((row) => {
+        rows.forEach((row, index) => {
           const img = row.querySelector(".wk-project-img");
           const clipWrap =
             row.querySelector(".wk-clip-wrap") ||
@@ -66,6 +66,7 @@ export default function Works() {
                   trigger: row,
                   start: ANIM.SCROLL_START,
                   once: true,
+                  toggleActions: "play none none reverse",
                 },
               },
             );
@@ -262,18 +263,18 @@ export default function Works() {
         </div>
 
         {/* Project Rows with Generous Breathing Room */}
-        <div className="flex flex-col gap-16 sm:gap-24 lg:gap-32">
+        <div className="flex flex-col gap-20 sm:gap-28 lg:gap-36">
           {filteredProjects.map((project, idx) => {
             const isImageLeft = idx % 2 === 0;
 
             return (
               <div
                 key={project.id}
-                className="wk-project-row relative grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-12 lg:gap-16 xl:gap-20 items-stretch"
+                className="wk-project-row group relative grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 xl:gap-20 items-center"
               >
                 {/* IMAGE COLUMN WITH 3D HOVER EFFECT */}
                 <div
-                  className={`lg:col-span-7 relative rounded-[1.75rem] sm:rounded-[2rem] overflow-hidden ${
+                  className={`lg:col-span-7 relative rounded-[1.75rem] sm:rounded-[2rem] overflow-hidden bg-[#e9e2ff] shadow-[0_24px_70px_rgba(34,22,72,0.12)] ring-1 ring-black/8 transition-transform duration-700 group-hover:-translate-y-2 ${
                     isImageLeft ? "lg:order-1" : "lg:order-2"
                   }`}
                 >
@@ -288,14 +289,14 @@ export default function Works() {
 
                 {/* TEXT & METRICS COLUMN */}
                 <div
-                  className={`wk-project-info lg:col-span-5 flex flex-col justify-center relative z-20 rounded-[1.75rem] sm:rounded-[2rem] bg-white/55 backdrop-blur-sm border border-black/8 px-5 py-5 sm:px-7 sm:py-7 lg:px-0 lg:py-0 lg:bg-transparent lg:border-0 ${
+                  className={`wk-project-info lg:col-span-5 flex flex-col justify-center relative z-20 rounded-[1.75rem] sm:rounded-[2rem] bg-white/70 backdrop-blur-sm border border-black/8 px-5 py-6 sm:px-7 sm:py-8 lg:px-0 lg:py-0 lg:bg-transparent lg:border-0 ${
                     isImageLeft
                       ? "lg:order-2 lg:pl-2 xl:pl-4"
                       : "lg:order-1 lg:pr-2 xl:pr-4"
                   }`}
                 >
                   {/* Glass card wrapper */}
-                  <div className="relative border-t-2 border-[#111111] border-b border-black/10 py-6 sm:py-8 overflow-hidden">
+                  <div className="relative border-t-2 border-[#111111] border-b border-black/10 py-7 sm:py-9 overflow-hidden">
                     {/* Top brand gradient bar */}
                     <div
                       className="absolute right-0 top-0 h-full w-px bg-brand/30"
@@ -334,7 +335,7 @@ export default function Works() {
                           setModalImageIdx(0);
                           setActiveProjectModal(project);
                         }}
-                        className="cursor-pointer font-black italic uppercase tracking-[-0.035em] text-3xl sm:text-4xl lg:text-5xl text-[#111111] hover:text-brand transition-colors leading-[0.95] mb-4"
+                        className="cursor-pointer font-black italic uppercase tracking-[-0.045em] text-4xl sm:text-5xl lg:text-[4.25rem] text-[#111111] hover:text-brand transition-colors leading-[0.9] mb-5"
                       >
                         {project.title}
                       </h3>
