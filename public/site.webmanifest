@@ -1,0 +1,16 @@
+{
+  "name": "Raj Shekhar Portfolio",
+  "short_name": "Raj Shekhar",
+  "description": "Portfolio of Raj Shekhar, a full-stack web developer.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#111111",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
