@@ -173,7 +173,7 @@ export default function WhatIUseTypographic() {
         </div>
 
         {/* ── INTERACTIVE PILL BUTTONS (Category Navigation styled & positioned like What Drives Me) ── */}
-        <div className="mb-8 sm:mb-10 flex items-center gap-2 sm:gap-3 flex-wrap bg-white/50 backdrop-blur-xl p-1.5 rounded-2xl sm:rounded-full border border-black/7 shadow-2xs w-fit">
+        <div className="mb-8 sm:mb-10 flex max-w-full items-center gap-2 overflow-x-auto bg-white/50 backdrop-blur-xl p-1.5 rounded-2xl sm:rounded-full border border-black/7 shadow-2xs w-fit scrollbar-hide">
           {TABS.map((tab) => {
             const isActive = activeFilter === tab.id;
             return (
@@ -181,7 +181,7 @@ export default function WhatIUseTypographic() {
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveFilter(tab.id)}
-                className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl sm:rounded-full text-xs font-bold transition-all duration-300 cursor-pointer ${
+                className={`flex shrink-0 items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl sm:rounded-full text-xs font-bold transition-all duration-300 cursor-pointer ${
                   isActive
                     ? "bg-[#111111] text-white shadow-md shadow-black/20 ring-1 ring-white/10 scale-[1.02]"
                     : "text-[#666666] hover:text-[#111111] hover:bg-white/80"
@@ -226,7 +226,7 @@ export default function WhatIUseTypographic() {
                       setActiveHoverId(tech.id);
                     }
                   }}
-                  className={`group relative cursor-pointer rounded-[1.35rem] px-3.5 sm:px-8 lg:px-10 py-4 sm:py-7
+                  className={`group relative cursor-pointer rounded-[1.35rem] px-3.5 sm:px-8 lg:px-10 py-3.5 sm:py-7
                     transition-all duration-300 overflow-hidden border focus-within:ring-2 focus-within:ring-brand/40 ${
                       isActive
                         ? "bg-white/90 backdrop-blur-xl border-brand/25 shadow-[0_8px_40px_rgba(var(--brand-rgb),0.12),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.9)] translate-x-1 sm:translate-x-2 ring-1 ring-brand/15"
@@ -264,9 +264,9 @@ export default function WhatIUseTypographic() {
                         {String(idx + 1).padStart(2, "0")}
                       </span>
 
-                      <div className="flex flex-col gap-2.5 min-w-0">
+                      <div className="flex min-w-0 flex-col gap-1.5 sm:gap-2.5">
                         <h3
-                          className={`font-black italic uppercase tracking-[-0.03em] leading-none transition-all duration-300 text-2xl xs:text-3xl sm:text-5xl md:text-6xl lg:text-7xl ${
+                          className={`font-black italic uppercase tracking-[-0.03em] leading-none transition-all duration-300 text-xl xs:text-2xl sm:text-5xl md:text-6xl lg:text-7xl ${
                             isActive
                               ? "text-brand drop-shadow-[0_2px_8px_rgba(var(--brand-rgb),0.18)]"
                               : "text-[#111111] group-hover:text-[#333333]"
@@ -276,7 +276,7 @@ export default function WhatIUseTypographic() {
                         </h3>
 
                         {Array.isArray(tech.tags) && tech.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1.5">
+                          <div className="hidden flex-wrap gap-1.5 sm:flex">
                             {tech.tags.slice(0, 3).map((tag) => (
                               <span
                                 key={tag}
@@ -296,7 +296,7 @@ export default function WhatIUseTypographic() {
 
                     {/* Right: category + description + icon + arrow */}
                     <div className="flex items-center gap-2.5 sm:gap-6 justify-between lg:justify-end shrink-0">
-                      <div className="flex flex-col lg:items-end gap-1 max-w-xs">
+                      <div className="hidden flex-col lg:items-end gap-1 max-w-xs sm:flex">
                         <span className="text-[11px] font-bold tracking-wider uppercase text-brand lg:text-right">
                           {tech.categoryLabel}
                         </span>

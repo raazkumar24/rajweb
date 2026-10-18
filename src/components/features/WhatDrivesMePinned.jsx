@@ -103,18 +103,19 @@ export default function WhatDrivesMePinned() {
                   />
                 </span>
               </h2>
-              <HandwrittenBadge
-                text="Scroll or click to switch"
-                direction="curved-right"
-                rotation="-rotate-6"
-                className="hidden sm:inline-flex"
-              />
+              <span className="hidden md:inline-flex">
+                <HandwrittenBadge
+                  text="Scroll or click to switch"
+                  direction="curved-right"
+                  rotation="-rotate-6"
+                />
+              </span>
             </div>
           </div>
         </div>
 
         {/* ── INTERACTIVE PILL BUTTONS (Category Navigation with Lucide SVG Icons) ── */}
-        <div className="flex items-center gap-2 sm:gap-3 flex-wrap bg-white/50 backdrop-blur-xl p-1.5 rounded-2xl sm:rounded-full border border-black/7 shadow-2xs w-fit">
+        <div className="hidden md:flex items-center gap-2 sm:gap-3 flex-wrap bg-white/50 backdrop-blur-xl p-1.5 rounded-2xl sm:rounded-full border border-black/7 shadow-2xs w-fit">
           {strengthsData.map((step, idx) => {
             const active = activeStep === idx;
             const pMeta = principleMeta[idx];
@@ -234,21 +235,21 @@ export default function WhatDrivesMePinned() {
         </div>
 
         {/* ── MOBILE VIEW (OPEN EDITORIAL LIST - NO CARD) ── */}
-        <div className="md:hidden flex flex-col gap-10 my-6">
+        <div className="md:hidden flex flex-col gap-3 my-6">
           {strengthsData.map((step, idx) => {
             const pMeta = principleMeta[idx];
             const StepIcon = pMeta.icon;
             return (
               <div
                 key={step.num}
-                className="flex gap-4 sm:gap-6 items-start pt-6 border-t border-black/8"
+                className="group flex gap-3 items-start rounded-2xl border border-black/8 bg-white/60 p-4 shadow-[0_6px_18px_rgba(0,0,0,0.035)] transition-colors hover:border-brand/25"
               >
                 {/* Left Line + Number */}
                 <div className="flex items-start gap-3 shrink-0">
-                  <div className="relative h-16 w-1.5 bg-black/8 rounded-full overflow-hidden shrink-0 mt-1">
+                  <div className="relative h-14 w-1 bg-brand/15 rounded-full overflow-hidden shrink-0 mt-1">
                     <div className="w-full h-full bg-brand rounded-full" />
                   </div>
-                  <span className="font-black italic text-4xl text-brand-dark leading-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]">
+                  <span className="font-black italic text-3xl text-brand-dark leading-none">
                     {step.num}
                   </span>
                 </div>
@@ -264,7 +265,7 @@ export default function WhatDrivesMePinned() {
                     {step.subtitle}
                   </span>
 
-                  <h3 className="font-black italic uppercase text-2xl text-[#111111] leading-tight mt-1">
+                  <h3 className="font-black italic uppercase text-xl text-[#111111] leading-tight mt-1">
                     {step.title}
                   </h3>
 
