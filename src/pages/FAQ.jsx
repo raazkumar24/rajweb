@@ -72,12 +72,12 @@ export default function FAQ() {
                 <button
                   type="button"
                   onClick={() => toggleItem(item.id)}
-                  className="w-full flex items-center justify-between text-left gap-4 p-5 sm:p-7 cursor-pointer"
+                  className="w-full grid grid-cols-[auto_minmax(0,1fr)_auto] items-center text-left gap-2.5 sm:gap-4 p-4 sm:p-7 cursor-pointer"
                   id={`faq-question-${item.id}`}
                   aria-expanded={isOpen}
                   aria-controls={`faq-answer-${item.id}`}
                 >
-                  <div className="flex items-start gap-4 sm:gap-6 flex-1 min-w-0">
+                  <div className="col-span-2 flex items-center gap-2.5 sm:gap-6 min-w-0">
                     <span
                       className={`mt-0.5 flex size-10 sm:size-12 shrink-0 items-center justify-center rounded-xl font-mono text-xs sm:text-sm font-bold transition-colors ${
                         isOpen
