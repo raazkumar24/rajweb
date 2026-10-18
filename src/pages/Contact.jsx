@@ -118,7 +118,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative w-full bg-[#111111] text-[#FAF8F5] pt-8 sm:pt-10 lg:pt-14 pb-16 sm:pb-24 overflow-hidden select-none font-sans scroll-mt-20 sm:scroll-mt-28"
+      className="relative w-full bg-[#111111] text-[#FAF8F5] pt-8 sm:pt-10 lg:pt-14 pb-16 sm:pb-24 overflow-hidden font-sans scroll-mt-20 sm:scroll-mt-28"
     >
       <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14 relative z-10">
         
@@ -179,9 +179,15 @@ export default function Contact() {
           
           {/* LEFT: Underline-Only Minimal Form */}
           <div className="lg:col-span-8">
-            <span className="text-sm font-semibold text-brand block mb-8">
-              Send a message
-            </span>
+            <div className="mb-8 flex items-end justify-between gap-4 border-b border-white/10 pb-5">
+              <div>
+                <span className="text-sm font-semibold text-brand block mb-2">
+                  Send a message
+                </span>
+                <p className="text-sm text-white/50">A few details help me give you a useful first reply.</p>
+              </div>
+              <span className="hidden sm:inline-flex rounded-full border border-white/10 px-3 py-1 text-xs text-white/45">Step 01 / 01</span>
+            </div>
 
             {sent ? (
               <div className="py-12 px-6 rounded-2xl bg-white/5 border border-white/10 flex flex-col items-start gap-3">

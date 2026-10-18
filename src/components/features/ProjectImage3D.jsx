@@ -1,235 +1,56 @@
-import React, { useRef, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import React, { useState } from "react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
-/**
- * ProjectImage3D
- * Provides a tactile 3D perspective tilt effect on hover for project images.
- * Features:
- * - Realtime mouse-tracking 3D rotation (rotateX, rotateY)
- * - Outer clip wrapper to keep clip-path separate from preserve-3d context
- * - Support for multiple project gallery images with carousel controls
- * - Dynamic 3D depth shadow that shifts opposite to tilt direction
- * - Specular glare reflection moving in 3D across the image surface
- * - Elevated floating meta badge with translateZ
- * - Smooth spring return on mouse leave
- * - Respects touch devices & reduced motion
- */
-export default function ProjectImage3D({
-  image,
-  images = [],
-  title,
-  year,
-  client,
-  onClick,
-  className = "",
-  maxTilt = 10,
-}) {
-  const containerRef = useRef(null);
-  const [activeIdx, setActiveIdx] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [coords, setCoords] = useState({
-    rotateX: 0,
-    rotateY: 0,
-    glareX: 50,
-    glareY: 50,
-  });
-  const [isTouch] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      window.matchMedia("(pointer: coarse)").matches,
-  );
+export default function ProjectImage3D({ image, images = [], title, year, client, onClick, className = "" }) {
+  const [activeIdx, setActiveIdx] = useState(0)
+  const imageList = images.length > 0 ? images : [image]
+  const currentImage = imageList[activeIdx] || image
 
-  const imageList = images && images.length > 0 ? images : [image];
-  const currentImage = imageList[activeIdx] || image;
+  const handlePrev = (event) => {
+    event.stopPropagation()
+    setActiveIdx((index) => (index === 0 ? imageList.length - 1 : index - 1))
+  }
 
-  const handlePrev = (e) => {
-    e.stopPropagation();
-    setActiveIdx((prev) => (prev === 0 ? imageList.length - 1 : prev - 1));
-  };
-
-  const handleNext = (e) => {
-    e.stopPropagation();
-    setActiveIdx((prev) => (prev === imageList.length - 1 ? 0 : prev + 1));
-  };
-
-  const handleMouseMove = (e) => {
-    if (isTouch || !containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const normX = (x - centerX) / centerX; // -1 to 1
-    const normY = (y - centerY) / centerY; // -1 to 1
-
-    const rotateX = -normY * maxTilt;
-    const rotateY = normX * maxTilt;
-
-    const glareX = (x / rect.width) * 100;
-    const glareY = (y / rect.height) * 100;
-
-    setCoords({ rotateX, rotateY, glareX, glareY });
-  };
-
-  const handleMouseEnter = () => {
-    if (!isTouch) setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    setCoords({ rotateX: 0, rotateY: 0, glareX: 50, glareY: 50 });
-  };
-
-  const dynamicShadow = isHovered
-    ? `${(-coords.rotateY * 2.5).toFixed(1)}px ${(coords.rotateX * 2.5 + 28).toFixed(1)}px 55px -12px rgba(0, 0, 0, 0.42), 0 16px 36px -10px rgba(0, 0, 0, 0.25)`
-    : "0 18px 40px -8px rgba(0, 0, 0, 0.12)";
-
-  const transformStyle = isHovered
-    ? `perspective(1200px) rotateX(${coords.rotateX.toFixed(2)}deg) rotateY(${coords.rotateY.toFixed(2)}deg) scale3d(1.035, 1.035, 1.035)`
-    : "perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
+  const handleNext = (event) => {
+    event.stopPropagation()
+    setActiveIdx((index) => (index === imageList.length - 1 ? 0 : index + 1))
+  }
 
   return (
-    // Outer wrapper for entrance clip-path animation so it doesn't break preserve-3d
-    <div className="wk-clip-wrap w-full h-full overflow-hidden rounded-2xl sm:rounded-3xl">
+    <div className="wk-clip-wrap h-full w-full overflow-hidden rounded-2xl sm:rounded-3xl">
       <div
-        ref={containerRef}
         data-cursor="view"
         onClick={onClick}
-        onMouseMove={handleMouseMove}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        className={`wk-img-wrap group relative cursor-pointer overflow-hidden rounded-2xl sm:rounded-3xl border-2 border-black/12 hover:border-brand/50 aspect-[16/10] select-none ${className}`}
-        style={{
-          transform: transformStyle,
-          transformStyle: "preserve-3d",
-          boxShadow: dynamicShadow,
-          WebkitMaskImage: "-webkit-radial-gradient(white, black)",
-          isolation: "isolate",
-          transition: isHovered
-            ? "transform 0.12s ease-out, box-shadow 0.2s ease-out, border-color 0.2s ease-out"
-            : "transform 0.65s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.65s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.3s ease",
-          willChange: "transform, box-shadow, border-color",
-        }}
+        className={`wk-img-wrap group relative aspect-[16/10] cursor-pointer select-none overflow-hidden rounded-2xl border-2 border-black/12 transition-colors duration-300 hover:border-brand/50 sm:rounded-3xl ${className}`}
       >
-        {/* Main Project Image without CSS transform transition (so GSAP parallax scrub stays 100% smooth) */}
         <img
           key={activeIdx}
           src={currentImage}
           alt={`${title} view ${activeIdx + 1}`}
           width={1400}
           height={875}
-          className="wk-project-img w-full h-full object-cover object-top rounded-[inherit] will-change-transform"
+          className="wk-project-img h-full w-full rounded-[inherit] object-cover object-top"
           loading="lazy"
-          style={{
-            transform: "translateZ(0px)",
-            filter: isHovered
-              ? "brightness(0.85) contrast(0.98) saturate(0.95)"
-              : "brightness(1) contrast(1) saturate(1)",
-            transition: "filter 0.35s ease",
-          }}
         />
-
-        {/* Subtle dull ambient overlay on image hover */}
-        <div
-          className={`pointer-events-none absolute inset-0 bg-black/20 transition-opacity duration-300 rounded-[inherit] z-10 ${
-            isHovered ? "opacity-100" : "opacity-0"
-          }`}
-          aria-hidden="true"
-        />
-
-        {/* Floating 3D Meta Tag with translateZ pop-out */}
-        <div
-          className="absolute top-4 left-4 z-20 text-xs font-semibold text-white/95 bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/15 shadow-lg pointer-events-none transition-transform duration-200"
-          style={{
-            transform: isHovered ? "translateZ(32px)" : "translateZ(0px)",
-          }}
-        >
-          <span className="text-brand font-bold">{year}</span> &bull; {client}
+        <div className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] bg-gradient-to-t from-black/45 via-transparent to-transparent" aria-hidden="true" />
+        <div className="pointer-events-none absolute left-4 top-4 z-20 rounded-full border border-white/15 bg-black/60 px-3.5 py-1.5 text-xs font-semibold text-white/95 backdrop-blur-md">
+          <span className="font-bold text-brand">{year}</span> &bull; {client}
         </div>
-
-        {/* Center Floating 'Explore Case Study' Pill on Hover */}
-        <div
-          className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none transition-all duration-300"
-          style={{
-            opacity: isHovered ? 1 : 0,
-            transform: isHovered ? "translateZ(36px) scale(1)" : "translateZ(0px) scale(0.9)",
-          }}
-        >
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/95 backdrop-blur-xl text-[#111111] text-xs font-bold shadow-[0_8px_30px_rgba(0,0,0,0.35)] border border-white/80 ring-2 ring-brand/40">
-            <span>Explore Case Study</span>
-            <span className="w-5 h-5 rounded-full bg-brand text-white flex items-center justify-center text-[10px]">
-              ↗
-            </span>
-          </div>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex items-end justify-between gap-4 p-5 text-white">
+          <span className="text-sm font-semibold tracking-wide">View project details</span>
+          <span className="grid size-9 shrink-0 place-items-center rounded-full border border-white/30 bg-white/10 text-lg backdrop-blur-sm transition-transform duration-300 group-hover:translate-x-1">↗</span>
         </div>
-
-        {/* Gallery Controls when multiple images exist */}
         {imageList.length > 1 && (
-          <>
-            {/* Previous Arrow */}
-            <button
-              type="button"
-              aria-label="Previous preview image"
-              onClick={handlePrev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-black/65 hover:bg-brand text-white flex items-center justify-center backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-200 cursor-pointer shadow-md hover:scale-110 active:scale-95"
-            >
-              <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
+          <div className="absolute right-4 top-4 z-30 flex gap-2">
+            <button type="button" onClick={handlePrev} aria-label="Previous project image" className="grid size-9 place-items-center rounded-full border border-white/30 bg-black/55 text-white backdrop-blur-sm transition-colors hover:bg-brand">
+              <ChevronLeft aria-hidden="true" />
             </button>
-
-            {/* Next Arrow */}
-            <button
-              type="button"
-              aria-label="Next preview image"
-              onClick={handleNext}
-              className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-black/65 hover:bg-brand text-white flex items-center justify-center backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-200 cursor-pointer shadow-md hover:scale-110 active:scale-95"
-            >
-              <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+            <button type="button" onClick={handleNext} aria-label="Next project image" className="grid size-9 place-items-center rounded-full border border-white/30 bg-black/55 text-white backdrop-blur-sm transition-colors hover:bg-brand">
+              <ChevronRight aria-hidden="true" />
             </button>
-
-            {/* Pagination Indicators & Counter */}
-            <div
-              className="absolute bottom-3 right-3 z-30 flex items-center gap-1.5 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10 shadow-md transition-transform duration-200"
-              style={{
-                transform: isHovered ? "translateZ(24px)" : "translateZ(0px)",
-              }}
-            >
-              <span className="text-[10px] font-mono font-bold text-white/90 mr-1">
-                {activeIdx + 1}/{imageList.length}
-              </span>
-              {imageList.map((_, dotIdx) => (
-                <button
-                  key={dotIdx}
-                  type="button"
-                  aria-label={`Show image ${dotIdx + 1}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setActiveIdx(dotIdx);
-                  }}
-                  className={`h-1.5 rounded-full transition-all cursor-pointer ${
-                    activeIdx === dotIdx
-                      ? "bg-brand w-3.5"
-                      : "bg-white/40 hover:bg-white/80 w-1.5"
-                  }`}
-                />
-              ))}
-            </div>
-          </>
-        )}
-
-        {/* 3D Specular Light Sheen Reflection following mouse */}
-        {isHovered && !isTouch && (
-          <div
-            className="pointer-events-none absolute inset-0 z-20 transition-opacity duration-200 rounded-[inherit]"
-            style={{
-              background: `radial-gradient(circle 380px at ${coords.glareX}% ${coords.glareY}%, rgba(255,255,255,0.35), rgba(255,255,255,0.08) 40%, transparent 80%)`,
-              mixBlendMode: "screen",
-            }}
-            aria-hidden="true"
-          />
+          </div>
         )}
       </div>
     </div>
-  );
+  )
 }

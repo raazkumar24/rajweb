@@ -63,71 +63,69 @@ export default function FAQ() {
             return (
               <div
                 key={item.id}
-                className={`rounded-2xl sm:rounded-3xl border transition-all duration-300 overflow-hidden ${
+                className={`group rounded-[1.5rem] border transition-[background-color,border-color,box-shadow] duration-300 overflow-hidden ${
                   isOpen
-                    ? "bg-white/95 border-brand/50 shadow-[0_16px_36px_rgba(var(--brand-rgb),0.12)] ring-1 ring-brand/25"
-                    : "bg-white/70 backdrop-blur-xl border-black/8 hover:border-brand/40 hover:bg-white/90 shadow-[0_8px_20px_rgba(0,0,0,0.02)]"
+                    ? "bg-white border-brand/45 shadow-[0_18px_40px_rgba(var(--brand-rgb),0.14)]"
+                    : "bg-white/65 border-black/10 hover:border-brand/35 hover:bg-white/90 shadow-[0_8px_24px_rgba(0,0,0,0.03)]"
                 }`}
               >
                 <button
                   type="button"
                   onClick={() => toggleItem(item.id)}
-                  className="w-full flex items-start sm:items-center justify-between text-left gap-4 sm:gap-6 p-6 sm:p-7 group cursor-pointer"
+                  className="w-full flex items-center justify-between text-left gap-4 p-5 sm:p-7 cursor-pointer"
+                  id={`faq-question-${item.id}`}
                   aria-expanded={isOpen}
+                  aria-controls={`faq-answer-${item.id}`}
                 >
-                  {/* Left: Number + Question in display font */}
-                  <div className="flex items-center gap-3.5 sm:gap-5 flex-1 min-w-0">
+                  <div className="flex items-start gap-4 sm:gap-6 flex-1 min-w-0">
                     <span
-                      className={`font-mono font-black text-sm sm:text-base px-2.5 py-1 rounded-xl transition-colors shrink-0 ${
+                      className={`mt-0.5 flex size-10 sm:size-12 shrink-0 items-center justify-center rounded-xl font-mono text-xs sm:text-sm font-bold transition-colors ${
                         isOpen
-                          ? "bg-brand text-white shadow-xs"
-                          : "bg-black/5 text-[#666666] group-hover:text-brand-dark group-hover:bg-brand/10"
+                          ? "bg-brand text-white"
+                          : "bg-brand/8 text-brand-dark group-hover:bg-brand/15"
                       }`}
                     >
                       {item.id}
                     </span>
-                    <h3
-                      className={`font-black italic uppercase tracking-[-0.025em] text-base sm:text-xl lg:text-2xl transition-colors duration-200 ${
-                        isOpen
-                          ? "text-[#111111]"
-                          : "text-[#111111] group-hover:text-brand-dark"
-                      }`}
-                    >
-                      {item.question}
-                    </h3>
+                    <div className="min-w-0">
+                      <h3
+                        className={`font-black uppercase tracking-[-0.025em] text-base sm:text-xl lg:text-2xl leading-tight transition-colors duration-200 ${
+                          isOpen ? "text-[#111111]" : "text-[#111111] group-hover:text-brand-dark"
+                        }`}
+                      >
+                        {item.question}
+                      </h3>
+                    </div>
                   </div>
 
-                  {/* Right: Rotating + / - icon */}
-                  <div
-                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full border flex items-center justify-center shrink-0 transition-all duration-300 ${
+                  <span
+                    className={`flex size-10 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
                       isOpen
-                        ? "border-brand bg-brand text-white rotate-45 shadow-[0_4px_12px_rgba(var(--brand-rgb),0.35)]"
+                        ? "border-brand bg-brand text-white"
                         : "border-black/15 bg-white text-[#111111] group-hover:border-brand group-hover:text-brand"
                     }`}
                     aria-hidden="true"
                   >
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2.5}
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className={`size-4 transition-transform duration-300 ${isOpen ? "rotate-45" : ""}`} fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
                     </svg>
-                  </div>
+                  </span>
                 </button>
 
-                {/* Smooth Expandable Answer */}
                 <div
-                  className={`overflow-hidden transition-all duration-300 ease-out ${
-                    isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                  id={`faq-answer-${item.id}`}
+                  role="region"
+                  aria-labelledby={`faq-question-${item.id}`}
+                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
+                    isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
                   }`}
                 >
-                  <div className="px-6 pb-6 sm:px-7 sm:pb-7 pt-0 border-t border-black/5">
-                    <p className="text-sm sm:text-base text-[#4B5563] leading-relaxed font-normal pt-4">
-                      {item.answer}
-                    </p>
+                  <div className="min-h-0 overflow-hidden">
+                    <div className="mx-5 sm:mx-7 border-t border-black/8 px-0 pb-6 pt-4 sm:pb-7 sm:pt-5">
+                      <p className="max-w-3xl text-sm sm:text-base text-[#4B5563] leading-relaxed font-normal">
+                        {item.answer}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>

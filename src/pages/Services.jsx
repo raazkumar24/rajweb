@@ -133,7 +133,15 @@ export default function Services() {
               <div
                 key={svc.id}
                 onMouseEnter={() => setActiveServiceId(svc.id)}
-                className={`sv-service-card group relative rounded-[2rem] sm:rounded-[2.25rem] backdrop-blur-2xl transition-all duration-300 p-7 sm:p-9 lg:p-10 transform-gpu will-change-transform overflow-hidden ${
+                onClick={() => setActiveServiceId(svc.id)}
+                tabIndex={0}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setActiveServiceId(svc.id);
+                  }
+                }}
+                className={`sv-service-card group relative rounded-[1.5rem] sm:rounded-[1.75rem] backdrop-blur-2xl transition-all duration-300 p-6 sm:p-8 lg:p-10 transform-gpu will-change-transform overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 ${
                   isActive
                     ? "bg-white/85 border border-brand/40 shadow-[0_20px_50px_rgba(var(--brand-rgb),0.14),inset_0_1px_2px_rgba(255,255,255,1)] ring-1 ring-brand/20"
                     : "bg-white/65 hover:bg-white/80 border border-white/80 hover:border-brand/30 shadow-[0_12px_36px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9)] hover:shadow-[0_22px_45px_rgba(var(--brand-rgb),0.1)]"
