@@ -20,7 +20,6 @@ import {
 } from "../components/decorative";
 
 import { useGsapScope } from "../animation/useGsapScope";
-import { ANIM } from "../animation/config";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,26 +40,57 @@ export default function Services() {
     const mm = gsap.matchMedia();
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      gsap.fromTo(
-        ".sv-service-card",
-        { y: ANIM.REVEAL_Y, opacity: 0 },
+      const cardWrappers = gsap.utils.toArray(".sv-card-wrapper");
+      const cardsCount = cardWrappers.length;
+
+      if (cardsCount === 0) return;
+
+      const scaleMax = gsap.utils.mapRange(1, cardsCount - 1, 0.96, 1);
+      const time = 1;
+
+      // Cards Initial Y Offset (Stacking Depth)
+      gsap.set(cardWrappers, {
+        y: (index) => 18 * index,
+        transformOrigin: "center top",
+      });
+
+      // Pinning with Header Visible Offset & Compact Bottom Space
+      const tl = gsap.timeline({
+        defaults: { ease: "none" },
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: `+=${cardsCount * 420}`,
+          scrub: 0.6,
+          pin: true,
+          anticipatePin: 1,
+        },
+      });
+
+      // Slide cards up sequentially
+      tl.to(".sv-card-wrapper:not(:first-child)", {
+        yPercent: (i) => -100 * (i + 1),
+        duration: time / 2,
+        stagger: time,
+      });
+
+      // Clean scale-down & subtle 3D tilt without dark dimming
+      tl.to(
+        ".sv-card-wrapper:not(:last-child) .sv-service-card",
         {
-          y: 0,
-          opacity: 1,
-          duration: ANIM.DURATION.base,
-          stagger: ANIM.STAGGER,
-          ease: ANIM.EASE,
-          scrollTrigger: {
-            trigger: ".sv-services-list",
-            start: ANIM.SCROLL_START,
-            once: true,
+          scale: (index) => scaleMax(index),
+          rotationX: -4,
+          stagger: {
+            each: time,
           },
         },
+        "<"
       );
     });
 
     mm.add("(prefers-reduced-motion: reduce)", () => {
-      gsap.set(".sv-service-card", { opacity: 1, y: 0, clearProps: "all" });
+      gsap.set(".sv-card-wrapper", { opacity: 1, y: 0, clearProps: "all" });
+      gsap.set(".sv-service-card", { clearProps: "all" });
     });
   }, []);
 
@@ -87,16 +117,15 @@ export default function Services() {
     <section
       ref={sectionRef}
       id="services"
-      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-10 sm:pt-14 lg:pt-16 pb-12 sm:pb-16 lg:pb-20 font-sans scroll-mt-20 sm:scroll-mt-28"
+      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-6 sm:pt-8 lg:pt-10 pb-0 font-sans scroll-mt-20 sm:scroll-mt-28"
     >
-
-      {/* ── Background Organic Shapes: Left at TOP, Right at BOTTOM ── */}
+      {/* ── Background Organic Shapes ── */}
       <BrandSectionSideWave position="top" />
       <BrandSectionRightWave position="bottom" />
 
-      <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14 relative z-10">
-        {/* Full-Width Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14 sm:mb-20 border-b border-black/8 pb-8">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12 relative z-10">
+        {/* Full-Width Section Header (Remains in Viewport) */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6 sm:mb-8 border-b border-black/8 pb-5 sm:pb-6">
           <div>
             <SectionHeader
               badge="What I offer"
@@ -110,7 +139,7 @@ export default function Services() {
             />
           </div>
 
-          {/* Quick value guarantee pills */}
+          {/* Value Guarantee Pills */}
           <div className="flex items-center gap-2.5 flex-wrap shrink-0">
             <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-white/90 text-xs font-semibold text-[#111111] shadow-xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -123,152 +152,151 @@ export default function Services() {
           </div>
         </div>
 
-        {/* Refined Frosted Glass Tactile Service Cards with Silky Smooth Scrolling */}
-        <div className="sv-services-list flex flex-col gap-6 sm:gap-8">
-          {servicesData.map((svc) => {
-            const isActive = activeServiceId === svc.id;
-            const IconComponent = serviceIcons[svc.id] || Monitor;
+        {/* ── Stacking Cards Pin Wrapper Container ── */}
+        <div className="sv-stack-trigger w-full pb-0">
+          <div className="sv-services-list flex flex-col gap-5 sm:gap-6 perspective-[1200px] transform-gpu">
+            {servicesData.map((svc) => {
+              const isActive = activeServiceId === svc.id;
+              const IconComponent = serviceIcons[svc.id] || Monitor;
 
-            return (
-              <div
-                key={svc.id}
-                onMouseEnter={() => setActiveServiceId(svc.id)}
-                onClick={() => setActiveServiceId(svc.id)}
-                tabIndex={0}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    setActiveServiceId(svc.id);
-                  }
-                }}
-                className={`sv-service-card group relative rounded-[1.5rem] sm:rounded-[1.75rem] backdrop-blur-2xl transition-all duration-300 p-6 sm:p-8 lg:p-10 transform-gpu will-change-transform overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 ${
-                  isActive
-                    ? "bg-white/85 border border-brand/40 shadow-[0_20px_50px_rgba(var(--brand-rgb),0.14),inset_0_1px_2px_rgba(255,255,255,1)] ring-1 ring-brand/20"
-                    : "bg-white/65 hover:bg-white/80 border border-white/80 hover:border-brand/30 shadow-[0_12px_36px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9)] hover:shadow-[0_22px_45px_rgba(var(--brand-rgb),0.1)]"
-                } hover:-translate-y-1`}
-              >
-                {/* Frosted Glass Specular Top Border Sheen */}
-                <div
-                  className="pointer-events-none absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent opacity-80"
-                  aria-hidden="true"
-                />
+              return (
+                <div key={svc.id} className="sv-card-wrapper w-full">
+                  <div
+                    onMouseEnter={() => setActiveServiceId(svc.id)}
+                    onClick={() => setActiveServiceId(svc.id)}
+                    tabIndex={0}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        setActiveServiceId(svc.id);
+                      }
+                    }}
+                    className={`sv-service-card group relative rounded-[1.75rem] backdrop-blur-2xl transition-all duration-300 p-6 sm:p-8 transform-gpu will-change-transform overflow-hidden cursor-pointer border ${
+                      isActive
+                        ? "bg-white border-brand/40 shadow-[0_20px_45px_rgba(var(--brand-rgb),0.12),0_2px_8px_rgba(0,0,0,0.03)] ring-1 ring-brand/20"
+                        : "bg-white/90 hover:bg-white border-black/8 hover:border-brand/30 shadow-[0_10px_30px_rgba(0,0,0,0.03)]"
+                    }`}
+                  >
+                    {/* Top Specular Sheen */}
+                    <div
+                      className="pointer-events-none absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent opacity-90"
+                      aria-hidden="true"
+                    />
 
-                {/* Soft Ambient Warm Glow on Card Hover */}
-                <div
-                  className="pointer-events-none absolute -top-24 -right-24 w-80 h-80 bg-gradient-to-br from-brand/15 via-brand/5 to-transparent rounded-full blur-3xl transition-opacity duration-500 opacity-40 group-hover:opacity-100"
-                  aria-hidden="true"
-                />
+                    {/* Active Left Indicator Bar */}
+                    <div
+                      className={`absolute left-0 top-6 bottom-6 w-1.5 rounded-r-full bg-gradient-to-b from-brand to-brand-deep transition-opacity duration-300 ${
+                        isActive ? "opacity-100" : "opacity-0 group-hover:opacity-60"
+                      }`}
+                    />
 
-                {/* Active Indicator Left Accent Bar */}
-                <div
-                  className={`absolute left-0 top-6 bottom-6 w-1.5 rounded-r-full bg-gradient-to-b from-brand to-brand-deep transition-opacity duration-300 ${
-                    isActive
-                      ? "opacity-100"
-                      : "opacity-0 group-hover:opacity-60"
-                  }`}
-                />
-
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start relative z-10">
-                  {/* Left Column: Number, Category Icon, Title, Timeline */}
-                  <div className="lg:col-span-5 flex flex-col justify-between">
-                    <div>
-                      <div className="flex items-center gap-3 mb-3">
-                        <span className="font-mono font-black text-2xl sm:text-3xl text-brand-dark drop-shadow-xs">
-                          {svc.num}
-                        </span>
-                        <div className="w-8 h-8 rounded-xl bg-white/80 backdrop-blur-md border border-white/90 shadow-xs flex items-center justify-center text-brand-dark">
-                          <IconComponent className="w-4 h-4 text-brand-dark" />
-                        </div>
-                        <span className="text-xs font-semibold tracking-wide uppercase px-2.5 py-0.5 rounded-full bg-black/5 text-[#555555]">
-                          {svc.subtitle}
-                        </span>
-                      </div>
-
-                      <h3
-                        className={`font-black italic uppercase text-2xl sm:text-3xl lg:text-4xl tracking-tight leading-snug transition-colors duration-200 ${
-                          isActive
-                            ? "text-[#111111]"
-                            : "text-[#111111] group-hover:text-brand-dark"
-                        }`}
-                      >
-                        {svc.title}
-                      </h3>
-                    </div>
-
-                    {/* Timeline & Speed Badge with SVG Icon */}
-                    <div className="mt-5 pt-4 border-t border-black/6 flex items-center gap-2">
-                      <span className="text-xs font-semibold text-brand-dark bg-brand/10 px-3 py-1 rounded-full border border-brand/20 inline-flex items-center gap-1.5 backdrop-blur-md">
-                        <Zap className="w-3.5 h-3.5 text-brand-dark" />
-                        <span>{svc.timeline}</span>
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Right Column: Narrative, Deliverables Grid, Stack & CTA */}
-                  <div className="lg:col-span-7 flex flex-col justify-between">
-                    <p className="text-sm sm:text-base text-[#4B5563] leading-relaxed mb-6 font-normal">
-                      {svc.description}
-                    </p>
-
-                    {/* Deliverables Checklist Grid with Frosted Glass Cards */}
-                    <div className="mb-6">
-                      <span className="text-xs font-bold uppercase tracking-wider text-[#111111] block mb-3">
-                        What&apos;s Included:
-                      </span>
-                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs sm:text-sm text-[#444444]">
-                        {svc.deliverables.map((item, dIdx) => (
-                          <li
-                            key={dIdx}
-                            className="flex items-start gap-2.5 p-2.5 rounded-xl bg-white/60 backdrop-blur-md border border-white/90 group-hover:bg-white/80 transition-colors shadow-xs"
-                          >
-                            <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
-                              <Check className="w-2.5 h-2.5 stroke-[3]" />
+                    {/* Card Inner Redesigned Grid */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start relative z-10">
+                      {/* Left Side: Number, Category, Title, Timeline */}
+                      <div className="lg:col-span-5 flex flex-col justify-between h-full">
+                        <div>
+                          <div className="flex items-center gap-2.5 mb-3">
+                            <span className="font-mono font-black text-2xl sm:text-3xl text-brand-dark">
+                              {svc.num}
                             </span>
-                            <span className="leading-snug">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                            <div className="w-8 h-8 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-brand-dark">
+                              <IconComponent className="w-4 h-4" />
+                            </div>
+                            <span className="text-[11px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-black/5 text-[#555555]">
+                              {svc.subtitle}
+                            </span>
+                          </div>
 
-                    {/* Tech Stack & Action Row */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-black/8">
-                      {/* Tech Pills */}
-                      <div className="flex flex-wrap items-center gap-1.5">
-                        <span className="text-xs font-semibold text-[#777777] mr-1">
-                          Stack:
-                        </span>
-                        {svc.stack.map((tag) => (
-                          <span
-                            key={tag}
-                            className="px-2.5 py-1 rounded-lg bg-white/70 backdrop-blur-md border border-white/80 hover:bg-brand/15 text-xs font-semibold text-[#333333] transition-colors shadow-xs"
+                          <h3
+                            className={`font-black italic uppercase text-2xl sm:text-3xl lg:text-[2rem] tracking-tight leading-snug transition-colors duration-200 ${
+                              isActive
+                                ? "text-[#111111]"
+                                : "text-[#111111] group-hover:text-brand-dark"
+                            }`}
                           >
-                            {tag}
+                            {svc.title}
+                          </h3>
+                        </div>
+
+                        {/* Timeline Badge */}
+                        <div className="mt-4 pt-3 border-t border-black/6 flex items-center">
+                          <span className="text-xs font-semibold text-brand-dark bg-brand/10 px-3 py-1 rounded-full border border-brand/20 inline-flex items-center gap-1.5">
+                            <Zap className="w-3.5 h-3.5" />
+                            <span>{svc.timeline}</span>
                           </span>
-                        ))}
+                        </div>
                       </div>
 
-                      {/* Request Button */}
-                      <div>
-                        <a
-                          href="#contact"
-                          onClick={(e) => handleRequestQuote(e, svc.title)}
-                          className="group/btn inline-flex items-center gap-2 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all duration-300 shadow-sm hover:shadow-[0_8px_20px_rgba(var(--brand-rgb),0.35)] active:scale-95 shrink-0 cursor-pointer"
-                        >
-                          <span>Get a quote</span>
-                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" />
-                        </a>
+                      {/* Right Side: Description, Deliverables Grid, Stack & CTA */}
+                      <div className="lg:col-span-7 flex flex-col justify-between">
+                        <p className="text-sm sm:text-base text-[#4B5563] leading-relaxed mb-5">
+                          {svc.description}
+                        </p>
+
+                        {/* Deliverables Checklist */}
+                        <div className="mb-5">
+                          <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#111111] block mb-2.5">
+                            What&apos;s Included:
+                          </span>
+                          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-[#444444]">
+                            {svc.deliverables.map((item, dIdx) => (
+                              <li
+                                key={dIdx}
+                                className="flex items-center gap-2 p-2 rounded-xl bg-[#F8F7F4] border border-black/5 transition-colors group-hover:bg-white"
+                              >
+                                <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                                  <Check className="w-2.5 h-2.5 stroke-[3]" />
+                                </span>
+                                <span className="leading-tight font-medium">{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Tech Stack & Action Row */}
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-black/8">
+                          {/* Stack Tags */}
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            <span className="text-xs font-semibold text-[#777777] mr-1">
+                              Stack:
+                            </span>
+                            {svc.stack.map((tag) => (
+                              <span
+                                key={tag}
+                                className="px-2.5 py-1 rounded-lg bg-[#F2EFEC] border border-black/5 hover:bg-brand/15 text-xs font-semibold text-[#333333] transition-colors"
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+
+                          {/* CTA Button */}
+                          <div>
+                            <a
+                              href="#contact"
+                              onClick={(e) => handleRequestQuote(e, svc.title)}
+                              className="group/btn inline-flex items-center gap-2 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-5 py-2 text-xs sm:text-sm font-semibold transition-all duration-300 shadow-sm active:scale-95 shrink-0 cursor-pointer"
+                            >
+                              <span>Get a quote</span>
+                              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" />
+                            </a>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
 
       {/* ── Wave Divider: Services → FAQ transition ── */}
-      <SectionWaveDivider variant="services-to-faq" className="relative z-10 w-full" />
+      <SectionWaveDivider
+        variant="services-to-faq"
+        className="relative z-10 w-full"
+      />
     </section>
   );
 }
