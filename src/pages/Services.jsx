@@ -60,8 +60,8 @@ export default function Services() {
         defaults: { ease: "none" },
         scrollTrigger: {
           trigger: ".sv-stack-trigger",
-          start: "top top+=100",
-          end: `+=${cardsCount * 350}`,
+          start: "top top+=220",
+          end: `+=${cardsCount * 260}`, 
           scrub: 0.8,
           pin: true,
           anticipatePin: 1,
@@ -118,7 +118,7 @@ export default function Services() {
     <section
       ref={sectionRef}
       id="services"
-      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-10 sm:pt-14 lg:pt-16 pb-12 sm:pb-16 lg:pb-20 font-sans scroll-mt-20 sm:scroll-mt-28"
+      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-8 sm:pt-12 lg:pt-16 pb-0 font-sans scroll-mt-20 sm:scroll-mt-28"
     >
       {/* ── Background Organic Shapes ── */}
       <BrandSectionSideWave position="top" />
@@ -126,7 +126,7 @@ export default function Services() {
 
       <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14 relative z-10">
         {/* Full-Width Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12 sm:mb-16 border-b border-black/8 pb-8">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 mb-8 sm:mb-12 border-b border-black/8 pb-6 sm:pb-8">
           <div>
             <SectionHeader
               badge="What I offer"
@@ -154,8 +154,8 @@ export default function Services() {
         </div>
 
         {/* ── Stacking Cards Pin Wrapper Container ── */}
-        <div className="sv-stack-trigger w-full py-4">
-          <div className="sv-services-list flex flex-col gap-6 sm:gap-8 perspective-[1000px] transform-gpu">
+        <div className="sv-stack-trigger w-full pt-2 pb-2 sm:pb-4">
+          <div className="sv-services-list flex flex-col gap-4 sm:gap-6 perspective-[1000px] transform-gpu">
             {servicesData.map((svc) => {
               const isActive = activeServiceId === svc.id;
               const IconComponent = serviceIcons[svc.id] || Monitor;
