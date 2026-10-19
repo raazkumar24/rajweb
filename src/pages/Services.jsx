@@ -33,7 +33,6 @@ const serviceIcons = {
 
 export default function Services() {
   const sectionRef = useRef(null);
-  const servicesTrackRef = useRef(null);
   const [activeServiceId, setActiveServiceId] = useState(
     servicesData[0]?.id || "web-apps",
   );
@@ -41,23 +40,27 @@ export default function Services() {
   useGsapScope(sectionRef, () => {
     const mm = gsap.matchMedia();
 
-    mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
       const cards = gsap.utils.toArray(".sv-service-card");
-      const track = servicesTrackRef.current;
-      if (track && cards.length > 1) {
-        gsap.to(track, {
-          x: () => -(track.scrollWidth - track.parentElement.clientWidth),
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: () => `+=${window.innerHeight * (cards.length + 0.6)}`,
-            pin: true,
-            scrub: 1,
-            invalidateOnRefresh: true,
+      cards.forEach((card, index) => {
+        gsap.fromTo(
+          card,
+          { y: 72, opacity: 0.35, scale: 0.97 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.75,
+            ease: ANIM.EASE,
+            scrollTrigger: {
+              trigger: card,
+              start: "top 88%",
+              end: "top 42%",
+              scrub: 0.8,
+            },
           },
-        });
-      }
+        );
+      });
 
       gsap.fromTo(
         ".sv-service-card", 
@@ -129,7 +132,7 @@ export default function Services() {
           </div>
 
           {/* Quick value guarantee pills */}
-          <div className="flex items-center gap-2.5 flex-wrap shrink-0">
+          <div className="hidden items-center gap-2.5 flex-wrap shrink-0">
             <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-white/90 text-xs font-semibold text-[#111111] shadow-xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Available for new projects</span>
@@ -141,10 +144,10 @@ export default function Services() {
           </div>
         </div>
 
-        {/* Refined Frosted Glass Tactile Service Cards with Silky Smooth Scrolling */}
-        <div className="sv-services-viewport overflow-hidden">
-          <div ref={servicesTrackRef} className="sv-services-list flex flex-col gap-6 sm:gap-8 md:flex-row md:gap-8 md:w-max">
-          {servicesData.map((svc) => {
+        {/* Scroll-driven service stack */}
+        <div className="sv-services-list relative mx-auto max-w-6xl pb-24 sm:pb-40">
+          <div className="mb-5 text-center text-xs font-semibold uppercase tracking-[0.28em] text-white/45 md:hidden">Scroll to explore</div>
+          {servicesData.map((svc, index) => {
             const isActive = activeServiceId === svc.id;
             const IconComponent = serviceIcons[svc.id] || Monitor;
 
@@ -160,7 +163,11 @@ export default function Services() {
                     setActiveServiceId(svc.id);
                   }
                 }}
-                className={`sv-service-card group relative rounded-[1.5rem] sm:rounded-[1.75rem] backdrop-blur-2xl transition-all duration-300 p-6 sm:p-8 lg:p-10 md:w-[min(78vw,980px)] md:min-h-[58vh] md:flex-shrink-0 transform-gpu will-change-transform overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 ${
+                style={{
+                  zIndex: servicesData.length - index,
+                  transform: `rotate(${index % 2 === 0 ? -1.1 : 0.8}deg)`,
+                }}
+                className={`sv-service-card group sticky top-20 sm:top-24 mx-auto mb-10 min-h-[28rem] w-full origin-top rounded-[2rem] sm:rounded-[2.5rem] backdrop-blur-2xl transition-[background-color,border-color,box-shadow,transform] duration-500 p-6 sm:p-10 lg:p-14 transform-gpu will-change-transform overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 ${
                   isActive
                     ? "bg-white/85 border border-brand/40 shadow-[0_20px_50px_rgba(var(--brand-rgb),0.14),inset_0_1px_2px_rgba(255,255,255,1)] ring-1 ring-brand/20"
                     : "bg-white/65 hover:bg-white/80 border border-white/80 hover:border-brand/30 shadow-[0_12px_36px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9)] hover:shadow-[0_22px_45px_rgba(var(--brand-rgb),0.1)]"
@@ -283,7 +290,13 @@ export default function Services() {
               </div>
             );
           })}
-          </div>
+        </div>
+      </div>
+
+      <div className="mt-2 overflow-hidden bg-[#ff1744] py-8 sm:py-12 text-white">
+        <div className="flex w-max animate-[marquee_22s_linear_infinite] items-center gap-5 whitespace-nowrap text-5xl font-black tracking-tight sm:text-8xl">
+          <span>I need</span><span className="rounded-full border-2 border-white px-5 py-1">web design</span><span className="rounded-full border-2 border-white px-5 py-1">branding</span><span className="rounded-full bg-white px-5 py-1 text-[#ff1744]">development</span><span className="rounded-full border-2 border-white px-5 py-1">next →</span>
+          <span>I need</span><span className="rounded-full border-2 border-white px-5 py-1">web design</span><span className="rounded-full border-2 border-white px-5 py-1">branding</span>
         </div>
       </div>
 
