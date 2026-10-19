@@ -20,7 +20,6 @@ import {
 } from "../components/decorative";
 
 import { useGsapScope } from "../animation/useGsapScope";
-import { ANIM } from "../animation/config";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -46,13 +45,13 @@ export default function Services() {
 
       if (cardsCount === 0) return;
 
-      // Scale Max calculation (Aapke mapRange logic ke according)
-      const scaleMax = gsap.utils.mapRange(1, cardsCount - 1, 0.9, 1);
+      // Subtle Scale mapping (no dark tint/brightness change)
+      const scaleMax = gsap.utils.mapRange(1, cardsCount - 1, 0.95, 1);
       const time = 1;
 
-      // Initial card offset & transform origin setup
+      // Initial card stack offset setup
       gsap.set(cardWrappers, {
-        y: (index) => 24 * index,
+        y: (index) => 20 * index,
         transformOrigin: "center top",
       });
 
@@ -61,28 +60,27 @@ export default function Services() {
         defaults: { ease: "none" },
         scrollTrigger: {
           trigger: ".sv-stack-trigger",
-          start: "top top+=90",
-          end: `+=${cardsCount * 380}`,
-          scrub: 1,
+          start: "top top+=100",
+          end: `+=${cardsCount * 350}`,
+          scrub: 0.8,
           pin: true,
           anticipatePin: 1,
         },
       });
 
-      // Cards ko ek-ek karke upar animate karna
+      // Cards slide up cleanly one by one
       tl.to(".sv-card-wrapper:not(:first-child)", {
         yPercent: (i) => -100 * (i + 1),
         duration: time / 2,
         stagger: time,
       });
 
-      // Covered cards retain their bright surface while stacking.
+      // Subtle scaling and slight 3D depth without ANY dark dimming/tinting
       tl.to(
         ".sv-card-wrapper:not(:last-child) .sv-service-card",
         {
-          rotationX: -5,
           scale: (index) => scaleMax(index),
-          filter: "brightness(1)",
+          rotationX: -6, // Subtle clean tilt
           stagger: {
             each: time,
           },
@@ -174,21 +172,15 @@ export default function Services() {
                         setActiveServiceId(svc.id);
                       }
                     }}
-                    className={`sv-service-card group relative rounded-[1.5rem] sm:rounded-[1.75rem] backdrop-blur-2xl transition-all duration-300 p-6 sm:p-8 lg:p-10 transform-gpu will-change-transform overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 ${
+                    className={`sv-service-card group relative rounded-[1.5rem] sm:rounded-[1.75rem] backdrop-blur-3xl transition-all duration-300 p-6 sm:p-8 lg:p-10 transform-gpu will-change-transform overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 ${
                       isActive
-                        ? "bg-white/95 border border-brand/40 shadow-[0_20px_50px_rgba(var(--brand-rgb),0.14),inset_0_1px_2px_rgba(255,255,255,1)] ring-1 ring-brand/20"
-                        : "bg-white/95 hover:bg-white border border-white/80 hover:border-brand/30 shadow-[0_12px_36px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9)] hover:shadow-[0_22px_45px_rgba(var(--brand-rgb),0.1)]"
+                        ? "bg-white border border-brand/40 shadow-[0_20px_50px_rgba(var(--brand-rgb),0.12),inset_0_1px_2px_rgba(255,255,255,1)] ring-1 ring-brand/20"
+                        : "bg-white/95 hover:bg-white border border-white/90 hover:border-brand/30 shadow-[0_12px_36px_rgba(0,0,0,0.04),inset_0_1px_2px_rgba(255,255,255,1)] hover:shadow-[0_22px_45px_rgba(var(--brand-rgb),0.08)]"
                     }`}
                   >
                     {/* Frosted Glass Specular Top Border Sheen */}
                     <div
-                      className="pointer-events-none absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent opacity-80"
-                      aria-hidden="true"
-                    />
-
-                    {/* Soft Ambient Warm Glow on Card Hover */}
-                    <div
-                      className="pointer-events-none absolute -top-24 -right-24 w-80 h-80 bg-gradient-to-br from-brand/15 via-brand/5 to-transparent rounded-full blur-3xl transition-opacity duration-500 opacity-40 group-hover:opacity-100"
+                      className="pointer-events-none absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent opacity-90"
                       aria-hidden="true"
                     />
 
@@ -252,7 +244,7 @@ export default function Services() {
                             {svc.deliverables.map((item, dIdx) => (
                               <li
                                 key={dIdx}
-                                className="flex items-start gap-2.5 p-2.5 rounded-xl bg-white/60 backdrop-blur-md border border-white/90 group-hover:bg-white/80 transition-colors shadow-xs"
+                                className="flex items-start gap-2.5 p-2.5 rounded-xl bg-[#F8F7F4] border border-black/5 group-hover:bg-white transition-colors shadow-2xs"
                               >
                                 <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
                                   <Check className="w-2.5 h-2.5 stroke-[3]" />
@@ -273,7 +265,7 @@ export default function Services() {
                             {svc.stack.map((tag) => (
                               <span
                                 key={tag}
-                                className="px-2.5 py-1 rounded-lg bg-white/70 backdrop-blur-md border border-white/80 hover:bg-brand/15 text-xs font-semibold text-[#333333] transition-colors shadow-xs"
+                                className="px-2.5 py-1 rounded-lg bg-[#F3F1EC] border border-black/5 hover:bg-brand/15 text-xs font-semibold text-[#333333] transition-colors shadow-2xs"
                               >
                                 {tag}
                               </span>
