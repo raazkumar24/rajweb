@@ -24,16 +24,22 @@ function StackingCard({ children, index, total }) {
     target: cardRef,
     offset: ["start 88%", "start 18%"],
   });
-  const scale = useTransform(scrollYProgress, [0, 0.7, 1], [0.96, 0.985, 1]);
-  const rotateX = useTransform(scrollYProgress, [0, 1], [index % 2 ? 2 : -2, 0]);
-  const y = useTransform(scrollYProgress, [0, 1], [72, 0]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.75, 1], [0.3, 0.08, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.55, 1], [1, 0.94, 0.9]);
+  const rotateX = useTransform(scrollYProgress, [0, 1], [0, -5]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, -18]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.55, 1], [0, 0.35, 0.6]);
 
   return (
     <motion.div
       ref={cardRef}
-      style={{ scale, rotateX, y, zIndex: total - index }}
-      className="relative mb-6 origin-top transform-gpu [perspective:1200px]"
+      style={{
+        scale,
+        rotateX,
+        y,
+        zIndex: total - index,
+        top: `calc(56px + ${index * 18}px)`,
+      }}
+      className="sticky relative mb-[25vh] origin-top transform-gpu [perspective:1200px]"
     >
       {children}
       <motion.div
@@ -118,7 +124,7 @@ export default function Services() {
         </div>
 
         {/* Refined Frosted Glass Tactile Service Cards with Silky Smooth Scrolling */}
-        <div className="sv-services-list relative mx-auto flex max-w-6xl flex-col gap-2 sm:gap-4">
+        <div className="sv-services-list relative mx-auto flex min-h-[300vh] max-w-6xl flex-col gap-0">
           {servicesData.map((svc, index) => {
             const isActive = activeServiceId === svc.id;
             const IconComponent = serviceIcons[svc.id] || Monitor;
@@ -135,7 +141,7 @@ export default function Services() {
                     setActiveServiceId(svc.id);
                   }
                 }}
-                className={`sv-service-card group relative rounded-[1.5rem] sm:rounded-[1.75rem] backdrop-blur-2xl transition-all duration-300 p-6 sm:p-8 lg:p-10 transform-gpu will-change-transform overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 ${
+                className={`sv-service-card group relative min-h-[min(620px,70vh)] rounded-[1.5rem] sm:rounded-[1.75rem] backdrop-blur-2xl transition-all duration-300 p-6 sm:p-8 lg:p-10 transform-gpu will-change-transform overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 ${
                   isActive
                     ? "bg-white/85 border border-brand/40 shadow-[0_20px_50px_rgba(var(--brand-rgb),0.14),inset_0_1px_2px_rgba(255,255,255,1)] ring-1 ring-brand/20"
                     : "bg-white/65 hover:bg-white/80 border border-white/80 hover:border-brand/30 shadow-[0_12px_36px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9)] hover:shadow-[0_22px_45px_rgba(var(--brand-rgb),0.1)]"
