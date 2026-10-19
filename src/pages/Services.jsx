@@ -58,9 +58,9 @@ export default function Services() {
       const tl = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
-          trigger: ".sv-stack-trigger",
-          start: "top top+=210", // Keeps Section Header visible in Viewport
-          end: `+=${cardsCount * 220}`, // Reduced height to eliminate bottom extra gap
+          trigger: sectionRef.current,
+          start: "top top",
+          end: `+=${cardsCount * 420}`,
           scrub: 0.6,
           pin: true,
           anticipatePin: 1,
@@ -117,7 +117,7 @@ export default function Services() {
     <section
       ref={sectionRef}
       id="services"
-      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-8 sm:pt-12 lg:pt-14 pb-6 sm:pb-8 font-sans scroll-mt-20 sm:scroll-mt-28"
+      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-6 sm:pt-8 lg:pt-10 pb-0 font-sans scroll-mt-20 sm:scroll-mt-28"
     >
       {/* ── Background Organic Shapes ── */}
       <BrandSectionSideWave position="top" />
@@ -125,7 +125,7 @@ export default function Services() {
 
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-12 relative z-10">
         {/* Full-Width Section Header (Remains in Viewport) */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-8 sm:mb-10 border-b border-black/8 pb-6">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6 sm:mb-8 border-b border-black/8 pb-5 sm:pb-6">
           <div>
             <SectionHeader
               badge="What I offer"
@@ -153,7 +153,7 @@ export default function Services() {
         </div>
 
         {/* ── Stacking Cards Pin Wrapper Container ── */}
-        <div className="sv-stack-trigger w-full pb-2">
+        <div className="sv-stack-trigger w-full pb-0">
           <div className="sv-services-list flex flex-col gap-5 sm:gap-6 perspective-[1200px] transform-gpu">
             {servicesData.map((svc) => {
               const isActive = activeServiceId === svc.id;
