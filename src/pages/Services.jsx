@@ -41,29 +41,8 @@ export default function Services() {
     const mm = gsap.matchMedia();
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      const cards = gsap.utils.toArray(".sv-service-card");
-      cards.forEach((card, index) => {
-        gsap.fromTo(
-          card,
-          { y: 72, opacity: 0.35, scale: 0.97 },
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 0.75,
-            ease: ANIM.EASE,
-            scrollTrigger: {
-              trigger: card,
-              start: "top 88%",
-              end: "top 42%",
-              scrub: 0.8,
-            },
-          },
-        );
-      });
-
       gsap.fromTo(
-        ".sv-service-card", 
+        ".sv-service-card",
         { y: ANIM.REVEAL_Y, opacity: 0 },
         {
           y: 0,
@@ -108,7 +87,7 @@ export default function Services() {
     <section
       ref={sectionRef}
       id="services"
-      className="services-dark relative w-full min-h-screen bg-[#121a22] text-white overflow-hidden select-none pt-10 sm:pt-14 lg:pt-16 pb-12 sm:pb-16 lg:pb-20 font-sans scroll-mt-20 sm:scroll-mt-28"
+      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-10 sm:pt-14 lg:pt-16 pb-12 sm:pb-16 lg:pb-20 font-sans scroll-mt-20 sm:scroll-mt-28"
     >
 
       {/* ── Background Organic Shapes: Left at TOP, Right at BOTTOM ── */}
@@ -117,7 +96,7 @@ export default function Services() {
 
       <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14 relative z-10">
         {/* Full-Width Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 sm:mb-14 border-b border-white/15 pb-8">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14 sm:mb-20 border-b border-black/8 pb-8">
           <div>
             <SectionHeader
               badge="What I offer"
@@ -125,14 +104,14 @@ export default function Services() {
               titleMain="BUILD &amp;"
               titleAccent="DELIVER."
               description="Focused development services for businesses who want a fast, reliable website delivered on schedule without agency overhead."
-              annotation=""
+              annotation="Available for new projects"
               align="split"
               className="!mb-0"
             />
           </div>
 
           {/* Quick value guarantee pills */}
-          <div className="hidden items-center gap-2.5 flex-wrap shrink-0">
+          <div className="flex items-center gap-2.5 flex-wrap shrink-0">
             <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-white/90 text-xs font-semibold text-[#111111] shadow-xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Available for new projects</span>
@@ -144,10 +123,9 @@ export default function Services() {
           </div>
         </div>
 
-        {/* Scroll-driven service stack */}
-        <div className="sv-services-list relative mx-auto max-w-6xl pb-24 sm:pb-40">
-          <div className="mb-5 text-center text-xs font-semibold uppercase tracking-[0.28em] text-white/45 md:hidden">Scroll to explore</div>
-          {servicesData.map((svc, index) => {
+        {/* Refined Frosted Glass Tactile Service Cards with Silky Smooth Scrolling */}
+        <div className="sv-services-list flex flex-col gap-6 sm:gap-8">
+          {servicesData.map((svc) => {
             const isActive = activeServiceId === svc.id;
             const IconComponent = serviceIcons[svc.id] || Monitor;
 
@@ -163,11 +141,7 @@ export default function Services() {
                     setActiveServiceId(svc.id);
                   }
                 }}
-                style={{
-                  zIndex: servicesData.length - index,
-                  transform: `rotate(${index % 2 === 0 ? -1.1 : 0.8}deg)`,
-                }}
-                className={`sv-service-card group sticky top-20 sm:top-24 mx-auto mb-10 min-h-[28rem] w-full origin-top rounded-[2rem] sm:rounded-[2.5rem] backdrop-blur-2xl transition-[background-color,border-color,box-shadow,transform] duration-500 p-6 sm:p-10 lg:p-14 transform-gpu will-change-transform overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 ${
+                className={`sv-service-card group relative rounded-[1.5rem] sm:rounded-[1.75rem] backdrop-blur-2xl transition-all duration-300 p-6 sm:p-8 lg:p-10 transform-gpu will-change-transform overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 ${
                   isActive
                     ? "bg-white/85 border border-brand/40 shadow-[0_20px_50px_rgba(var(--brand-rgb),0.14),inset_0_1px_2px_rgba(255,255,255,1)] ring-1 ring-brand/20"
                     : "bg-white/65 hover:bg-white/80 border border-white/80 hover:border-brand/30 shadow-[0_12px_36px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9)] hover:shadow-[0_22px_45px_rgba(var(--brand-rgb),0.1)]"
@@ -290,13 +264,6 @@ export default function Services() {
               </div>
             );
           })}
-        </div>
-      </div>
-
-      <div className="mt-2 overflow-hidden bg-[#ff1744] py-8 sm:py-12 text-white">
-        <div className="flex w-max animate-[marquee_22s_linear_infinite] items-center gap-5 whitespace-nowrap text-5xl font-black tracking-tight sm:text-8xl">
-          <span>I need</span><span className="rounded-full border-2 border-white px-5 py-1">web design</span><span className="rounded-full border-2 border-white px-5 py-1">branding</span><span className="rounded-full bg-white px-5 py-1 text-[#ff1744]">development</span><span className="rounded-full border-2 border-white px-5 py-1">next →</span>
-          <span>I need</span><span className="rounded-full border-2 border-white px-5 py-1">web design</span><span className="rounded-full border-2 border-white px-5 py-1">branding</span>
         </div>
       </div>
 
