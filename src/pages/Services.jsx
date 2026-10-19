@@ -76,18 +76,18 @@ export default function Services() {
         stagger: time,
       });
 
-      // Purane cards par 3D Tilt, Scale down aur Dark Dimming Tint apply karna
+      // Covered cards retain their bright surface while stacking.
       tl.to(
         ".sv-card-wrapper:not(:last-child) .sv-service-card",
         {
-          rotationX: -12,
+          rotationX: -5,
           scale: (index) => scaleMax(index),
-          filter: "brightness(0.75)", // Covered card dim effect
+          filter: "brightness(1)",
           stagger: {
             each: time,
           },
         },
-        "<" // First card animation ke saath sync me chalega
+        "<"
       );
     });
 
@@ -176,8 +176,8 @@ export default function Services() {
                     }}
                     className={`sv-service-card group relative rounded-[1.5rem] sm:rounded-[1.75rem] backdrop-blur-2xl transition-all duration-300 p-6 sm:p-8 lg:p-10 transform-gpu will-change-transform overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 ${
                       isActive
-                        ? "bg-white/90 border border-brand/40 shadow-[0_20px_50px_rgba(var(--brand-rgb),0.14),inset_0_1px_2px_rgba(255,255,255,1)] ring-1 ring-brand/20"
-                        : "bg-white/75 hover:bg-white/85 border border-white/80 hover:border-brand/30 shadow-[0_12px_36px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9)] hover:shadow-[0_22px_45px_rgba(var(--brand-rgb),0.1)]"
+                        ? "bg-white/95 border border-brand/40 shadow-[0_20px_50px_rgba(var(--brand-rgb),0.14),inset_0_1px_2px_rgba(255,255,255,1)] ring-1 ring-brand/20"
+                        : "bg-white/95 hover:bg-white border border-white/80 hover:border-brand/30 shadow-[0_12px_36px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9)] hover:shadow-[0_22px_45px_rgba(var(--brand-rgb),0.1)]"
                     }`}
                   >
                     {/* Frosted Glass Specular Top Border Sheen */}
