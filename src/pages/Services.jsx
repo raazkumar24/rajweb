@@ -33,6 +33,7 @@ const serviceIcons = {
 
 export default function Services() {
   const sectionRef = useRef(null);
+  const servicesTrackRef = useRef(null);
   const [activeServiceId, setActiveServiceId] = useState(
     servicesData[0]?.id || "web-apps",
   );
@@ -40,9 +41,26 @@ export default function Services() {
   useGsapScope(sectionRef, () => {
     const mm = gsap.matchMedia();
 
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
+    mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+      const cards = gsap.utils.toArray(".sv-service-card");
+      const track = servicesTrackRef.current;
+      if (track && cards.length > 1) {
+        gsap.to(track, {
+          x: () => -(track.scrollWidth - track.parentElement.clientWidth),
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: () => `+=${window.innerHeight * (cards.length + 0.6)}`,
+            pin: true,
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+      }
+
       gsap.fromTo(
-        ".sv-service-card",
+        ".sv-service-card", 
         { y: ANIM.REVEAL_Y, opacity: 0 },
         {
           y: 0,
@@ -87,7 +105,7 @@ export default function Services() {
     <section
       ref={sectionRef}
       id="services"
-      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-10 sm:pt-14 lg:pt-16 pb-12 sm:pb-16 lg:pb-20 font-sans scroll-mt-20 sm:scroll-mt-28"
+      className="services-dark relative w-full min-h-screen bg-[#121a22] text-white overflow-hidden select-none pt-10 sm:pt-14 lg:pt-16 pb-12 sm:pb-16 lg:pb-20 font-sans scroll-mt-20 sm:scroll-mt-28"
     >
 
       {/* ── Background Organic Shapes: Left at TOP, Right at BOTTOM ── */}
@@ -96,7 +114,7 @@ export default function Services() {
 
       <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14 relative z-10">
         {/* Full-Width Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14 sm:mb-20 border-b border-black/8 pb-8">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 sm:mb-14 border-b border-white/15 pb-8">
           <div>
             <SectionHeader
               badge="What I offer"
@@ -104,7 +122,7 @@ export default function Services() {
               titleMain="BUILD &amp;"
               titleAccent="DELIVER."
               description="Focused development services for businesses who want a fast, reliable website delivered on schedule without agency overhead."
-              annotation="Available for new projects"
+              annotation=""
               align="split"
               className="!mb-0"
             />
@@ -124,7 +142,8 @@ export default function Services() {
         </div>
 
         {/* Refined Frosted Glass Tactile Service Cards with Silky Smooth Scrolling */}
-        <div className="sv-services-list flex flex-col gap-6 sm:gap-8">
+        <div className="sv-services-viewport overflow-hidden">
+          <div ref={servicesTrackRef} className="sv-services-list flex flex-col gap-6 sm:gap-8 md:flex-row md:gap-8 md:w-max">
           {servicesData.map((svc) => {
             const isActive = activeServiceId === svc.id;
             const IconComponent = serviceIcons[svc.id] || Monitor;
@@ -141,7 +160,7 @@ export default function Services() {
                     setActiveServiceId(svc.id);
                   }
                 }}
-                className={`sv-service-card group relative rounded-[1.5rem] sm:rounded-[1.75rem] backdrop-blur-2xl transition-all duration-300 p-6 sm:p-8 lg:p-10 transform-gpu will-change-transform overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 ${
+                className={`sv-service-card group relative rounded-[1.5rem] sm:rounded-[1.75rem] backdrop-blur-2xl transition-all duration-300 p-6 sm:p-8 lg:p-10 md:w-[min(78vw,980px)] md:min-h-[58vh] md:flex-shrink-0 transform-gpu will-change-transform overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 ${
                   isActive
                     ? "bg-white/85 border border-brand/40 shadow-[0_20px_50px_rgba(var(--brand-rgb),0.14),inset_0_1px_2px_rgba(255,255,255,1)] ring-1 ring-brand/20"
                     : "bg-white/65 hover:bg-white/80 border border-white/80 hover:border-brand/30 shadow-[0_12px_36px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9)] hover:shadow-[0_22px_45px_rgba(var(--brand-rgb),0.1)]"
@@ -264,6 +283,7 @@ export default function Services() {
               </div>
             );
           })}
+          </div>
         </div>
       </div>
 
