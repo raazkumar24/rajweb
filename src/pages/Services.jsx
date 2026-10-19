@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   ShieldCheck,
   Zap,
@@ -18,38 +19,10 @@ import {
   BrandSectionRightWave,
 } from "../components/decorative";
 
-function StackingCard({ children, index, total }) {
-  const cardRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ["start 88%", "start 18%"],
-  });
-  const scale = useTransform(scrollYProgress, [0, 0.55, 1], [1, 0.94, 0.9]);
-  const rotateX = useTransform(scrollYProgress, [0, 1], [0, -5]);
-  const y = useTransform(scrollYProgress, [0, 1], [0, -18]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.55, 1], [0, 0.35, 0.6]);
+import { useGsapScope } from "../animation/useGsapScope";
+import { ANIM } from "../animation/config";
 
-  return (
-    <motion.div
-      ref={cardRef}
-      style={{
-        scale,
-        rotateX,
-        y,
-        zIndex: total - index,
-        top: `calc(56px + ${index * 18}px)`,
-      }}
-      className="sticky relative mb-[25vh] origin-top transform-gpu [perspective:1200px]"
-    >
-      {children}
-      <motion.div
-        aria-hidden="true"
-        style={{ opacity: overlayOpacity }}
-        className="pointer-events-none absolute inset-0 z-20 rounded-[1.5rem] bg-slate-950"
-      />
-    </motion.div>
-  );
-}
+gsap.registerPlugin(ScrollTrigger);
 
 const serviceIcons = {
   "web-apps": Monitor,
@@ -63,6 +36,33 @@ export default function Services() {
   const [activeServiceId, setActiveServiceId] = useState(
     servicesData[0]?.id || "web-apps",
   );
+
+  useGsapScope(sectionRef, () => {
+    const mm = gsap.matchMedia();
+
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      gsap.fromTo(
+        ".sv-service-card",
+        { y: ANIM.REVEAL_Y, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: ANIM.DURATION.base,
+          stagger: ANIM.STAGGER,
+          ease: ANIM.EASE,
+          scrollTrigger: {
+            trigger: ".sv-services-list",
+            start: ANIM.SCROLL_START,
+            once: true,
+          },
+        },
+      );
+    });
+
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      gsap.set(".sv-service-card", { opacity: 1, y: 0, clearProps: "all" });
+    });
+  }, []);
 
   const handleRequestQuote = (e, serviceTitle) => {
     e.preventDefault();
@@ -124,14 +124,14 @@ export default function Services() {
         </div>
 
         {/* Refined Frosted Glass Tactile Service Cards with Silky Smooth Scrolling */}
-        <div className="sv-services-list relative mx-auto flex min-h-[300vh] max-w-6xl flex-col gap-0">
-          {servicesData.map((svc, index) => {
+        <div className="sv-services-list flex flex-col gap-6 sm:gap-8">
+          {servicesData.map((svc) => {
             const isActive = activeServiceId === svc.id;
             const IconComponent = serviceIcons[svc.id] || Monitor;
 
             return (
-              <StackingCard key={svc.id} index={index} total={servicesData.length}>
               <div
+                key={svc.id}
                 onMouseEnter={() => setActiveServiceId(svc.id)}
                 onClick={() => setActiveServiceId(svc.id)}
                 tabIndex={0}
@@ -141,7 +141,7 @@ export default function Services() {
                     setActiveServiceId(svc.id);
                   }
                 }}
-                className={`sv-service-card group relative min-h-[min(620px,70vh)] rounded-[1.5rem] sm:rounded-[1.75rem] backdrop-blur-2xl transition-all duration-300 p-6 sm:p-8 lg:p-10 transform-gpu will-change-transform overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 ${
+                className={`sv-service-card group relative rounded-[1.5rem] sm:rounded-[1.75rem] backdrop-blur-2xl transition-all duration-300 p-6 sm:p-8 lg:p-10 transform-gpu will-change-transform overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 ${
                   isActive
                     ? "bg-white/85 border border-brand/40 shadow-[0_20px_50px_rgba(var(--brand-rgb),0.14),inset_0_1px_2px_rgba(255,255,255,1)] ring-1 ring-brand/20"
                     : "bg-white/65 hover:bg-white/80 border border-white/80 hover:border-brand/30 shadow-[0_12px_36px_rgba(0,0,0,0.03),inset_0_1px_2px_rgba(255,255,255,0.9)] hover:shadow-[0_22px_45px_rgba(var(--brand-rgb),0.1)]"
@@ -262,7 +262,6 @@ export default function Services() {
                   </div>
                 </div>
               </div>
-              </StackingCard>
             );
           })}
         </div>
