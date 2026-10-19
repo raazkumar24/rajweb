@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
   ShieldCheck,
   Zap,
@@ -19,10 +18,32 @@ import {
   BrandSectionRightWave,
 } from "../components/decorative";
 
-import { useGsapScope } from "../animation/useGsapScope";
-import { ANIM } from "../animation/config";
+function StackingCard({ children, index, total }) {
+  const cardRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start 88%", "start 18%"],
+  });
+  const scale = useTransform(scrollYProgress, [0, 0.7, 1], [0.96, 0.985, 1]);
+  const rotateX = useTransform(scrollYProgress, [0, 1], [index % 2 ? 2 : -2, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], [72, 0]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.75, 1], [0.3, 0.08, 0]);
 
-gsap.registerPlugin(ScrollTrigger);
+  return (
+    <motion.div
+      ref={cardRef}
+      style={{ scale, rotateX, y, zIndex: total - index }}
+      className="relative mb-6 origin-top transform-gpu [perspective:1200px]"
+    >
+      {children}
+      <motion.div
+        aria-hidden="true"
+        style={{ opacity: overlayOpacity }}
+        className="pointer-events-none absolute inset-0 z-20 rounded-[1.5rem] bg-slate-950"
+      />
+    </motion.div>
+  );
+}
 
 const serviceIcons = {
   "web-apps": Monitor,
@@ -36,33 +57,6 @@ export default function Services() {
   const [activeServiceId, setActiveServiceId] = useState(
     servicesData[0]?.id || "web-apps",
   );
-
-  useGsapScope(sectionRef, () => {
-    const mm = gsap.matchMedia();
-
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      gsap.fromTo(
-        ".sv-service-card",
-        { y: ANIM.REVEAL_Y, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: ANIM.DURATION.base,
-          stagger: ANIM.STAGGER,
-          ease: ANIM.EASE,
-          scrollTrigger: {
-            trigger: ".sv-services-list",
-            start: ANIM.SCROLL_START,
-            once: true,
-          },
-        },
-      );
-    });
-
-    mm.add("(prefers-reduced-motion: reduce)", () => {
-      gsap.set(".sv-service-card", { opacity: 1, y: 0, clearProps: "all" });
-    });
-  }, []);
 
   const handleRequestQuote = (e, serviceTitle) => {
     e.preventDefault();
@@ -124,14 +118,14 @@ export default function Services() {
         </div>
 
         {/* Refined Frosted Glass Tactile Service Cards with Silky Smooth Scrolling */}
-        <div className="sv-services-list flex flex-col gap-6 sm:gap-8">
-          {servicesData.map((svc) => {
+        <div className="sv-services-list relative mx-auto flex max-w-6xl flex-col gap-2 sm:gap-4">
+          {servicesData.map((svc, index) => {
             const isActive = activeServiceId === svc.id;
             const IconComponent = serviceIcons[svc.id] || Monitor;
 
             return (
+              <StackingCard key={svc.id} index={index} total={servicesData.length}>
               <div
-                key={svc.id}
                 onMouseEnter={() => setActiveServiceId(svc.id)}
                 onClick={() => setActiveServiceId(svc.id)}
                 tabIndex={0}
@@ -262,6 +256,7 @@ export default function Services() {
                   </div>
                 </div>
               </div>
+              </StackingCard>
             );
           })}
         </div>
