@@ -384,3 +384,12 @@ h4 [class*="text-brand-dark"] {
     background: var(--brand-primary);
   }
 }
+
+/* Hide scrollbar utility */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
