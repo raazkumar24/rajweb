@@ -7,6 +7,7 @@ const variants = {
   dark: "bg-[#111111] text-white shadow-[0_8px_24px_rgba(0,0,0,0.18)] hover:bg-brand hover:text-[#111111] hover:shadow-[0_12px_28px_rgba(var(--brand-rgb),0.38)]",
   outline: "border border-black/20 bg-white text-[#111111] shadow-sm hover:border-brand hover:text-brand hover:shadow-md",
   brand: "bg-brand text-[#111111] shadow-[0_8px_24px_rgba(var(--brand-rgb),0.3)] hover:bg-white",
+  source: "border border-black/12 bg-white/80 text-[#444444] backdrop-blur-md hover:border-brand/50 hover:bg-white hover:text-[#111111]", 
 };
 
 export default function InteractiveButton({
@@ -15,6 +16,7 @@ export default function InteractiveButton({
   variant = "dark",
   className = "",
   icon,
+  noShadow = false,
   ...props
 }) {
   const Component = href ? "a" : "button";
@@ -22,7 +24,7 @@ export default function InteractiveButton({
     <Component
       {...props}
       {...(href ? { href } : {})}
-      className={`${baseStyles} ${variants[variant]} ${className}`}
+      className={`${baseStyles} ${variants[variant]} ${noShadow ? "shadow-none hover:shadow-none" : ""} ${className}`}
     >
       <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
       <span className="relative">{children}</span>

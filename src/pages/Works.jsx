@@ -356,6 +356,7 @@ export default function Works() {
                             setActiveProjectModal(project);
                           }}
                           variant="dark"
+                          noShadow
                           className="px-5 py-2.5 text-xs sm:text-sm"
                           icon={<ArrowRight className="h-3.5 w-3.5" />}
                         >
@@ -363,16 +364,19 @@ export default function Works() {
                         </InteractiveButton>
 
                         {project.githubUrl && (
-                          <a
+                          <InteractiveButton
                             href={project.githubUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-white/80 backdrop-blur-md border border-black/12 hover:border-brand/50 hover:bg-white text-xs sm:text-sm font-semibold text-[#444444] hover:text-[#111111] transition-all duration-200 shadow-sm"
+                            variant="source"
+                            className="px-4 py-2.5 text-xs sm:text-sm"
+                            icon={<ArrowUpRight className="h-3.5 w-3.5 text-[#AAAAAA]" />}
                           >
-                            <Code2 className="w-3.5 h-3.5 text-brand-dark" />
-                            <span>Source code</span>
-                            <ArrowUpRight className="w-3.5 h-3.5 text-[#AAAAAA]" />
-                          </a>
+                            <span className="inline-flex items-center gap-1.5">
+                              <Code2 className="h-3.5 w-3.5 text-brand-dark" />
+                              Source code
+                            </span>
+                          </InteractiveButton>
                         )}
                       </div>
                     </div>
