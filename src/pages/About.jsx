@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowDownRight, ArrowDownLeft, MapPin } from "lucide-react";
 import { RobotHead } from "robot-heads";
 import { SectionBadge } from "../components/ui";
+import InteractiveButton from "../components/ui/InteractiveButton";
 import {
   HandDrawnUnderline,
   BrandTopLeftShape,
@@ -271,25 +272,14 @@ export default function About() {
               </p>
 
               <div className="ab-intro-stagger flex flex-wrap items-center gap-3.5">
-                <a
+                <InteractiveButton
                   href="#works"
-                  className="group inline-flex items-center gap-3 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-8 py-3.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-1 shadow-[0_8px_20px_rgba(0,0,0,0.15)] hover:shadow-[0_12px_28px_rgba(var(--brand-rgb),0.4)] active:scale-95"
+                  variant="dark"
+                  className="px-8 py-3.5"
+                  icon={<span aria-hidden="true">&rarr;</span>}
                 >
-                  <span>View my work</span>
-                  <svg
-                    className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                    />
-                  </svg>
-                </a>
+                  View my work
+                </InteractiveButton>
               </div>
             </div>
 

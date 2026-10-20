@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionHeader from "../components/ui/SectionHeader";
+import InteractiveButton from "../components/ui/InteractiveButton";
 import { faqData } from "../data/faqData";
 import {
   SectionWaveDivider,
@@ -136,14 +137,15 @@ export default function FAQ() {
         {/* Bottom Help Prompt */}
         <div className="mt-14 sm:mt-20 text-center flex flex-col sm:flex-row items-center justify-center gap-3 text-xs sm:text-sm font-medium text-[#666666]">
           <span>Still have questions about your project?</span>
-          <a
+          <InteractiveButton
             href="#contact"
             onClick={handleScrollToContact}
-            className="inline-flex items-center gap-1.5 font-bold text-[#111111] hover:text-brand-dark underline decoration-brand underline-offset-4 transition-colors"
+            variant="outline"
+            className="px-4 py-2 text-xs"
+            icon={<span aria-hidden="true">&rarr;</span>}
           >
-            <span>Ask me directly in the contact form</span>
-            <span>&rarr;</span>
-          </a>
+            Ask me directly in the contact form
+          </InteractiveButton>
         </div>
       </div>
 

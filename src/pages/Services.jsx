@@ -14,7 +14,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { servicesData } from "../data/servicesData";
-import { SectionHeader } from "../components/ui";
+import { SectionHeader, InteractiveButton } from "../components/ui";
 import {
   SectionWaveDivider,
   BrandSectionSideWave,
@@ -960,14 +960,15 @@ export default function Services() {
                           ))}
                         </div>
 
-                        <a
+                        <InteractiveButton
                           href="#contact"
                           onClick={(e) => handleRequestQuote(e, svc.title)}
-                          className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-4 sm:px-5 py-1.5 sm:py-2 text-xs lg:text-sm font-bold transition-all duration-200 shadow-sm shrink-0 cursor-pointer group/btn"
+                          variant="dark"
+                          className="shrink-0 px-4 py-1.5 text-xs lg:text-sm"
+                          icon={<ArrowRight className="h-3.5 w-3.5" />}
                         >
-                          <span>Get a quote</span>
-                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" />
-                        </a>
+                          Get a quote
+                        </InteractiveButton>
                       </div>
                     </div>
 

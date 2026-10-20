@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { projectsData } from "../data/projectsData";
 import SectionHeader from "../components/ui/SectionHeader";
+import InteractiveButton from "../components/ui/InteractiveButton";
 import ProjectMedia from "../components/features/ProjectMedia";
 import {
   BrandSectionSideWave,
@@ -348,17 +349,18 @@ export default function Works() {
 
                       {/* Action Buttons */}
                       <div className="flex items-center gap-3 flex-wrap">
-                        <button
+                        <InteractiveButton
                           type="button"
                           onClick={() => {
                             setModalImageIdx(0);
                             setActiveProjectModal(project);
                           }}
-                          className="group inline-flex items-center gap-2 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all duration-300 shadow-[0_4px_16px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_24px_rgba(var(--brand-rgb),0.35)] active:scale-95 cursor-pointer"
+                          variant="dark"
+                          className="px-5 py-2.5 text-xs sm:text-sm"
+                          icon={<ArrowRight className="h-3.5 w-3.5" />}
                         >
-                          <span>Read case study</span>
-                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
-                        </button>
+                          Read case study
+                        </InteractiveButton>
 
                         {project.githubUrl && (
                           <a
