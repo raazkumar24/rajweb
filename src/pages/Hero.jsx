@@ -11,6 +11,7 @@ import {
   GitHubIcon,
   LinkedInIcon,
   InstagramIcon,
+  InteractiveButton,
 } from "../components/ui";
 import {
   BrandTopLeftShape,
@@ -427,39 +428,24 @@ function Hero() {
 
             {/* CTA Buttons with Smooth Scroll & Sheen */}
             <div className="hero-stagger mt-5 sm:mt-6 lg:mt-4 xl:mt-5 flex flex-wrap items-center gap-3">
-              <a
+              <InteractiveButton
                 href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 download="Raj_Shekhar_Resume.pdf"
-                className="group relative inline-flex items-center gap-2.5 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-6 py-3.5 sm:px-7 sm:py-3.5 text-sm font-semibold shadow-[0_8px_24px_rgba(0,0,0,0.18)] hover:shadow-[0_12px_28px_rgba(var(--brand-rgb),0.38)] transition-all duration-300 hover:-translate-y-0.5 active:scale-95 cursor-pointer overflow-hidden"
+                variant="dark"
+                icon={<span aria-hidden="true">&darr;</span>}
               >
-                <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-                <span>My Resume</span>
-                <svg
-                  className="w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
-                  />
-                </svg>
-              </a>
-              <a
+                My Resume
+              </InteractiveButton>
+              <InteractiveButton
                 href="#contact"
                 onClick={(e) => handleSmoothScroll(e, "contact")}
-                className="group inline-flex items-center gap-2.5 rounded-full border border-black/20 hover:border-brand text-[#111111] hover:text-brand px-6 py-3.5 sm:px-7 sm:py-3.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-95 bg-white shadow-sm hover:shadow-md cursor-pointer"
+                variant="outline"
+                icon={<span aria-hidden="true">&rarr;</span>}
               >
-                <span>Get in touch</span>
-                <span className="text-[#888888] group-hover:text-brand group-hover:translate-x-1 transition-all duration-200">
-                  &rarr;
-                </span>
-              </a>
+                Get in touch
+              </InteractiveButton>
             </div>
 
             {/* Editorial Stats Row — 100% borderless, NO cards */}

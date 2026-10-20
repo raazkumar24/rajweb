@@ -10,6 +10,7 @@ import {
   InstagramIcon,
 } from "../components/ui/SocialPill";
 import { socialLinks, WEB3FORMS_KEY } from "../config/site";
+import InteractiveButton from "../components/ui/InteractiveButton";
 
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -306,16 +307,15 @@ topic: "",
 
                 {/* Submit button */}
                 <div className="flex items-center justify-between flex-wrap gap-4 pt-2">
-                  <button
+                  <InteractiveButton
                     type="submit"
                     disabled={submitting}
-                    className={`group inline-flex items-center gap-3 rounded-full bg-brand hover:bg-white text-[#111111] px-8 py-3.5 text-sm font-bold transition-all duration-300 hover:-translate-y-1 active:scale-95 shadow-[0_8px_24px_rgba(var(--brand-rgb),0.3)] ${
-                      submitting ? "opacity-60 cursor-not-allowed hover:bg-brand hover:translate-y-0" : "cursor-pointer"
-                    }`}
+                    variant="brand"
+                    className={submitting ? "opacity-60 cursor-not-allowed hover:translate-y-0" : ""}
+                    icon={<ArrowRight className="h-4 w-4" />}
                   >
-                    <span>{submitting ? "Sending..." : "Send message"}</span>
-                    <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-                  </button>
+                    {submitting ? "Sending..." : "Send message"}
+                  </InteractiveButton>
 
                   <span className="text-sm text-white/50">
                     I reply within 24 hours

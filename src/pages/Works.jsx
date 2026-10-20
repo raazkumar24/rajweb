@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { projectsData } from "../data/projectsData";
 import SectionHeader from "../components/ui/SectionHeader";
+import InteractiveButton from "../components/ui/InteractiveButton";
 import ProjectMedia from "../components/features/ProjectMedia";
 import {
   BrandSectionSideWave,
@@ -348,29 +349,34 @@ export default function Works() {
 
                       {/* Action Buttons */}
                       <div className="flex items-center gap-3 flex-wrap">
-                        <button
+                        <InteractiveButton
                           type="button"
                           onClick={() => {
                             setModalImageIdx(0);
                             setActiveProjectModal(project);
                           }}
-                          className="group inline-flex items-center gap-2 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-5 py-2.5 text-xs sm:text-sm font-semibold transition-all duration-300 shadow-[0_4px_16px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_24px_rgba(var(--brand-rgb),0.35)] active:scale-95 cursor-pointer"
+                          variant="dark"
+                          noShadow
+                          className="px-5 py-2.5 text-xs sm:text-sm"
+                          icon={<ArrowRight className="h-3.5 w-3.5" />}
                         >
-                          <span>Read case study</span>
-                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
-                        </button>
+                          Read case study
+                        </InteractiveButton>
 
                         {project.githubUrl && (
-                          <a
+                          <InteractiveButton
                             href={project.githubUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-white/80 backdrop-blur-md border border-black/12 hover:border-brand/50 hover:bg-white text-xs sm:text-sm font-semibold text-[#444444] hover:text-[#111111] transition-all duration-200 shadow-sm"
+                            variant="source"
+                            className="px-4 py-2.5 text-xs sm:text-sm"
+                            icon={<ArrowUpRight className="h-3.5 w-3.5 text-[#AAAAAA]" />}
                           >
-                            <Code2 className="w-3.5 h-3.5 text-brand-dark" />
-                            <span>Source code</span>
-                            <ArrowUpRight className="w-3.5 h-3.5 text-[#AAAAAA]" />
-                          </a>
+                            <span className="inline-flex items-center gap-1.5">
+                              <Code2 className="h-3.5 w-3.5 text-brand-dark" />
+                              Source code
+                            </span>
+                          </InteractiveButton>
                         )}
                       </div>
                     </div>
