@@ -14,7 +14,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { servicesData } from "../data/servicesData";
-import { SectionHeader, InteractiveButton } from "../components/ui";
+import { SectionHeader } from "../components/ui";
 import {
   SectionWaveDivider,
   BrandSectionSideWave,
@@ -627,13 +627,14 @@ export default function Services() {
 
       // 1. Initial State:
       // Card 0 starts visible and tilted.
-      // Cards 1..count-1 wait down below (yPercent: 125, completely off).
+      // Cards 1..count-1 wait down below with opacity 0 so they don't clip or overlap when unstacked.
       cards.forEach((card, i) => {
         gsap.set(card, {
-          yPercent: i === 0 ? 0 : 125,
+          yPercent: i === 0 ? 0 : 100,
           rotation: tilts[i] ?? 0,
           scale: 1,
-          opacity: 1,
+          opacity: i === 0 ? 1 : 0,
+          pointerEvents: i === 0 ? "auto" : "none",
           zIndex: i + 1,
           transformOrigin: isMobile ? "center 90%" : "center 85%",
           transformPerspective: 1200,
@@ -678,6 +679,8 @@ export default function Services() {
           {
             yPercent: 0,
             rotation: tilts[i],
+            opacity: 1,
+            pointerEvents: "auto",
             duration: 1,
             ease: "back.out(1.25)",
           },
@@ -690,6 +693,7 @@ export default function Services() {
           {
             scale: isMobile ? 0.975 : 0.965,
             opacity: 0.88,
+            pointerEvents: "none",
             duration: 0.85,
             ease: "power2.out",
           },
@@ -700,7 +704,11 @@ export default function Services() {
 
     // Reduced motion fallback
     mm.add("(prefers-reduced-motion: reduce)", () => {
-      gsap.set(".sv-card-item", { clearProps: "all" });
+      gsap.set(".sv-card-item", {
+        clearProps: "all",
+        opacity: 1,
+        pointerEvents: "auto",
+      });
     });
   }, []);
 
@@ -879,7 +887,7 @@ export default function Services() {
 
           {/* ── RESPONSIVE PINNED CARDS STACK BOX (Works on Mobile + Tablet + Desktop) ── */}
           <div
-            className="relative w-full rounded-[1.8rem] sm:rounded-[2.2rem] h-[480px] sm:h-[490px]"
+            className="relative w-full max-w-5xl xl:max-w-6xl mx-auto h-[550px] sm:h-[520px] lg:h-[485px] xl:h-[495px] my-3 sm:my-4"
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
@@ -888,17 +896,17 @@ export default function Services() {
               return (
                 <div
                   key={svc.id}
-                  className="sv-card-item absolute inset-1 sm:inset-1.5 w-[calc(100%-0.5rem)] sm:w-[calc(100%-0.75rem)] h-[calc(100%-0.5rem)] sm:h-[calc(100%-0.75rem)]"
+                  className="sv-card-item absolute inset-0 w-full h-full max-w-5xl xl:max-w-6xl mx-auto"
                   style={{
                     willChange: "transform, opacity",
                   }}
                 >
-                  <div className="w-full h-full bg-white rounded-[1.6rem] sm:rounded-[2rem] border border-black/10 shadow-[0_14px_44px_rgba(0,0,0,0.07)] overflow-hidden flex flex-col lg:flex-row">
+                  <div className="w-full h-full bg-white rounded-[1.8rem] sm:rounded-[2.2rem] border border-black/10 shadow-[0_16px_46px_rgba(0,0,0,0.08)] overflow-hidden flex flex-col lg:flex-row">
                     {/* Left Column: Full Content */}
-                    <div className="flex flex-col justify-between p-5 sm:p-7 lg:p-9 flex-1 min-w-0 overflow-y-auto sm:overflow-visible">
+                    <div className="flex flex-col justify-between p-5 sm:p-6 lg:p-7 xl:p-8 flex-1 min-w-0 overflow-y-auto sm:overflow-visible">
                       <div>
                         {/* Card Header Tag */}
-                        <div className="flex items-center gap-2 sm:gap-2.5 mb-2.5 sm:mb-3">
+                        <div className="flex items-center gap-2 sm:gap-2.5 mb-2 sm:mb-2.5">
                           <span className="font-mono font-black text-xl sm:text-2xl lg:text-3xl text-brand-dark">
                             {svc.num}
                           </span>
@@ -911,27 +919,27 @@ export default function Services() {
                         </div>
 
                         {/* Service Title */}
-                        <h3 className="font-black italic uppercase text-xl sm:text-2xl lg:text-3xl xl:text-4xl tracking-tight leading-snug text-[#111111]">
+                        <h3 className="font-black italic uppercase text-lg sm:text-2xl lg:text-3xl xl:text-4xl tracking-tight leading-snug text-[#111111]">
                           {svc.title}
                         </h3>
 
                         {/* Description */}
-                        <p className="mt-1.5 sm:mt-2.5 text-xs sm:text-sm lg:text-base text-[#4B5563] leading-relaxed max-w-2xl line-clamp-3 sm:line-clamp-none">
+                        <p className="mt-1 sm:mt-2 text-xs sm:text-sm lg:text-[15px] text-[#4B5563] leading-relaxed max-w-2xl line-clamp-3 sm:line-clamp-none">
                           {svc.description}
                         </p>
                       </div>
 
                       {/* Deliverables Grid */}
-                      <div className="my-2 sm:my-3">
-                        <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-[#111111] block mb-1.5 sm:mb-2 flex items-center gap-1.5">
+                      <div className="my-2 sm:my-2.5">
+                        <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-[#111111] block mb-1.5 flex items-center gap-1.5">
                           <Sparkles className="w-3 h-3 text-brand" />
                           What&apos;s Included:
                         </span>
-                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2.5">
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
                           {svc.deliverables.map((item, dIdx) => (
                             <li
                               key={dIdx}
-                              className="flex items-center gap-2 p-1.5 sm:p-2.5 rounded-xl bg-[#F8F7F4] border border-black/5 text-xs lg:text-sm text-[#444444]"
+                              className="flex items-center gap-2 p-1.5 sm:p-2 rounded-xl bg-[#F8F7F4] border border-black/5 text-xs lg:text-sm text-[#444444]"
                             >
                               <span className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
                                 <Check className="w-2 sm:w-2.5 h-2 sm:h-2.5 stroke-[3]" />
@@ -945,7 +953,7 @@ export default function Services() {
                       </div>
 
                       {/* Bottom Action Row */}
-                      <div className="pt-2.5 sm:pt-3 border-t border-black/8 flex items-center justify-between gap-2 sm:gap-3 flex-wrap">
+                      <div className="pt-2 sm:pt-2.5 border-t border-black/8 flex items-center justify-between gap-2 sm:gap-3 flex-wrap">
                         <div className="flex flex-wrap items-center gap-1 sm:gap-1.5">
                           <span className="text-[11px] sm:text-xs font-semibold text-[#777777] mr-1 hidden xs:inline">
                             Stack:
@@ -960,22 +968,21 @@ export default function Services() {
                           ))}
                         </div>
 
-                        <InteractiveButton
+                        <a
                           href="#contact"
                           onClick={(e) => handleRequestQuote(e, svc.title)}
-                          variant="dark"
-                          className="shrink-0 px-4 py-1.5 text-xs lg:text-sm"
-                          icon={<ArrowRight className="h-3.5 w-3.5" />}
+                          className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-4 sm:px-5 py-1.5 sm:py-2 text-xs lg:text-sm font-bold transition-all duration-200 shadow-sm shrink-0 cursor-pointer group/btn"
                         >
-                          Get a quote
-                        </InteractiveButton>
+                          <span>Get a quote</span>
+                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" />
+                        </a>
                       </div>
                     </div>
 
                     {/* Right Column: Sleek Wireframe Preview (Large screens) */}
                     <div
                       className="hidden lg:flex items-center justify-center shrink-0 border-l border-black/6 bg-[#FAFAF8]"
-                      style={{ width: "320px", padding: "1.5rem" }}
+                      style={{ width: "300px", padding: "1.25rem" }}
                     >
                       <ServiceIllustration id={svc.id} />
                     </div>

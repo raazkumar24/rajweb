@@ -291,7 +291,7 @@ export default function Works() {
 
                 {/* TEXT & METRICS COLUMN */}
                 <div
-                    className={`wk-project-info lg:col-span-5 flex flex-col justify-center relative z-20 rounded-[1.75rem] sm:rounded-[2rem] bg-white/70 backdrop-blur-sm border-0 px-5 py-6 sm:px-7 sm:py-8 lg:px-0 lg:py-0 lg:bg-transparent ${
+                  className={`wk-project-info lg:col-span-5 flex flex-col justify-center relative z-20 rounded-[1.75rem] sm:rounded-[2rem] bg-white/70 backdrop-blur-sm border-0 px-5 py-6 sm:px-7 sm:py-8 lg:px-0 lg:py-0 lg:bg-transparent ${
                     isImageLeft
                       ? "lg:order-2 lg:pl-2 xl:pl-4"
                       : "lg:order-1 lg:pr-2 xl:pr-4"
@@ -369,8 +369,10 @@ export default function Works() {
                             target="_blank"
                             rel="noreferrer"
                             variant="source"
-                            className="px-4 py-2.5 text-xs sm:text-sm"
-                            icon={<ArrowUpRight className="h-3.5 w-3.5 text-[#AAAAAA]" />}
+                            className="px-2 py-2 text-xs sm:text-sm"
+                            icon={
+                              <ArrowUpRight className="h-3.5 w-3.5 text-[#AAAAAA]" />
+                            }
                           >
                             <span className="inline-flex items-center gap-1.5">
                               <Code2 className="h-3.5 w-3.5 text-brand-dark" />

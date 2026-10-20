@@ -50,9 +50,9 @@ function Navbar() {
         gsap.to(navRef.current, {
           y: 0,
           opacity: 1,
-          duration: 0.8,
-          ease: "power3.out",
-          delay: 1.8,
+          duration: 0.7,
+          ease: "power2.out",
+          delay: 1.45,
           clearProps: "all",
         });
       }

@@ -21,7 +21,6 @@ import {
   LeftDoodle,
 } from "../components/decorative";
 import { socialLinks as siteSocialLinks } from "../config/site";
-import { ANIM } from "../animation/config";
 
 // ─── Typewriter roles ─────────────────────────────────────────────────────────
 const roles = ["full-stack MERN websites and web apps."];
@@ -158,8 +157,8 @@ function Hero() {
       const heroName = nameRef.current;
       if (!heroName) return;
 
-      // 1. Clear any residual transforms before measuring exact DOM position
-      gsap.set(heroName, { clearProps: "transform,scale,opacity" });
+      // Measure exact DOM position
+      gsap.set(heroName, { clearProps: "transform,scale" });
 
       const rect = heroName.getBoundingClientRect();
       const viewportCenterX = window.innerWidth / 2;
@@ -170,17 +169,17 @@ function Hero() {
       const deltaX = viewportCenterX - nameCenterX;
       const deltaY = viewportCenterY - nameCenterY;
 
-      // 2. Set initial hidden states before browser paints (zero flash)
-      gsap.set(".hero-stagger", { y: ANIM.REVEAL_Y, opacity: 0 });
-      gsap.set(".bg-wave-left", { x: -60, opacity: 0 });
-      gsap.set(".bg-bottom-wave", { y: 30, opacity: 0 });
+      // 1. Initial hidden states for surrounding elements (zero flash)
+      gsap.set(".hero-stagger", { y: 22, opacity: 0 });
+      gsap.set(".bg-wave-left", { x: -40, opacity: 0 });
+      gsap.set(".bg-bottom-wave", { y: 24, opacity: 0 });
       if (profileRef.current)
-        gsap.set(profileRef.current, { y: 60, opacity: 0 });
+        gsap.set(profileRef.current, { y: 45, opacity: 0 });
       if (doodle1Ref.current)
-        gsap.set(doodle1Ref.current, { scale: 0.7, opacity: 0 });
+        gsap.set(doodle1Ref.current, { scale: 0.65, opacity: 0 });
       if (doodle2Ref.current)
-        gsap.set(doodle2Ref.current, { scale: 0.7, opacity: 0 });
-      if (socialRef.current) gsap.set(socialRef.current, { x: 30, opacity: 0 });
+        gsap.set(doodle2Ref.current, { scale: 0.65, opacity: 0 });
+      if (socialRef.current) gsap.set(socialRef.current, { x: 25, opacity: 0 });
       if (underlineRef.current) {
         gsap.set(underlineRef.current, {
           strokeDashoffset: 400,
@@ -188,93 +187,85 @@ function Hero() {
         });
       }
 
-      // Initial state: centered vertically/horizontally, positioned slightly below center for sliding entry
+      // Initial state of name: centered in viewport, softly scaled with zero flash
       const initialScale =
-        window.innerWidth < 640 ? 1.05 : window.innerWidth < 1024 ? 1.15 : 1.25;
+        window.innerWidth < 640 ? 1.08 : window.innerWidth < 1024 ? 1.15 : 1.22;
 
       gsap.set(heroName, {
         x: deltaX,
-        y: deltaY + 50,
+        y: deltaY + 24,
         opacity: 0,
         scale: initialScale,
         transformOrigin: "center center",
+        force3D: true,
       });
 
-      // 3. Main Entrance Timeline
-      const tl = gsap.timeline({ defaults: { ease: ANIM.EASE } });
+      // 2. Cinematic Entrance Timeline (Continuous, silky smooth choreography)
+      const tl = gsap.timeline();
 
-      // Step A: Name slides up into screen center with fade in
+      // Step A: Name gracefully fades and glides into viewport center
       tl.to(heroName, {
         y: deltaY,
         opacity: 1,
+        scale: initialScale * 0.98,
         duration: 0.75,
-        ease: "power3.out",
+        ease: "power2.out",
       })
-        // Step B: Brief elegant pause in center so user perceives the name
-        .to({}, { duration: 0.35 })
-        // Step C: Name glides smoothly from center to its exact hero layout position
+        // Step B: Gentle floating momentum in center (natural feel, no abrupt dead stop)
+        .to(heroName, {
+          y: deltaY - 4,
+          duration: 0.28,
+          ease: "sine.inOut",
+        })
+        // Step C: Name glides smoothly from center directly into its hero title layout position
         .to(heroName, {
           x: 0,
           y: 0,
           scale: 1,
-          duration: 0.85,
+          duration: 0.92,
           ease: "power3.inOut",
-          clearProps: "transform,scale",
         })
-        // Step D: Components appear seamlessly as name settles into position
-        .to(
-          ".bg-wave-left",
-          {
-            x: 0,
-            opacity: 1,
-            duration: 0.75,
-            ease: "power2.out",
-            clearProps: "transform,opacity",
-          },
-          "-=0.4",
-        )
-        .to(
-          ".bg-bottom-wave",
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.75,
-            ease: "power2.out",
-            clearProps: "transform,opacity",
-          },
-          "-=0.55",
-        )
-        .to(
-          ".hero-stagger",
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.08,
-            duration: 0.55,
-            ease: "power3.out",
-            clearProps: "transform,opacity",
-          },
-          "-=0.5",
-        )
+        // Step D: Components bloom seamlessly as the name settles into place
         .to(
           underlineRef.current,
           {
             strokeDashoffset: 0,
-            duration: 0.75,
+            duration: 0.7,
             ease: "power2.out",
           },
-          "-=0.35",
+          "-=0.45",
         )
         .to(
           profileRef.current,
           {
             y: 0,
             opacity: 1,
-            duration: 0.75,
+            duration: 0.8,
             ease: "power3.out",
-            clearProps: "transform,opacity",
+          },
+          "-=0.6",
+        )
+        .to(
+          ".hero-stagger",
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.07,
+            duration: 0.6,
+            ease: "power3.out",
           },
           "-=0.55",
+        )
+        .to(
+          [".bg-wave-left", ".bg-bottom-wave"],
+          {
+            x: 0,
+            y: 0,
+            opacity: 1,
+            duration: 0.75,
+            ease: "power2.out",
+          },
+          "-=0.6",
         )
         .to(
           [doodle1Ref.current, doodle2Ref.current],
@@ -282,25 +273,23 @@ function Hero() {
             scale: 1,
             opacity: 1,
             stagger: 0.1,
-            duration: 0.45,
-            ease: "back.out(1.8)",
-            clearProps: "opacity,scale",
+            duration: 0.5,
+            ease: "back.out(1.6)",
           },
-          "-=0.45",
+          "-=0.5",
         )
         .to(
           socialRef.current,
           {
             x: 0,
             opacity: 1,
-            duration: 0.55,
+            duration: 0.6,
             ease: "power2.out",
-            clearProps: "opacity,transform",
           },
-          "-=0.45",
+          "-=0.5",
         );
 
-      // Idle floating tweens (started after entrance settles)
+      // Idle floating tweens (started smoothly after entrance settles)
       gsap.to([doodle1Ref.current, doodle2Ref.current], {
         y: -5,
         duration: 2.8,
@@ -373,7 +362,7 @@ function Hero() {
 
       {/* ── MAIN CONTAINER ── */}
       <div className="relative z-10 mx-auto w-full max-w-[1320px] px-6 sm:px-10 lg:px-16 flex-1 min-h-0 flex flex-col justify-end pb-0">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-12 items-center flex-1 min-h-0">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 lg:gap-8 xl:gap-12 items-center flex-1 min-h-0">
           {/* ── LEFT COLUMN ── */}
           <div className="lg:col-span-6 flex flex-col justify-center z-20 pt-2 pb-4 sm:pb-6 lg:py-0 self-center pl-0 sm:pl-2 lg:pl-4">
             {/* Upgraded Pill SectionBadge */}
@@ -386,7 +375,6 @@ function Hero() {
                 Available for Work
               </span>
               <span className="hidden xs:inline text-[#888888]">&bull;</span>
-              
             </div>
 
             {/* Title & Animated Underline */}
@@ -394,6 +382,7 @@ function Hero() {
               <h1
                 ref={nameRef}
                 id="hero-name"
+                style={{ opacity: 0, willChange: "transform, opacity" }}
                 className="relative z-30 whitespace-nowrap text-[2.75rem] xs:text-[3.4rem] sm:text-[4.4rem] md:text-[5.2rem] lg:text-[4.9rem] xl:text-[6.75rem] 2xl:text-[7.6rem] font-black italic uppercase text-[#111111] leading-none tracking-[-0.04em] select-none"
               >
                 RAJ SHEKHAR

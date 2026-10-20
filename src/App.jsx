@@ -109,7 +109,7 @@ function App() {
         <div data-scroll-section>
           <Works />
         </div>
-        <div data-scroll-section>
+        <div>
           <Services />
         </div>
         <div data-scroll-section>
