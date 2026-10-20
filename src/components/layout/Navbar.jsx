@@ -64,31 +64,53 @@ function Navbar() {
     });
   });
 
+  const activeSectionRef = useRef("home");
+
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY < 200) {
-        setActiveSection("home");
+    let ticking = false;
+
+    const updateActiveSection = () => {
+      const scrollY = window.scrollY;
+      if (scrollY < 200) {
+        if (activeSectionRef.current !== "home") {
+          activeSectionRef.current = "home";
+          setActiveSection("home");
+        }
+        ticking = false;
         return;
       }
 
       const sectionIds = ["contact", "faq", "services", "works", "about"];
-      const currentScroll = window.scrollY + 120;
+      const currentScroll = scrollY + 120;
+      let detected = "home";
 
       for (const id of sectionIds) {
         const el = document.getElementById(id);
         if (el) {
-          const top = el.getBoundingClientRect().top + window.scrollY;
+          const top = el.offsetTop;
           if (currentScroll >= top) {
-            setActiveSection(id);
-            return;
+            detected = id;
+            break;
           }
         }
       }
-      setActiveSection("home");
+
+      if (detected !== activeSectionRef.current) {
+        activeSectionRef.current = detected;
+        setActiveSection(detected);
+      }
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateActiveSection);
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
+    updateActiveSection();
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };

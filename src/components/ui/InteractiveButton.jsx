@@ -1,7 +1,7 @@
 import React from "react";
 
 const baseStyles =
-  "group relative inline-flex items-center justify-center gap-2.5 overflow-hidden rounded-full px-6 py-3.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2";
+  "group relative inline-flex items-center justify-center gap-2.5 overflow-hidden rounded-full px-6 py-3.5 text-sm font-semibold transition-[transform,background-color,border-color,color,box-shadow] duration-200 hover:-translate-y-0.5 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2";
 
 const variants = {
   dark: "bg-[#111111] text-white shadow-[0_8px_24px_rgba(0,0,0,0.18)] hover:bg-brand hover:text-[#111111] hover:shadow-[0_12px_28px_rgba(var(--brand-rgb),0.38)]",

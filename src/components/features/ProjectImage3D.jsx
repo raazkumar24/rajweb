@@ -30,6 +30,7 @@ export default function ProjectImage3D({ image, images = [], title, year, client
           width={1400}
           height={875}
           className="wk-project-img h-full w-full rounded-[inherit] object-cover object-top"
+          style={{ willChange: "transform" }}
           loading="lazy"
         />
         <div className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] bg-gradient-to-t from-black/45 via-transparent to-transparent" aria-hidden="true" />

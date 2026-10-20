@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "./components/layout/Navbar.jsx";
@@ -19,48 +19,23 @@ ScrollTrigger.config({ ignoreMobileResize: true });
 
 function App() {
   const [showScrollTop, setShowScrollTop] = useState(false);
-
-  useLayoutEffect(() => {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const ctx = gsap.context(() => {
-      if (reduceMotion) {
-        gsap.set("[data-scroll-section]", { clearProps: "all" });
-        return;
-      }
-
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.utils.toArray("[data-scroll-section]").forEach((section) => {
-          const children = Array.from(section.children);
-          const revealTargets = children.length > 0 ? children : [section];
-
-          gsap.fromTo(
-            revealTargets,
-            { autoAlpha: 0, y: window.innerWidth < 768 ? 22 : 34 },
-            {
-              autoAlpha: 1,
-              y: 0,
-              duration: window.innerWidth < 768 ? 0.7 : 0.9,
-              stagger: window.innerWidth < 768 ? 0.06 : 0.1,
-              ease: "power3.out",
-              clearProps: "transform,opacity,visibility",
-              scrollTrigger: {
-                trigger: section,
-                start: window.innerWidth < 768 ? "top 92%" : "top 88%",
-                once: true,
-              },
-            },
-          );
-        });
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
+  const showScrollTopRef = useRef(false);
 
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 400);
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          const shouldShow = window.scrollY > 400;
+          if (shouldShow !== showScrollTopRef.current) {
+            showScrollTopRef.current = shouldShow;
+            setShowScrollTop(shouldShow);
+          }
+          ticking = false;
+        });
+      }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
 
@@ -102,20 +77,20 @@ function App() {
           <Marquee />
         </div>
 
-        {/* Core content sections with smooth scroll alignment */}
-        <div data-scroll-section>
+        {/* Core content sections with internal optimized scroll choreography */}
+        <div>
           <About />
         </div>
-        <div data-scroll-section>
+        <div>
           <Works />
         </div>
         <div>
           <Services />
         </div>
-        <div data-scroll-section>
+        <div>
           <FAQ />
         </div>
-        <div data-scroll-section>
+        <div>
           <Contact />
         </div>
       </main>

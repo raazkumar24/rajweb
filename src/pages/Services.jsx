@@ -14,7 +14,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { servicesData } from "../data/servicesData";
-import { SectionHeader } from "../components/ui";
+import { SectionHeader, InteractiveButton } from "../components/ui";
 import {
   SectionWaveDivider,
   BrandSectionSideWave,
@@ -600,6 +600,8 @@ export default function Services() {
   const touchStartX = useRef(null);
   const touchStartY = useRef(null);
 
+  const activeStepRef = useRef(0);
+
   // Exact tilts requested:
   // Card 1: left tilt (-2.5°)
   // Card 2: straight (0°)
@@ -622,7 +624,7 @@ export default function Services() {
 
       const isMobile = window.innerWidth < 768;
       const tilts = isMobile ? mobileTilts : desktopTilts;
-      const scrollDistancePerCard = isMobile ? 450 : 600;
+      const scrollDistancePerCard = isMobile ? 420 : 540;
       const totalScrollDistance = (count - 1) * scrollDistancePerCard;
 
       // 1. Initial State:
@@ -641,39 +643,37 @@ export default function Services() {
         });
       });
 
-      // 2. Timeline pinned with scrub and snap
+      // 2. Timeline pinned with smooth scrub (no scroll fighting)
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: pinEl,
-          start: isMobile ? "top 72px" : "center center",
+          start: isMobile ? "top 72px" : "top top+=72",
           end: `+=${totalScrollDistance}`,
           pin: true,
-          scrub: 0.8,
+          scrub: 0.6,
           anticipatePin: 1,
-          snap: {
-            snapTo: 1 / (count - 1),
-            duration: { min: 0.2, max: 0.45 },
-            ease: "power2.inOut",
-          },
           onUpdate: (self) => {
             const stepIndex = Math.min(
               count - 1,
               Math.round(self.progress * (count - 1)),
             );
-            setActiveStep(stepIndex);
+            if (stepIndex !== activeStepRef.current) {
+              activeStepRef.current = stepIndex;
+              setActiveStep(stepIndex);
+            }
           },
         },
       });
 
       stRef.current = tl.scrollTrigger;
 
-      // 3. Sequential Stacking with tactile spring feel
+      // 3. Sequential Stacking with silky smooth organic motion
       for (let i = 1; i < count; i++) {
         const prevCard = cards[i - 1];
         const currentCard = cards[i];
         const timePos = i - 1;
 
-        // Current card shoots up and settles with back.out spring snap
+        // Current card shoots up and settles smoothly
         tl.to(
           currentCard,
           {
@@ -682,7 +682,7 @@ export default function Services() {
             opacity: 1,
             pointerEvents: "auto",
             duration: 1,
-            ease: "back.out(1.25)",
+            ease: "power2.out",
           },
           timePos,
         );
@@ -714,6 +714,7 @@ export default function Services() {
 
   // Jump to specific card on pill click or arrow click
   const goToCard = (index) => {
+    activeStepRef.current = index;
     setActiveStep(index);
     if (stRef.current) {
       const count = servicesData.length;
@@ -784,7 +785,7 @@ export default function Services() {
     <section
       ref={sectionRef}
       id="services"
-      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none pt-10 sm:pt-14 lg:pt-16 pb-12 sm:pb-16 lg:pb-20 font-sans scroll-mt-20 sm:scroll-mt-28"
+      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-x-hidden select-none pt-10 sm:pt-14 lg:pt-16 pb-12 sm:pb-16 lg:pb-20 font-sans scroll-mt-20 sm:scroll-mt-28"
     >
       {/* ── Background Organic Accent Shapes ── */}
       <BrandSectionSideWave position="top" />
@@ -932,7 +933,7 @@ export default function Services() {
                       {/* Deliverables Grid */}
                       <div className="my-2 sm:my-2.5">
                         <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-[#111111] block mb-1.5 flex items-center gap-1.5">
-                          <Sparkles className="w-3 h-3 text-brand" />
+                          {/* <Sparkles className="w-3 h-3 text-brand" /> */}
                           What&apos;s Included:
                         </span>
                         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
@@ -968,14 +969,15 @@ export default function Services() {
                           ))}
                         </div>
 
-                        <a
+                        <InteractiveButton
                           href="#contact"
                           onClick={(e) => handleRequestQuote(e, svc.title)}
-                          className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-4 sm:px-5 py-1.5 sm:py-2 text-xs lg:text-sm font-bold transition-all duration-200 shadow-sm shrink-0 cursor-pointer group/btn"
+                          variant="dark"
+                          className="px-4 sm:px-5 py-1.5 sm:py-2 text-xs lg:text-sm font-bold shrink-0"
+                          icon={<ArrowRight className="w-3.5 h-3.5" />}
                         >
-                          <span>Get a quote</span>
-                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" />
-                        </a>
+                          Get a quote
+                        </InteractiveButton>
                       </div>
                     </div>
 

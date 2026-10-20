@@ -67,14 +67,13 @@ export default function Works() {
                   trigger: row,
                   start: ANIM.SCROLL_START,
                   once: true,
-                  toggleActions: "play none none reverse",
                 },
               },
             );
           }
 
           if (img) {
-            // Subtle desktop parallax (yPercent +-5) without competing CSS transitions
+            // Subtle desktop parallax without competing CSS transitions
             gsap.fromTo(
               img,
               { yPercent: -5, scale: 1.05 },
@@ -86,7 +85,7 @@ export default function Works() {
                   trigger: row,
                   start: "top bottom",
                   end: "bottom top",
-                  scrub: 1.2,
+                  scrub: 0.6,
                 },
               },
             );

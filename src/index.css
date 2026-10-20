@@ -55,7 +55,7 @@ html {
   scroll-padding-top: 4.75rem;
   background: var(--color-surface);
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100vw;
   width: 100%;
 }
@@ -81,7 +81,7 @@ body {
   background-color: var(--color-surface);
   color: var(--color-ink);
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100vw;
   width: 100%;
 }
@@ -110,6 +110,7 @@ body {
 
 .animate-float {
   animation: floatGentle 5s ease-in-out infinite;
+  will-change: transform;
 }
 
 @keyframes pulseBlob {
@@ -123,6 +124,7 @@ body {
 
 .animate-pulse-blob {
   animation: pulseBlob 6s ease-in-out infinite;
+  will-change: transform;
 }
 
 /* ── About page: scroll-reveal base state ── */

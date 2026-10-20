@@ -112,8 +112,7 @@ function Hero() {
     if (!heroRafRef.current) {
       heroRafRef.current = requestAnimationFrame(() => {
         if (spotlightRef.current) {
-          spotlightRef.current.style.left = `${x}px`;
-          spotlightRef.current.style.top = `${y}px`;
+          spotlightRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
           spotlightRef.current.style.opacity = "0.45";
         }
         heroRafRef.current = null;
@@ -174,11 +173,11 @@ function Hero() {
       gsap.set(".bg-wave-left", { x: -40, opacity: 0 });
       gsap.set(".bg-bottom-wave", { y: 24, opacity: 0 });
       if (profileRef.current)
-        gsap.set(profileRef.current, { y: 45, opacity: 0 });
+        gsap.set(profileRef.current, { y: 35, opacity: 0 });
       if (doodle1Ref.current)
-        gsap.set(doodle1Ref.current, { scale: 0.65, opacity: 0 });
+        gsap.set(doodle1Ref.current, { scale: 0.7, opacity: 0 });
       if (doodle2Ref.current)
-        gsap.set(doodle2Ref.current, { scale: 0.65, opacity: 0 });
+        gsap.set(doodle2Ref.current, { scale: 0.7, opacity: 0 });
       if (socialRef.current) gsap.set(socialRef.current, { x: 25, opacity: 0 });
       if (underlineRef.current) {
         gsap.set(underlineRef.current, {
@@ -193,7 +192,7 @@ function Hero() {
 
       gsap.set(heroName, {
         x: deltaX,
-        y: deltaY + 24,
+        y: deltaY + 20,
         opacity: 0,
         scale: initialScale,
         transformOrigin: "center center",
@@ -208,53 +207,51 @@ function Hero() {
         y: deltaY,
         opacity: 1,
         scale: initialScale * 0.98,
-        duration: 0.75,
+        duration: 0.52,
         ease: "power2.out",
       })
-        // Step B: Gentle floating momentum in center (natural feel, no abrupt dead stop)
-        .to(heroName, {
-          y: deltaY - 4,
-          duration: 0.28,
-          ease: "sine.inOut",
-        })
-        // Step C: Name glides smoothly from center directly into its hero title layout position
-        .to(heroName, {
-          x: 0,
-          y: 0,
-          scale: 1,
-          duration: 0.92,
-          ease: "power3.inOut",
-        })
-        // Step D: Components bloom seamlessly as the name settles into place
+        // Step B: Name glides smoothly from center directly into its hero title layout position
+        .to(
+          heroName,
+          {
+            x: 0,
+            y: 0,
+            scale: 1,
+            duration: 0.72,
+            ease: "power3.inOut",
+          },
+          "+=0.08",
+        )
+        // Step C: Components bloom seamlessly as the name settles into place
         .to(
           underlineRef.current,
           {
             strokeDashoffset: 0,
-            duration: 0.7,
+            duration: 0.6,
             ease: "power2.out",
           },
-          "-=0.45",
+          "-=0.4",
         )
         .to(
           profileRef.current,
           {
             y: 0,
             opacity: 1,
-            duration: 0.8,
+            duration: 0.7,
             ease: "power3.out",
           },
-          "-=0.6",
+          "-=0.5",
         )
         .to(
           ".hero-stagger",
           {
             y: 0,
             opacity: 1,
-            stagger: 0.07,
-            duration: 0.6,
+            stagger: 0.05,
+            duration: 0.55,
             ease: "power3.out",
           },
-          "-=0.55",
+          "-=0.5",
         )
         .to(
           [".bg-wave-left", ".bg-bottom-wave"],
@@ -262,32 +259,33 @@ function Hero() {
             x: 0,
             y: 0,
             opacity: 1,
-            duration: 0.75,
+            duration: 0.65,
             ease: "power2.out",
           },
-          "-=0.6",
+          "-=0.5",
         )
         .to(
           [doodle1Ref.current, doodle2Ref.current],
           {
             scale: 1,
             opacity: 1,
-            stagger: 0.1,
-            duration: 0.5,
-            ease: "back.out(1.6)",
+            stagger: 0.08,
+            duration: 0.45,
+            ease: "back.out(1.5)",
           },
-          "-=0.5",
+          "-=0.45",
         )
         .to(
           socialRef.current,
           {
             x: 0,
             opacity: 1,
-            duration: 0.6,
+            duration: 0.55,
             ease: "power2.out",
           },
-          "-=0.5",
+          "-=0.45",
         );
+
 
       // Idle floating tweens (started smoothly after entrance settles)
       gsap.to([doodle1Ref.current, doodle2Ref.current], {
@@ -350,10 +348,10 @@ function Hero() {
       {/* ── AMBIENT INTERACTIVE CURSOR SPOTLIGHT (GPU-Accelerated, Zero Re-renders) ── */}
       <div
         ref={spotlightRef}
-        className="pointer-events-none absolute w-[520px] h-[520px] rounded-full blur-3xl opacity-0 transition-opacity duration-300 -translate-x-1/2 -translate-y-1/2 -z-0"
+        className="pointer-events-none absolute left-0 top-0 w-[520px] h-[520px] rounded-full blur-3xl opacity-0 transition-opacity duration-300 -z-0"
         style={{
-          left: -1000,
-          top: -1000,
+          transform: "translate3d(-1000px, -1000px, 0) translate(-50%, -50%)",
+          willChange: "transform, opacity",
           background:
             "radial-gradient(circle, rgba(var(--brand-rgb),0.18) 0%, rgba(var(--brand-rgb),0.06) 45%, transparent 70%)",
         }}

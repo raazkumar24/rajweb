@@ -28,6 +28,7 @@ const principleMeta = [
 export default function WhatDrivesMePinned() {
   const pinContainerRef = useRef(null);
   const [activeStep, setActiveStep] = useState(0);
+  const activeStepRef = useRef(0);
 
   useGsapScope(pinContainerRef, () => {
     const mm = gsap.matchMedia();
@@ -44,21 +45,20 @@ export default function WhatDrivesMePinned() {
         ScrollTrigger.create({
           trigger: pinEl,
           start: "top top",
-          end: `+=${totalSteps * 750}`,
+          end: `+=${totalSteps * 650}`,
           pin: true,
           scrub: 0.5,
-          snap: {
-            snapTo: 1 / (totalSteps - 1),
-            duration: { min: 0.2, max: 0.5 },
-            ease: "power2.inOut",
-          },
+          anticipatePin: 1,
           onUpdate: (self) => {
             const progress = self.progress;
             const stepIndex = Math.min(
               totalSteps - 1,
               Math.floor(progress * totalSteps),
             );
-            setActiveStep(stepIndex);
+            if (stepIndex !== activeStepRef.current) {
+              activeStepRef.current = stepIndex;
+              setActiveStep(stepIndex);
+            }
           },
         });
       },
@@ -71,11 +71,19 @@ export default function WhatDrivesMePinned() {
   const progressPercent = ((activeStep + 1) / strengthsData.length) * 100;
 
   const handlePrev = () => {
-    setActiveStep((prev) => (prev > 0 ? prev - 1 : strengthsData.length - 1));
+    setActiveStep((prev) => {
+      const next = prev > 0 ? prev - 1 : strengthsData.length - 1;
+      activeStepRef.current = next;
+      return next;
+    });
   };
 
   const handleNext = () => {
-    setActiveStep((prev) => (prev < strengthsData.length - 1 ? prev + 1 : 0));
+    setActiveStep((prev) => {
+      const next = prev < strengthsData.length - 1 ? prev + 1 : 0;
+      activeStepRef.current = next;
+      return next;
+    });
   };
 
   return (

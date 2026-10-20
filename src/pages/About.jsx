@@ -150,7 +150,7 @@ export default function About() {
               trigger: ".ab-timeline-container",
               start: "top 75%",
               end: "bottom 75%",
-              scrub: 1.2,
+              scrub: 0.6,
             },
           });
         }
@@ -171,7 +171,7 @@ export default function About() {
               trigger: ".ab-timeline-container",
               start: "top 80%",
               end: "bottom 75%",
-              scrub: 1.2,
+              scrub: 0.6,
             },
           });
         }
@@ -186,22 +186,23 @@ export default function About() {
             x:
               window.innerWidth >= 1024
                 ? isLeft
-                  ? -45
-                  : 45
+                  ? -35
+                  : 35
                 : isLeft
-                  ? -20
-                  : 20,
-            y: 25,
+                  ? -16
+                  : 16,
+            y: 20,
             opacity: 0,
-            scale: 0.96,
+            scale: 0.97,
           },
           {
             x: 0,
             y: 0,
             opacity: 1,
             scale: 1,
-            duration: 0.75,
-            ease: "back.out(1.2)",
+            duration: 0.7,
+            ease: "power2.out",
+            clearProps: "transform",
             scrollTrigger: {
               trigger: row,
               start: ANIM.SCROLL_START,
@@ -533,7 +534,7 @@ export default function About() {
                           <BrandJourneyCardBlob position="top-left" size="lg" />
                         )}
 
-                        <div className="ab-card-inner relative z-10 rounded-[1.5rem] sm:rounded-[2rem] bg-white/60 backdrop-blur-3xl border border-white/70 p-5 xs:p-6 sm:p-9 shadow-[0_8px_24px_rgba(var(--brand-rgb),0.08),0_16px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,1)] ring-1 ring-brand/15 hover:ring-brand/30 hover:shadow-[0_12px_36px_rgba(var(--brand-rgb),0.14),0_20px_50px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,1)] transition-all duration-300 hover:-translate-y-2 overflow-hidden">
+                        <div className="ab-card-inner relative z-10 rounded-[1.5rem] sm:rounded-[2rem] bg-white/60 backdrop-blur-3xl border border-white/70 p-5 xs:p-6 sm:p-9 shadow-[0_8px_24px_rgba(var(--brand-rgb),0.08),0_16px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,1)] ring-1 ring-brand/15 hover:ring-brand/30 hover:shadow-[0_12px_36px_rgba(var(--brand-rgb),0.14),0_20px_50px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,1)] transition-[box-shadow,border-color,background-color] duration-300 hover:-translate-y-1.5 overflow-hidden">
                           {/* Multi-layer glass sheen */}
                           <div
                             className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/80 via-white/20 to-transparent opacity-80"
