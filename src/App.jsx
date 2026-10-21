@@ -22,40 +22,6 @@ function App() {
   const showScrollTopRef = useRef(false);
 
   useEffect(() => {
-    const scenes = gsap.utils.toArray(".page-scroll-scene");
-    if (!scenes.length) return undefined;
-
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) return undefined;
-
-    const ctx = gsap.context(() => {
-      scenes.forEach((scene, index) => {
-        const content = scene.querySelector(".page-scroll-content");
-        if (!content) return;
-
-        gsap.fromTo(
-          content,
-          { y: index === 0 ? 0 : 34, opacity: index === 0 ? 1 : 0.78 },
-          {
-            y: 0,
-            opacity: 1,
-            ease: "none",
-            scrollTrigger: {
-              trigger: scene,
-              start: "top 88%",
-              end: "top 38%",
-              scrub: 0.8,
-              invalidateOnRefresh: true,
-            },
-          },
-        );
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
-
-  useEffect(() => {
     let ticking = false;
 
     const handleScroll = () => {
@@ -112,21 +78,11 @@ function App() {
         </div>
 
         {/* Core content sections with internal optimized scroll choreography */}
-        <div className="page-scroll-scene">
-          <div className="page-scroll-content"><About /></div>
-        </div>
-        <div className="page-scroll-scene">
-          <div className="page-scroll-content"><Works /></div>
-        </div>
-        <div className="page-scroll-scene">
-          <div className="page-scroll-content"><Services /></div>
-        </div>
-        <div className="page-scroll-scene">
-          <div className="page-scroll-content"><FAQ /></div>
-        </div>
-        <div className="page-scroll-scene">
-          <div className="page-scroll-content"><Contact /></div>
-        </div>
+        <About />
+        <Works />
+        <Services />
+        <FAQ />
+        <Contact />
       </main>
 
       {/* Floating smooth back to top control */}
