@@ -23,7 +23,7 @@ import {
 import { socialLinks as siteSocialLinks } from "../config/site";
 
 // ─── Typewriter roles ─────────────────────────────────────────────────────────
-const roles = ["Full-Stack MERN Developer", "Websites & Web Apps"];
+const roles = ["full-stack MERN websites and web apps."];
 
 const iconMap = {
   github: GitHubIcon,
@@ -393,12 +393,12 @@ function Hero() {
 
             {/* Typewriter */}
             <div className="hero-stagger mt-2 sm:mt-3 lg:mt-2 xl:mt-2.5 min-h-[2.1rem] sm:min-h-[2.6rem] flex items-center overflow-visible">
-              <h2 className="w-max max-w-none text-[15px] xs:text-[17px] sm:text-[1.35rem] md:text-[1.65rem] lg:text-[1.45rem] xl:text-[1.75rem] 2xl:text-[2rem] font-bold text-[#111111] flex flex-nowrap items-baseline whitespace-nowrap leading-tight">
+              <h2 className="max-w-full text-[15px] xs:text-[17px] sm:text-[1.35rem] md:text-[1.65rem] lg:text-[1.45rem] xl:text-[1.75rem] 2xl:text-[2rem] font-bold text-[#111111] flex flex-wrap items-baseline whitespace-normal leading-tight">
                 <span className="text-[#222222]">
                   I design &amp; build&nbsp;
                 </span>
-                <span className="relative inline-flex shrink-0 items-baseline whitespace-nowrap">
-                  <span className="whitespace-nowrap bg-gradient-to-r from-brand-deep via-brand to-brand-light bg-clip-text text-transparent font-black tracking-tight drop-shadow-[0_1px_2px_rgba(var(--brand-rgb-dark),0.25)]">
+                <span className="relative inline-flex max-w-full items-baseline flex-wrap">
+                  <span className="max-w-full break-words bg-gradient-to-r from-brand-deep via-brand to-brand-light bg-clip-text text-transparent font-black tracking-tight drop-shadow-[0_1px_2px_rgba(var(--brand-rgb-dark),0.25)]">
                     {displayedText}
                   </span>
                   <span
