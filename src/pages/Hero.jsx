@@ -23,7 +23,7 @@ import {
 import { socialLinks as siteSocialLinks } from "../config/site";
 
 // ─── Typewriter roles ─────────────────────────────────────────────────────────
-const roles = ["full-stack MERN websites and web apps."];
+const roles = ["Full-Stack MERN Developer", "Websites & Web Apps"];
 
 const iconMap = {
   github: GitHubIcon,
