@@ -116,9 +116,8 @@ export default function WhatIUseTypographic() {
             clearProps: "transform",
             scrollTrigger: {
               trigger: row,
-              start: "top bottom-=24px",
-              end: "bottom 72%",
-              toggleActions: "play reverse play reverse",
+              start: "top 88%",
+              toggleActions: "play none none reverse",
               invalidateOnRefresh: true,
             },
           },
@@ -129,9 +128,6 @@ export default function WhatIUseTypographic() {
     mm.add("(prefers-reduced-motion: reduce)", () => {
       gsap.set(".wiu-row", { opacity: 1, y: 0, scale: 1, clearProps: "all" });
     });
-
-    const refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 120);
-    return () => window.clearTimeout(refreshTimer);
   }, [activeFilter]);
 
   return (
