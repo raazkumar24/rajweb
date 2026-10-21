@@ -78,21 +78,11 @@ function App() {
         </div>
 
         {/* Core content sections with internal optimized scroll choreography */}
-        <div>
-          <About />
-        </div>
-        <div>
-          <Works />
-        </div>
-        <div>
-          <Services />
-        </div>
-        <div>
-          <FAQ />
-        </div>
-        <div>
-          <Contact />
-        </div>
+        <About />
+        <Works />
+        <Services />
+        <FAQ />
+        <Contact />
       </main>
 
       {/* Floating smooth back to top control */}

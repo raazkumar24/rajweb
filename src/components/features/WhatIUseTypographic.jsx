@@ -96,35 +96,37 @@ export default function WhatIUseTypographic() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeFilter]);
 
-  // Rows ka scroll-reveal (filter badalne par dobara chalta hai)
+    // Reveal each tool row independently as it enters the viewport.
   useGsapScope(containerRef, () => {
     const mm = gsap.matchMedia();
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       const rows = gsap.utils.toArray(".wiu-row");
-      if (rows.length > 0) {
+      rows.forEach((row, index) => {
         gsap.fromTo(
-          rows,
-          { y: 20, opacity: 0 },
+          row,
+          { y: 34, opacity: 0, scale: 0.985 },
           {
             y: 0,
             opacity: 1,
-            stagger: 0.04,
-            duration: ANIM.DURATION.fast + 0.1,
+            scale: 1,
+            duration: ANIM.DURATION.fast + 0.15,
+            delay: Math.min(index * 0.025, 0.14),
             ease: ANIM.EASE,
             clearProps: "transform",
             scrollTrigger: {
-              trigger: containerRef.current,
-              start: ANIM.SCROLL_START,
-              once: true,
+              trigger: row,
+              start: "top 88%",
+              toggleActions: "play none none reverse",
+              invalidateOnRefresh: true,
             },
           },
         );
-      }
+      });
     });
 
     mm.add("(prefers-reduced-motion: reduce)", () => {
-      gsap.set(".wiu-row", { opacity: 1, y: 0, clearProps: "all" });
+      gsap.set(".wiu-row", { opacity: 1, y: 0, scale: 1, clearProps: "all" });
     });
   }, [activeFilter]);
 
