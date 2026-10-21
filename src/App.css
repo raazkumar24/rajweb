@@ -1,3 +1,9 @@
+.page-scroll-scene { position: relative; }
+.page-scroll-content { will-change: transform, opacity; }
+@media (prefers-reduced-motion: reduce) {
+  .page-scroll-content { opacity: 1 !important; transform: none !important; }
+}
+
 @keyframes marquee {
   0% {
     transform: translateX(0%);
