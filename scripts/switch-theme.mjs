@@ -34,6 +34,40 @@ const newRoot = `:root {
   --brand-stop-3: ${theme.stop3};
   --brand-rgb: ${theme.rgb};
   --brand-rgb-dark: ${theme.rgbDark};
+
+  /* Surfaces */
+  --color-surface: #FAF8F5;
+  --color-ink: #111111;
+  --color-muted: #666666;
+  --color-subtle: #888888;
+  --color-border: rgba(17, 17, 17, 0.1);
+  --color-border-hover: rgba(var(--brand-rgb), 0.45);
+
+  /* Typography Fonts */
+  --font-display: "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Base Radius & Shadcn UI Tokens */
+  --radius: 0.625rem;
+  --background: #FAF8F5;
+  --foreground: #111111;
+  --card: #FFFFFF;
+  --card-foreground: #111111;
+  --popover: #FFFFFF;
+  --popover-foreground: #111111;
+  --primary: ${theme.primary};
+  --primary-foreground: #FFFFFF;
+  --secondary: #F3F0EA;
+  --secondary-foreground: #111111;
+  --muted: #666666;
+  --muted-foreground: #888888;
+  --accent: #F3F0EA;
+  --accent-foreground: #111111;
+  --destructive: #EF4444;
+  --border: rgba(17, 17, 17, 0.1);
+  --input: rgba(17, 17, 17, 0.15);
+  --ring: ${theme.primary};
 }`;
 
 css = css.replace(/:root\s*\{[\s\S]*?\n\}/, newRoot);

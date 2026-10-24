@@ -1,11 +1,5 @@
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useState,
-  useRef,
-  useMemo,
-} from "react";
-import gsap from "gsap";
+import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { motion, useAnimate, useReducedMotion } from "motion/react";
 import {
   SocialPill,
   GitHubIcon,
@@ -14,16 +8,17 @@ import {
   InteractiveButton,
 } from "../components/ui";
 import {
+  RightDoodle,
+  LeftDoodle,
+  HandwrittenBadge,
+} from "../components/decoration/doodleCard";
+import { socialLinks } from "../config/site";
+import { TypingAnimation } from "../components/ui/typing-animation";
+import {
   BrandTopLeftShape,
   BrandBottomHeroWave,
-  HandDrawnUnderline,
-  DoodleCard,
-  LeftDoodle,
-} from "../components/decorative";
-import { socialLinks as siteSocialLinks } from "../config/site";
-
-// ─── Typewriter roles ─────────────────────────────────────────────────────────
-const roles = ["full-stack MERN websites and web apps."];
+  BrandPortraitBackdropShape,
+} from "../components/decoration/brandBackgroundShapes";
 
 const iconMap = {
   github: GitHubIcon,
@@ -31,390 +26,233 @@ const iconMap = {
   instagram: InstagramIcon,
 };
 
-// ─── Stats data ───────────────────────────────────────────────────────────────
-const stats = [
-  { value: "4", label: "Live projects" },
-  { value: "MERN", label: "Core stack", isHighlight: true },
-];
+const EASE = [0.22, 1, 0.36, 1];
 
-// ═════════════════════════════════════════════════════════════════════════════
-// HERO PAGE (Optimized Animation & Performance)
-// ═════════════════════════════════════════════════════════════════════════════
-function Hero() {
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [displayedText, setDisplayedText] = useState("");
-  const [phase, setPhase] = useState("typing"); // "typing" | "pausing" | "deleting" | "waiting"
+/* Staggered reveal for left-column elements after hero name settles */
+const reveal = {
+  hidden: { opacity: 0, y: 18 },
+  show: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: EASE, delay: i * 0.08 },
+  }),
+};
 
-  const heroSocialLinks = useMemo(() => {
-    return siteSocialLinks.map((item) => ({
-      ...item,
-      icon: iconMap[item.key] || GitHubIcon,
-    }));
-  }, []);
+/* Portrait reveal variant */
+const photoReveal = {
+  hidden: { opacity: 0, y: 36 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: EASE, delay: 0.1 },
+  },
+};
 
-  const heroRef = useRef(null);
-  const nameRef = useRef(null);
-  const underlineRef = useRef(null);
-  const profileRef = useRef(null);
-  const socialRef = useRef(null);
-  const doodle1Ref = useRef(null);
-  const doodle2Ref = useRef(null);
+export default function Hero({ onRevealed }) {
+  const [nameScope, animateName] = useAnimate();
+  const reduceMotion = useReducedMotion();
+  const [revealed, setRevealed] = useState(false);
 
-  // ── Refined Typewriter Engine with Natural Cadence ─────────────────────────
-  useEffect(() => {
-    const currentRole = roles[roleIndex];
-    let timeout;
+  const heroSocialLinks = useMemo(
+    () =>
+      socialLinks.map((item) => ({
+        ...item,
+        icon: iconMap[item.key] || GitHubIcon,
+      })),
+    [],
+  );
 
-    if (phase === "typing") {
-      if (displayedText.length < currentRole.length) {
-        const typingSpeed = 75 + Math.floor(Math.random() * 25);
-        timeout = setTimeout(() => {
-          setDisplayedText(currentRole.slice(0, displayedText.length + 1));
-        }, typingSpeed);
-      } else {
-        timeout = setTimeout(() => {
-          setPhase("pausing");
-        }, 60);
-      }
-    } else if (phase === "pausing") {
-      timeout = setTimeout(() => {
-        setPhase("deleting");
-      }, 2200);
-    } else if (phase === "deleting") {
-      if (displayedText.length > 0) {
-        timeout = setTimeout(() => {
-          setDisplayedText(currentRole.slice(0, displayedText.length - 1));
-        }, 38);
-      } else {
-        timeout = setTimeout(() => {
-          setPhase("waiting");
-        }, 60);
-      }
-    } else if (phase === "waiting") {
-      timeout = setTimeout(() => {
-        setRoleIndex((prev) => (prev + 1) % roles.length);
-        setPhase("typing");
-      }, 350);
-    }
-
-    return () => clearTimeout(timeout);
-  }, [displayedText, phase, roleIndex]);
-
-  const spotlightRef = useRef(null);
-  const heroRafRef = useRef(null);
-
-  const handleHeroMouseMove = (e) => {
-    if (!heroRef.current || !spotlightRef.current) return;
-    const rect = heroRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    if (!heroRafRef.current) {
-      heroRafRef.current = requestAnimationFrame(() => {
-        if (spotlightRef.current) {
-          spotlightRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
-          spotlightRef.current.style.opacity = "0.45";
-        }
-        heroRafRef.current = null;
-      });
-    }
-  };
-
-  const handleHeroMouseLeave = () => {
-    if (spotlightRef.current) {
-      spotlightRef.current.style.opacity = "0";
-    }
-  };
-
-  // ── Hero Entrance Animation (Centered Name Slide -> Position -> Reveal) ───
+  // ── Hero Intro Sequence: Center Fade-In -> Hold -> Glide to Position -> Reveal Rest ──
   useLayoutEffect(() => {
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const el = nameScope.current;
+    if (!el) return;
 
-    if (prefersReducedMotion) {
-      gsap.set(
-        [
-          nameRef.current,
-          ".bg-wave-left",
-          ".bg-bottom-wave",
-          ".hero-stagger",
-          profileRef.current,
-          doodle1Ref.current,
-          doodle2Ref.current,
-          socialRef.current,
-        ],
-        { opacity: 1, x: 0, y: 0, scale: 1, clearProps: "all" },
-      );
-      if (underlineRef.current) {
-        gsap.set(underlineRef.current, { strokeDashoffset: 0 });
-      }
+    if (reduceMotion || window.scrollY > 120) {
+      el.style.transform = "none";
+      el.style.opacity = "1";
+      el.style.willChange = "auto";
+      setRevealed(true);
       return;
     }
 
-    const ctx = gsap.context(() => {
-      const heroName = nameRef.current;
-      if (!heroName) return;
+    let cancelled = false;
 
-      // Measure exact DOM position
-      gsap.set(heroName, { clearProps: "transform,scale" });
+    const run = async () => {
+      el.style.transform = "none";
+      el.style.opacity = "0";
 
-      const rect = heroName.getBoundingClientRect();
-      const viewportCenterX = window.innerWidth / 2;
-      const viewportCenterY = window.innerHeight / 2;
-      const nameCenterX = rect.left + rect.width / 2;
-      const nameCenterY = rect.top + rect.height / 2;
-
-      const deltaX = viewportCenterX - nameCenterX;
-      const deltaY = viewportCenterY - nameCenterY;
-
-      // 1. Initial hidden states for surrounding elements (zero flash)
-      gsap.set(".hero-stagger", { y: 22, opacity: 0 });
-      gsap.set(".bg-wave-left", { x: -40, opacity: 0 });
-      gsap.set(".bg-bottom-wave", { y: 24, opacity: 0 });
-      if (profileRef.current)
-        gsap.set(profileRef.current, { y: 35, opacity: 0 });
-      if (doodle1Ref.current)
-        gsap.set(doodle1Ref.current, { scale: 0.7, opacity: 0 });
-      if (doodle2Ref.current)
-        gsap.set(doodle2Ref.current, { scale: 0.7, opacity: 0 });
-      if (socialRef.current) gsap.set(socialRef.current, { x: 25, opacity: 0 });
-      if (underlineRef.current) {
-        gsap.set(underlineRef.current, {
-          strokeDashoffset: 400,
-          strokeDasharray: 400,
-        });
+      if (document.fonts?.ready) {
+        await Promise.race([
+          document.fonts.ready,
+          new Promise((r) => setTimeout(r, 600)),
+        ]);
       }
+      if (cancelled) return;
 
-      // Initial state of name: centered in viewport, softly scaled with zero flash
-      const initialScale =
-        window.innerWidth < 640 ? 1.08 : window.innerWidth < 1024 ? 1.15 : 1.22;
+      const vw = document.documentElement.clientWidth;
+      const vh = window.visualViewport?.height ?? window.innerHeight;
+      const isMobile = vw < 768;
 
-      gsap.set(heroName, {
-        x: deltaX,
-        y: deltaY + 20,
-        opacity: 0,
-        scale: initialScale,
-        transformOrigin: "center center",
-        force3D: true,
-      });
+      const rect = el.getBoundingClientRect();
+      const dx = vw / 2 - (rect.left + rect.width / 2);
+      const dy = vh / 2 - (rect.top + rect.height / 2);
+      const startScale = isMobile ? 1.05 : 1.16;
 
-      // 2. Cinematic Entrance Timeline (Continuous, silky smooth choreography)
-      const tl = gsap.timeline();
+      await animateName(
+        el,
+        { x: dx, y: dy, scale: startScale, opacity: 0 },
+        { duration: 0 },
+      );
+      if (cancelled) return;
 
-      // Step A: Name gracefully fades and glides into viewport center
-      tl.to(heroName, {
-        y: deltaY,
-        opacity: 1,
-        scale: initialScale * 0.98,
-        duration: 0.52,
-        ease: "power2.out",
-      })
-        // Step B: Name glides smoothly from center directly into its hero title layout position
-        .to(
-          heroName,
-          {
-            x: 0,
-            y: 0,
-            scale: 1,
-            duration: 0.72,
-            ease: "power3.inOut",
-          },
-          "+=0.08",
-        )
-        // Step C: Components bloom seamlessly as the name settles into place
-        .to(
-          underlineRef.current,
-          {
-            strokeDashoffset: 0,
-            duration: 0.6,
-            ease: "power2.out",
-          },
-          "-=0.4",
-        )
-        .to(
-          profileRef.current,
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.7,
-            ease: "power3.out",
-          },
-          "-=0.5",
-        )
-        .to(
-          ".hero-stagger",
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.05,
-            duration: 0.55,
-            ease: "power3.out",
-          },
-          "-=0.5",
-        )
-        .to(
-          [".bg-wave-left", ".bg-bottom-wave"],
-          {
-            x: 0,
-            y: 0,
-            opacity: 1,
-            duration: 0.65,
-            ease: "power2.out",
-          },
-          "-=0.5",
-        )
-        .to(
-          [doodle1Ref.current, doodle2Ref.current],
-          {
-            scale: 1,
-            opacity: 1,
-            stagger: 0.08,
-            duration: 0.45,
-            ease: "back.out(1.5)",
-          },
-          "-=0.45",
-        )
-        .to(
-          socialRef.current,
-          {
-            x: 0,
-            opacity: 1,
-            duration: 0.55,
-            ease: "power2.out",
-          },
-          "-=0.45",
-        );
+      await animateName(
+        el,
+        { opacity: 1, y: dy - 6 },
+        { duration: isMobile ? 0.45 : 0.6, ease: "easeOut" },
+      );
+      if (cancelled) return;
 
+      await new Promise((r) => setTimeout(r, isMobile ? 240 : 340));
+      if (cancelled) return;
 
-      // Idle floating tweens (started smoothly after entrance settles)
-      gsap.to([doodle1Ref.current, doodle2Ref.current], {
-        y: -5,
-        duration: 2.8,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        delay: 2.2,
-      });
+      await animateName(
+        el,
+        { x: 0, y: 0, scale: 1 },
+        { duration: isMobile ? 0.75 : 0.9, ease: EASE },
+      );
+      if (cancelled) return;
 
-      gsap.to(".social-inner-float", {
-        y: -6,
-        duration: 3.2,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        delay: 2.2,
-      });
-    }, heroRef);
+      el.style.willChange = "auto";
+      setRevealed(true);
+    };
 
-    return () => ctx.revert();
-  }, []);
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [animateName, nameScope, reduceMotion]);
+
+  useEffect(() => {
+    if (revealed) onRevealed?.();
+  }, [revealed, onRevealed]);
 
   const handleSmoothScroll = (e, id) => {
     e.preventDefault();
-    if (id === "home") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    if (window.__lenis) {
+      window.__lenis.scrollTo(`#${id}`, { offset: -80 });
       return;
     }
     const el = document.getElementById(id);
     if (el) {
-      const navOffset = id === "about" ? 0 : 68;
-      const elementPosition =
-        el.getBoundingClientRect().top + window.pageYOffset;
-      window.scrollTo({
-        top: Math.max(
-          0,
-          id === "about"
-            ? Math.ceil(elementPosition) + 2
-            : elementPosition - navOffset,
-        ),
-        behavior: "smooth",
-      });
+      const top = el.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: "smooth" });
     }
   };
 
+  const state = revealed ? "show" : "hidden";
+
   return (
     <section
-      ref={heroRef}
       id="home"
-      onMouseMove={handleHeroMouseMove}
-      onMouseLeave={handleHeroMouseLeave}
-      className="relative w-full flex-1 min-h-0 flex flex-col justify-end overflow-hidden bg-[#FAF8F5] pt-20 sm:pt-24 lg:pt-[72px] xl:pt-[78px] select-none"
+      className="relative w-full flex-1 min-h-0 flex flex-col justify-end overflow-visible bg-[#FAF8F5] select-none"
     >
-      {/* ── REDESIGNED PREMIUM BRAND BACKGROUND SHAPES ── */}
-      <BrandTopLeftShape variant="hero" />
-      <BrandBottomHeroWave className="bg-bottom-wave" />
+      <BrandTopLeftShape opacity={0.5} reveal={revealed} />
 
-      {/* ── AMBIENT INTERACTIVE CURSOR SPOTLIGHT (GPU-Accelerated, Zero Re-renders) ── */}
-      <div
-        ref={spotlightRef}
-        className="pointer-events-none absolute left-0 top-0 w-[520px] h-[520px] rounded-full blur-3xl opacity-0 transition-opacity duration-300 -z-0"
-        style={{
-          transform: "translate3d(-1000px, -1000px, 0) translate(-50%, -50%)",
-          willChange: "transform, opacity",
-          background:
-            "radial-gradient(circle, rgba(var(--brand-rgb),0.18) 0%, rgba(var(--brand-rgb),0.06) 45%, transparent 70%)",
-        }}
-        aria-hidden="true"
-      />
-
-      {/* ── MAIN CONTAINER ── */}
-      <div className="relative z-10 mx-auto w-full max-w-[1320px] px-6 sm:px-10 lg:px-16 flex-1 min-h-0 flex flex-col justify-end pb-0">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 lg:gap-8 xl:gap-12 items-center flex-1 min-h-0">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-12 flex-1 flex flex-col justify-end overflow-visible">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-6 items-end flex-1 overflow-visible">
           {/* ── LEFT COLUMN ── */}
-          <div className="lg:col-span-6 flex flex-col justify-center z-20 pt-2 pb-4 sm:pb-6 lg:py-0 self-center pl-0 sm:pl-2 lg:pl-4">
-            {/* Upgraded Pill SectionBadge */}
-            <div className="hero-stagger mb-2 sm:mb-2.5 inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white border border-black/10 shadow-sm w-fit">
-              <span className="relative flex h-2 w-2 shrink-0">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-              </span>
-              <span className="text-[11px] sm:text-xs font-semibold text-[#222222] whitespace-nowrap">
-                Available for Work
-              </span>
-              <span className="hidden xs:inline text-[#888888]">&bull;</span>
-            </div>
+          <div className="lg:col-span-6 flex flex-col justify-center z-20 self-center pt-8 pb-2 lg:py-12 overflow-visible">
+            <motion.div
+              custom={0}
+              variants={reveal}
+              initial="hidden"
+              animate={state}
+            >
+              <HandwrittenBadge
+                text={
+                  <>
+                    Crafting digital
+                    <br />
+                    experiences
+                  </>
+                }
+                rotation="-rotate-3"
+                textClass="text-base sm:text-lg"
+                arrowDirection="curved-down-right"
+              />
+            </motion.div>
 
-            {/* Title & Animated Underline */}
-            <div className="relative inline-block my-0.5 sm:my-1">
+            {/* Primary Hero Name */}
+            <div className="relative inline-block my-1 sm:my-2 overflow-visible">
               <h1
-                ref={nameRef}
+                ref={nameScope}
                 id="hero-name"
                 style={{ opacity: 0, willChange: "transform, opacity" }}
-                className="relative z-30 whitespace-nowrap text-[2.75rem] xs:text-[3.4rem] sm:text-[4.4rem] md:text-[5.2rem] lg:text-[4.9rem] xl:text-[6.75rem] 2xl:text-[7.6rem] font-black italic uppercase text-[#111111] leading-none tracking-[-0.04em] select-none"
+                className="font-display text-[clamp(2.65rem,8.5vw+0.5rem,9.2rem)] font-extrabold text-[#111111] leading-[0.88] tracking-[-0.04em] whitespace-nowrap relative z-30 transform-gpu origin-center"
               >
-                RAJ SHEKHAR
+                Raj Shekhar
               </h1>
-              <HandDrawnUnderline
-                pathRef={underlineRef}
-                className="w-[88%] sm:w-[82%] mx-auto mt-0.5 sm:mt-1"
-              />
             </div>
 
-            {/* Typewriter */}
-            <div className="hero-stagger mt-2 sm:mt-3 lg:mt-2 xl:mt-2.5 min-h-[2.1rem] sm:min-h-[2.6rem] flex items-center overflow-hidden">
-              <h2 className="text-[15px] xs:text-[17px] sm:text-[1.35rem] md:text-[1.65rem] lg:text-[1.45rem] xl:text-[1.75rem] 2xl:text-[2rem] font-bold text-[#111111] flex items-center whitespace-nowrap">
-                <span className="text-[#222222]">
-                  I design &amp; build&nbsp;
-                </span>
-                <span className="relative inline-flex items-center shrink-0">
-                  <span className="bg-gradient-to-r from-brand-deep via-brand to-brand-light bg-clip-text text-transparent font-black tracking-tight drop-shadow-[0_1px_2px_rgba(var(--brand-rgb-dark),0.25)]">
-                    {displayedText}
-                  </span>
-                  <span
-                    className={`inline-block w-[2.5px] sm:w-[3px] h-[1.15em] bg-brand-dark ml-1 sm:ml-1.5 rounded-full align-middle shadow-[0_0_10px_rgba(var(--brand-rgb-dark),0.7)] transition-opacity duration-150 ${
-                      phase === "pausing" || phase === "waiting"
-                        ? "animate-blink"
-                        : "opacity-100"
-                    }`}
+            {/* Dynamic Role Line */}
+            <motion.div
+              custom={1}
+              variants={reveal}
+              initial="hidden"
+              animate={state}
+              className="mt-3 sm:mt-4 mb-6"
+            >
+              <p className="text-base sm:text-lg md:text-xl text-[#333333] font-normal leading-relaxed max-w-xl">
+                <span>I design &amp; build&nbsp;</span>
+                <span className="relative inline-block font-semibold text-[#111111]">
+                  {revealed ? (
+                    <TypingAnimation
+                      words={["full-stack MERN", "Websites", "Web Apps"]}
+                      blinkCursor={true}
+                      pauseDelay={2000}
+                      loop
+                      className="text-lg md:text-lg lg:text-2xl bg-gradient-to-r from-brand-deep via-brand to-brand-light bg-clip-text text-transparent font-black tracking-tight drop-shadow-[0_1px_2px_rgba(var(--brand-rgb-dark),0.25)]"
+                    >
+                      Blinking cursor
+                    </TypingAnimation>
+                  ) : (
+                    <span className="invisible text-lg md:text-lg lg:text-2xl font-black tracking-tight">
+                      full-stack MERN
+                    </span>
+                  )}
+                  <svg
+                    className="absolute -bottom-1 left-0 w-full h-[5px] overflow-visible pointer-events-none"
+                    viewBox="0 0 100 6"
+                    fill="none"
+                    preserveAspectRatio="none"
                     aria-hidden="true"
-                  />
+                  >
+                    <motion.path
+                      d="M 1 4 Q 50 1 99 4"
+                      stroke="var(--brand-primary)"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: revealed ? 1 : 0 }}
+                      transition={{
+                        duration: 0.7,
+                        ease: "easeOut",
+                        delay: 0.4,
+                      }}
+                    />
+                  </svg>
                 </span>
-              </h2>
-            </div>
+              </p>
+            </motion.div>
 
-            {/* CTA Buttons with Smooth Scroll & Sheen */}
-            <div className="hero-stagger mt-5 sm:mt-6 lg:mt-4 xl:mt-5 flex flex-wrap items-center gap-3">
+            {/* Primary & Secondary Action Buttons */}
+            <motion.div
+              custom={2}
+              variants={reveal}
+              initial="hidden"
+              animate={state}
+              className="flex flex-wrap items-center gap-3"
+            >
               <InteractiveButton
                 href="/resume.pdf"
                 target="_blank"
@@ -425,6 +263,7 @@ function Hero() {
               >
                 My Resume
               </InteractiveButton>
+
               <InteractiveButton
                 href="#contact"
                 onClick={(e) => handleSmoothScroll(e, "contact")}
@@ -433,100 +272,192 @@ function Hero() {
               >
                 Get in touch
               </InteractiveButton>
-            </div>
+            </motion.div>
 
-            {/* Editorial Stats Row — 100% borderless, NO cards */}
-            <div className="hero-stagger mt-4 sm:mt-5 lg:mt-3 xl:mt-4 pt-3.5 border-t border-black/10 flex items-center justify-between sm:justify-start gap-4 sm:gap-7 w-full max-w-lg pb-1 sm:pb-2 lg:pb-1">
-              {stats.map((stat, i) => (
-                <React.Fragment key={stat.label}>
-                  {i > 0 && (
-                    <div className="h-6 w-px bg-black/12" aria-hidden="true" />
-                  )}
-                  <div className="flex flex-col">
-                    <div className="flex items-center gap-1.5">
-                      {stat.isLive && (
-                        <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2 shrink-0">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                          <span className="relative inline-flex rounded-full h-1.5 w-1.5 sm:h-2 sm:w-2 bg-emerald-500" />
-                        </span>
-                      )}
-                      <span
-                        className={`text-base sm:text-lg font-black italic leading-none ${
-                          stat.isHighlight
-                            ? "text-brand-dark"
-                            : "text-[#111111]"
-                        }`}
-                      >
-                        {stat.value}
-                      </span>
-                    </div>
-                    <span className="text-[10px] sm:text-[11px] font-semibold text-[#666666] mt-1 leading-tight whitespace-nowrap">
-                      {stat.label}
-                    </span>
-                  </div>
-                </React.Fragment>
-              ))}
-            </div>
+            {/* ── Footer Row: Theme-Aware Trust Stack + Availability Pill ── */}
+            <motion.div
+              custom={3}
+              variants={reveal}
+              initial="hidden"
+              animate={state}
+              className="mt-6 sm:mt-8 pt-5 border-t border-black/8 flex flex-wrap items-center gap-x-6 gap-y-4"
+            >
+              {/* Client Favicon Stack */}
+              <div className="flex items-center gap-3">
+                <div className="flex shrink-0 items-center -space-x-3">
+                  <a
+                    href="https://udupivrindavan.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Visit Udupi Vrindavan"
+                    className="group relative z-20 flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-[#FAF8F5] bg-white shadow-sm transition-all duration-300 ease-out hover:z-30 hover:-translate-y-1.5 hover:scale-110 hover:border-brand hover:shadow-[0_6px_18px_rgba(var(--brand-rgb),0.3)] focus-visible:z-30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                  >
+                    <img
+                      src="https://www.google.com/s2/favicons?domain=udupivrindavan.com&sz=128"
+                      alt=""
+                      width="36"
+                      height="36"
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    />
+                  </a>
+                  <a
+                    href="https://www.rajshekhar.site/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Visit Raj Shekhar's website"
+                    className="group relative z-10 flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-[#FAF8F5] bg-white shadow-sm transition-all duration-300 ease-out hover:z-30 hover:-translate-y-1.5 hover:scale-110 hover:border-brand hover:shadow-[0_6px_18px_rgba(var(--brand-rgb),0.3)] focus-visible:z-30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+                  >
+                    <img
+                      src="https://www.google.com/s2/favicons?domain=rajshekhar.site&sz=128"
+                      alt=""
+                      width="36"
+                      height="36"
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    />
+                  </a>
+                </div>
+
+                <div className="min-w-0 text-sm leading-snug">
+                  <p className="font-medium text-[#222222] transition-colors duration-300 hover:text-brand-dark">
+                    Building digital experiences
+                  </p>
+                  <p className="mt-0.5 text-xs text-[#777777] sm:text-sm">
+                    Client work &amp; personal projects
+                  </p>
+                </div>
+              </div>
+
+              {/* Location & Remote Status Pill (Uses dynamic brand colors) */}
+              <div
+                className="inline-flex items-center rounded-full border border-black/10 bg-white/85 p-1 shadow-[0_2px_10px_rgba(var(--brand-rgb),0.08)]"
+                role="group"
+                aria-label="Location and availability"
+              >
+                <span className="flex items-center gap-1.5 rounded-full px-3 py-1.5">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="13"
+                    height="13"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--brand-primary-dark)"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z" />
+                    <circle cx="12" cy="10" r="2.5" />
+                  </svg>
+                  <span className="text-[11px] font-bold tracking-wide text-[#1a1a1a]">
+                    India
+                  </span>
+                </span>
+
+                <span className="h-4 w-px bg-black/10" aria-hidden="true" />
+
+                <span className="flex items-center gap-2 rounded-full px-3 py-1.5">
+                  <span className="relative flex h-2 w-2 shrink-0">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                  </span>
+                  <span className="text-[11px] font-bold tracking-wide text-[#1a1a1a]">
+                    Open for work
+                  </span>
+                  <span className="text-[9px] font-semibold uppercase tracking-wider text-[#059669]">
+                    Worldwide
+                  </span>
+                </span>
+              </div>
+            </motion.div>
           </div>
 
-          {/* ── RIGHT COLUMN ── */}
-          <div className="lg:col-span-6 relative flex items-end justify-center self-end w-full min-w-0 overflow-visible">
-            {/* Doodle 1: Top-right */}
-            <DoodleCard
-              forwardRef={doodle1Ref}
-              containerClass="absolute -top-2 sm:top-0 right-1 sm:right-4 lg:-right-4 items-end z-20"
-              text={
-                <>
-                  Turning
-                  <br />
-                  Ideas Into
-                  <br />
-                  Real Websites
-                </>
-              }
-              arrowPath="M 55 10 C 50 35, 30 45, 15 52"
-              arrowheadPath="M 26 42 L 14 52 L 24 62"
-              arrowClass="w-9 h-9 sm:w-12 sm:h-12"
-            />
-
-            {/* Doodle 2: Left of profile */}
-            <LeftDoodle forwardRef={doodle2Ref} />
-
-            {/* Profile Image with studio backlight */}
-            <div
-              ref={profileRef}
-              className="relative z-10 w-full max-w-[420px] sm:max-w-[520px] md:max-w-[580px] lg:max-w-[620px] xl:max-w-[700px] 2xl:max-w-[760px] flex items-end justify-center -mb-1 lg:-mb-1 xl:-mb-2"
+          {/* ── RIGHT COLUMN: Hero Portrait, Doodles & Social Pill ── */}
+          <div className="lg:col-span-6 relative flex items-end justify-center lg:justify-end self-end w-full">
+            <motion.div
+              variants={photoReveal}
+              initial="hidden"
+              animate={state}
+              className="relative z-10 w-full max-w-[450px] sm:max-w-[520px] lg:max-w-[680px] xl:max-w-[760px] flex items-end justify-center lg:justify-end transform-gpu"
             >
-              {/* Studio Backlight Aura */}
+              <RightDoodle
+                text={
+                  <>
+                    Turning
+                    <br />
+                    Ideas Into
+                    <br />
+                    Real Websites
+                  </>
+                }
+                className="absolute -top-10 right-1 items-end sm:top-0 sm:right-4 lg:-right-4"
+                arrowDirection="down-left"
+              />
+
               <div
-                className="absolute inset-x-6 sm:inset-x-12 bottom-0 h-[65%] bg-gradient-to-t from-brand/28 via-brand-light/14 to-transparent rounded-full blur-3xl pointer-events-none -z-10"
+                className="pointer-events-none absolute inset-x-6 sm:inset-x-12 bottom-0 top-[20%] -z-10 hidden sm:block rounded-full bg-gradient-to-t from-[var(--brand-primary)]/30 via-[var(--brand-primary-light)]/15 to-transparent blur-3xl"
                 aria-hidden="true"
               />
 
-              <picture>
+              <BrandPortraitBackdropShape
+                className="right-[-8%] top-[20%] h-[75%] w-[110%]"
+                opacity={0.5}
+                glow={true}
+                reveal={revealed}
+                float={false}
+              />
+
+              <picture className="w-full flex justify-end">
+                <source
+                  type="image/avif"
+                  srcSet="/images/profile2-800.avif 800w, /images/profile2-1400.avif 1400w"
+                  sizes="(max-width: 768px) 520px, 760px"
+                />
+                <source
+                  type="image/webp"
+                  srcSet="/images/profile2-800.webp 800w, /images/profile2-1400.webp 1400w"
+                  sizes="(max-width: 768px) 520px, 760px"
+                />
                 <img
-                  src="/images/purple-profile.png"
-                  alt="Raj Shekhar - Web Developer"
+                  src="/images/profile2.png"
+                  alt="Raj Shekhar - Full-Stack MERN Developer & Web Designer"
                   width={700}
                   height={780}
                   fetchPriority="high"
                   loading="eager"
-                  className="w-auto max-w-full h-auto max-h-[58vh] sm:max-h-[64vh] lg:max-h-[68vh] xl:max-h-[74vh] 2xl:max-h-[78vh] object-contain object-bottom drop-shadow-[0_20px_45px_rgba(0,0,0,0.22)] block"
+                  decoding="async"
+                  className="hero-profile-glow w-full h-auto max-h-[60vh] sm:max-h-[75vh] lg:max-h-[85vh] xl:max-h-[90vh] object-contain object-bottom block"
                 />
               </picture>
-            </div>
 
-            {/* Social Pill */}
-            <SocialPill
-              forwardRef={socialRef}
-              links={heroSocialLinks}
-              className="absolute right-1 sm:right-2 lg:right-0 top-[26%] sm:top-[30%] z-40"
-            />
+              <LeftDoodle
+                text={
+                  <>
+                    Code
+                    <br />
+                    Design
+                    <br />
+                    Build
+                    <br />
+                    Repeat
+                  </>
+                }
+                className="left-1 sm:-left-2 lg:-left-5"
+                arrowDirection="down-right"
+              />
+
+              <SocialPill
+                links={heroSocialLinks}
+                className="absolute right-0 sm:right-2 lg:-right-4 top-[25%] sm:top-[30%] z-40"
+              />
+            </motion.div>
           </div>
         </div>
       </div>
+
+      <BrandBottomHeroWave opacity={0.5} reveal={revealed} />
     </section>
   );
 }
-
-export default Hero;

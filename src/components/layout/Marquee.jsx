@@ -1,74 +1,60 @@
 import React from "react";
+import { motion } from "motion/react";
 
-const techItems = [
-  { name: "HTML", color: "white" },
-  { name: "CSS", color: "brand" },
-  { name: "JAVASCRIPT", color: "white" },
-  { name: "REACT", color: "brand" },
-  { name: "NODE.JS", color: "white" },
-  { name: "MONGODB", color: "brand" },
-  { name: "EXPRESS.JS", color: "white" },
-  { name: "TAILWIND", color: "brand" },
+const marqueeItems = [
+  { text: "Full-Stack Web Apps", type: "service" },
+  { text: "React 19", type: "tech" },
+  { text: "Custom Figma / XD Design", type: "service" },
+  { text: "Node.js & Express", type: "tech" },
+  { text: "Figma to React Implementation", type: "service" },
+  { text: "MongoDB", type: "tech" },
+  { text: "Interactive GSAP Experiences", type: "service" },
+  { text: "Tailwind CSS", type: "tech" },
+  { text: "E-Commerce & Stripe Checkout", type: "service" },
+  { text: "REST APIs & WebSockets", type: "tech" },
 ];
 
-export default function Marquee() {
+export default function Marquee({ show = true }) {
   return (
-    <div
-      className="relative w-full shrink-0 overflow-hidden bg-[#0A0A0A] py-2.5 sm:py-3 z-40 border-t border-white/5 select-none"
-      style={{
-        opacity: 0,
-        animation: "marquee-fadein 0.6s ease forwards",
-        animationDelay: "2.0s",
-      }}
+    <motion.div
+      aria-label="Technologies and Services marquee"
+      initial={{ opacity: 0, y: 24 }}
+      animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      className="relative w-full shrink-0 overflow-hidden bg-[#0F0F11] py-3.5 z-30 border-y border-white/8 select-none"
     >
-      <div className="flex w-max animate-marquee items-center">
-        {/* Render 3 copies for ultra-smooth seamless looping on wide screens */}
+      <div className="flex w-max animate-marquee motion-reduce:animate-none items-center">
+        {/* Render 3 copies for smooth continuous loop */}
         {[0, 1, 2].map((copyIndex) => (
           <div
             key={copyIndex}
             aria-hidden={copyIndex > 0}
-            className="flex shrink-0 items-center gap-6 pr-6 sm:gap-10 sm:pr-10"
+            className="flex shrink-0 items-center gap-8 pr-8 sm:gap-12 sm:pr-12"
           >
-            {techItems.map((item, idx) => (
-              <div key={`${copyIndex}-${idx}`} className="flex items-center gap-6 sm:gap-10">
+            {marqueeItems.map((item, idx) => (
+              <div
+                key={`${copyIndex}-${idx}`}
+                className="flex items-center gap-8 sm:gap-12"
+              >
                 <span
-                  className={`whitespace-nowrap font-black italic uppercase text-lg sm:text-2xl md:text-[1.65rem] tracking-tight transition-all duration-300 hover:scale-105 ${
-                    item.color === "brand" ? "text-brand" : "text-white"
+                  className={`whitespace-nowrap text-xs sm:text-sm tracking-tight ${
+                    item.type === "service"
+                      ? "font-display text-white font-medium"
+                      : "font-mono text-brand-light font-normal text-[11px] sm:text-xs tracking-normal"
                   }`}
-                  style={{ letterSpacing: "-0.02em" }}
                 >
-                  {item.name}
+                  {item.text}
                 </span>
 
-                {/* Brand accent plus '+' symbol matching image */}
-                <span className="text-brand font-bold text-base sm:text-xl">
-                  +
-                </span>
+                <span
+                  className="w-1.5 h-1.5 rounded-full bg-white/20 shrink-0"
+                  aria-hidden="true"
+                />
               </div>
             ))}
-
-            {/* Sleek arrow matching the end of the line in the reference image */}
-            <div className="flex items-center gap-2 pl-2">
-              <span className="h-[2px] w-12 sm:w-20 bg-white/70 inline-block"></span>
-              <svg
-                className="h-4 w-4 sm:h-5 sm:w-5 text-white/70"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </div>
-
-            <span className="text-brand font-bold text-base sm:text-xl">
-              +
-            </span>
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -1,94 +1,67 @@
 import React from "react";
 import SectionBadge from "./SectionBadge";
-import HandDrawnUnderline from "../decorative/HandDrawnUnderline";
-import { HandwrittenBadge } from "../decorative/DoodleCard";
 
 /**
- * Reusable SectionHeader
- * Maintains typographic consistency across all sections without layout repetition.
- * Clean, bold italic headlines with zero clutter.
+ * Editorial SectionHeader
+ * Distinctive Bricolage Grotesque display typography, sentence case, tight tracking.
+ * Optional accent word italicized.
  */
 export default function SectionHeader({
+  number,
   badge,
   titleTop,
   titleMain,
   titleAccent,
+  title,
   description,
-  annotation,
   className = "",
   align = "split", // "split" | "left"
 }) {
   return (
-    <div className={`mb-14 sm:mb-20 ${className}`}>
-      {badge && <SectionBadge label={badge} className="mb-2.5 sm:mb-3" />}
+    <div className={`mb-12 sm:mb-16 ${className}`}>
+      {(badge || number) && (
+        <SectionBadge number={number} label={badge} className="mb-3 sm:mb-4" />
+      )}
 
       {align === "split" ? (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
           <div className="lg:col-span-7">
-            <div className="relative inline-block">
-              <h2 className="font-black italic uppercase leading-[0.92] tracking-[-0.04em] text-[2.75rem] sm:text-[3.8rem] md:text-[4.5rem] lg:text-[5.2rem]">
-                {titleTop && <span className="text-[#111111] block">{titleTop}</span>}
-                {titleMain && <span className="text-[#111111]">{titleMain} </span>}
-                {titleAccent && (
-                  <span className="relative inline-block text-brand-dark drop-shadow-[0_2px_4px_rgba(0,0,0,0.32)]">
-                    {titleAccent}
-                    <HandDrawnUnderline
-                      className="absolute left-0 w-full"
-                      style={{ bottom: "-0.12em" }}
-                      color="var(--brand-primary)"
-                    />
-                  </span>
-                )}
-              </h2>
-            </div>
+            <h2 className="font-display text-[clamp(2.1rem,4vw+0.8rem,3.8rem)] leading-[1.05] tracking-[-0.03em] font-bold text-[#111111]">
+              {titleTop && <span className="block">{titleTop} </span>}
+              {titleMain && <span>{titleMain} </span>}
+              {titleAccent && (
+                <span className="italic font-normal text-brand-dark">
+                  {titleAccent}
+                </span>
+              )}
+              {title && <span>{title}</span>}
+            </h2>
           </div>
 
-          <div className="lg:col-span-5 lg:pb-3 flex flex-col gap-3">
+          <div className="lg:col-span-5 lg:pb-1">
             {description && (
-              <p className="text-[#4B5563] text-sm sm:text-base md:text-lg max-w-md leading-relaxed font-normal">
+              <p className="text-[#4B5563] text-sm sm:text-base leading-relaxed font-normal max-w-md">
                 {description}
               </p>
-            )}
-            {annotation && (
-              <HandwrittenBadge
-                text={annotation}
-                direction="curved-right"
-                rotation="-rotate-6"
-                className="hidden sm:inline-flex mt-1"
-              />
             )}
           </div>
         </div>
       ) : (
-        <div className="flex flex-col gap-4 max-w-3xl">
-          <div className="relative inline-block">
-            <h2 className="font-black italic uppercase leading-[0.92] tracking-[-0.04em] text-[2.75rem] sm:text-[3.8rem] md:text-[4.5rem] lg:text-[5.2rem]">
-              {titleTop && <span className="text-[#111111] block">{titleTop}</span>}
-              {titleMain && <span className="text-[#111111]">{titleMain} </span>}
-              {titleAccent && (
-                <span className="relative inline-block text-brand-dark drop-shadow-[0_2px_4px_rgba(0,0,0,0.32)]">
-                  {titleAccent}
-                  <HandDrawnUnderline
-                    className="absolute left-0 w-full"
-                    style={{ bottom: "-0.12em" }}
-                    color="var(--brand-primary)"
-                  />
-                </span>
-              )}
-            </h2>
-          </div>
+        <div className="flex flex-col gap-3 max-w-3xl">
+          <h2 className="font-display text-[clamp(2.1rem,4vw+0.8rem,3.8rem)] leading-[1.05] tracking-[-0.03em] font-bold text-[#111111]">
+            {titleTop && <span className="block">{titleTop} </span>}
+            {titleMain && <span>{titleMain} </span>}
+            {titleAccent && (
+              <span className="italic font-normal text-brand-dark">
+                {titleAccent}
+              </span>
+            )}
+            {title && <span>{title}</span>}
+          </h2>
           {description && (
-            <p className="text-[#4B5563] text-sm sm:text-base md:text-lg max-w-xl leading-relaxed font-normal">
+            <p className="text-[#4B5563] text-sm sm:text-base leading-relaxed font-normal max-w-xl">
               {description}
             </p>
-          )}
-          {annotation && (
-            <HandwrittenBadge
-              text={annotation}
-              direction="curved-right"
-              rotation="-rotate-6"
-              className="hidden sm:inline-flex self-start mt-1"
-            />
           )}
         </div>
       )}

@@ -49,13 +49,80 @@ async function optimize() {
     });
   }
 
-  // Also optimize public/profile.png itself as webp-optimized PNG so fallback works
-  const profilePng = path.join(rootDir, 'public/profile.png');
-  await sharp(profilePng)
-    .resize({ width: 1000, withoutEnlargement: true })
-    .png({ quality: 80, compressionLevel: 9 })
-    .toBuffer()
-    .then(data => fs.writeFileSync(profilePng, data));
+  // Hero purple-profile optimization (800w, 1400w in AVIF & WebP + og-image JPG)
+  const purpleInput = path.join(rootDir, 'public/images/purple-profile.png');
+  if (fs.existsSync(purpleInput)) {
+    const pStat = fs.statSync(purpleInput);
+    totalBefore += pStat.size;
+
+    const heroVariants = [
+      { file: 'public/images/purple-profile-800.avif', w: 800, fmt: 'avif', opts: { quality: 80 } },
+      { file: 'public/images/purple-profile-1400.avif', w: 1400, fmt: 'avif', opts: { quality: 80 } },
+      { file: 'public/images/purple-profile-800.webp', w: 800, fmt: 'webp', opts: { quality: 82 } },
+      { file: 'public/images/purple-profile-1400.webp', w: 1400, fmt: 'webp', opts: { quality: 82 } },
+      { file: 'public/images/og-image.jpg', w: 1200, fmt: 'jpeg', opts: { quality: 85 } },
+    ];
+
+    for (const v of heroVariants) {
+      const outPath = path.join(rootDir, v.file);
+      let s = sharp(purpleInput).resize({ width: v.w, withoutEnlargement: true });
+      if (v.fmt === 'avif') s = s.avif(v.opts);
+      else if (v.fmt === 'webp') s = s.webp(v.opts);
+      else if (v.fmt === 'jpeg') s = s.flatten({ background: '#FAF8F5' }).jpeg(v.opts);
+      await s.toFile(outPath);
+      const vStat = fs.statSync(outPath);
+      results.push({
+        file: 'purple-profile.png',
+        output: v.file,
+        beforeKb: (pStat.size / 1024).toFixed(1),
+        afterKb: (vStat.size / 1024).toFixed(1),
+        savedPct: (((pStat.size - vStat.size) / pStat.size) * 100).toFixed(1) + '%',
+      });
+    }
+
+    // Optimize purple-profile.png fallback in-place
+    const optPngBuffer = await sharp(purpleInput)
+      .resize({ width: 1400, withoutEnlargement: true })
+      .png({ quality: 80, compressionLevel: 9 })
+      .toBuffer();
+    fs.writeFileSync(purpleInput, optPngBuffer);
+    const newStat = fs.statSync(purpleInput);
+    totalAfter += newStat.size;
+  }
+
+  // Profile 1 and Profile 2 optimizations
+  for (const name of ['profile', 'profile2']) {
+    const pngPath = path.join(rootDir, `public/images/${name}.png`);
+    if (!fs.existsSync(pngPath)) continue;
+
+    const stat = fs.statSync(pngPath);
+    totalBefore += stat.size;
+
+    const variants = [
+      { file: `public/images/${name}-800.avif`, w: 800, fmt: 'avif', opts: { quality: 80 } },
+      { file: `public/images/${name}-1400.avif`, w: 1400, fmt: 'avif', opts: { quality: 80 } },
+      { file: `public/images/${name}-800.webp`, w: 800, fmt: 'webp', opts: { quality: 82 } },
+      { file: `public/images/${name}-1400.webp`, w: 1400, fmt: 'webp', opts: { quality: 82 } },
+      { file: `public/images/${name}.webp`, w: 1400, fmt: 'webp', opts: { quality: 82 } },
+      { file: `public/images/${name}.avif`, w: 1400, fmt: 'avif', opts: { quality: 80 } },
+    ];
+
+    for (const v of variants) {
+      const outPath = path.join(rootDir, v.file);
+      let s = sharp(pngPath).resize({ width: v.w, withoutEnlargement: true });
+      if (v.fmt === 'avif') s = s.avif(v.opts);
+      else if (v.fmt === 'webp') s = s.webp(v.opts);
+      await s.toFile(outPath);
+      const vStat = fs.statSync(outPath);
+      results.push({
+        file: `${name}.png`,
+        output: v.file,
+        beforeKb: (stat.size / 1024).toFixed(1),
+        afterKb: (vStat.size / 1024).toFixed(1),
+        savedPct: (((stat.size - vStat.size) / stat.size) * 100).toFixed(1) + '%',
+      });
+    }
+  }
 
   console.log('--- IMAGE OPTIMIZATION SUMMARY ---');
   console.table(results);

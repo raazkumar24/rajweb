@@ -44,25 +44,75 @@ export function SectionWaveDivider({
         >
           <defs>
             {/* Orange glowing crest gradient */}
-            <linearGradient id={uid("crestGrad")} x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="var(--brand-stop-0)" stopOpacity="0.4" />
-              <stop offset="25%" stopColor="var(--brand-stop-1)" stopOpacity="0.95" />
-              <stop offset="60%" stopColor="var(--brand-stop-2)" stopOpacity="0.9" />
-              <stop offset="85%" stopColor="var(--brand-stop-3)" stopOpacity="0.8" />
-              <stop offset="100%" stopColor="var(--brand-stop-1)" stopOpacity="0.35" />
+            <linearGradient
+              id={uid("crestGrad")}
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="0%"
+            >
+              <stop
+                offset="0%"
+                stopColor="var(--brand-stop-0)"
+                stopOpacity="0.4"
+              />
+              <stop
+                offset="25%"
+                stopColor="var(--brand-stop-1)"
+                stopOpacity="0.95"
+              />
+              <stop
+                offset="60%"
+                stopColor="var(--brand-stop-2)"
+                stopOpacity="0.9"
+              />
+              <stop
+                offset="85%"
+                stopColor="var(--brand-stop-3)"
+                stopOpacity="0.8"
+              />
+              <stop
+                offset="100%"
+                stopColor="var(--brand-stop-1)"
+                stopOpacity="0.35"
+              />
             </linearGradient>
 
             {/* Subtle glow filter for the wave crest */}
-            <filter id={uid("crestGlow")} x="-10%" y="-40%" width="120%" height="180%">
+            <filter
+              id={uid("crestGlow")}
+              x="-10%"
+              y="-40%"
+              width="120%"
+              height="180%"
+            >
               <feGaussianBlur stdDeviation="4" result="blur" />
               <feComposite in="SourceGraphic" in2="blur" operator="over" />
             </filter>
 
             {/* Depth under-layer gradient */}
-            <linearGradient id={uid("depthGrad")} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="var(--brand-primary)" stopOpacity="0.12" />
-              <stop offset="50%" stopColor="var(--brand-primary-deep)" stopOpacity="0.06" />
-              <stop offset="100%" stopColor="var(--brand-primary-deep)" stopOpacity="0.15" />
+            <linearGradient
+              id={uid("depthGrad")}
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
+              <stop
+                offset="0%"
+                stopColor="var(--brand-primary)"
+                stopOpacity="0.12"
+              />
+              <stop
+                offset="50%"
+                stopColor="var(--brand-primary-deep)"
+                stopOpacity="0.06"
+              />
+              <stop
+                offset="100%"
+                stopColor="var(--brand-primary-deep)"
+                stopOpacity="0.15"
+              />
             </linearGradient>
           </defs>
 
@@ -82,10 +132,10 @@ export function SectionWaveDivider({
             fill={`url(#${uid("depthGrad")})`}
           />
 
-          {/* Main solid dark wave block filling into Contact (#111111) */}
+          {/* Main solid dark wave block filling into Contact (#0E0E10) */}
           <path
             d="M 0 78 C 260 114, 530 40, 780 78 C 1030 116, 1260 52, 1440 72 V 120 H 0 Z"
-            fill="#111111"
+            fill="#0E0E10"
           />
 
           {/* Soft blur glow behind main crest */}
@@ -136,11 +186,33 @@ export function SectionWaveDivider({
           className="w-full h-9 sm:h-12 lg:h-14 block"
         >
           <defs>
-            <linearGradient id={uid("awGrad")} x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="var(--brand-primary)" stopOpacity="0.1" />
-              <stop offset="25%" stopColor="var(--brand-primary)" stopOpacity="0.6" />
-              <stop offset="65%" stopColor="var(--brand-primary-dark)" stopOpacity="0.55" />
-              <stop offset="100%" stopColor="var(--brand-stop-0)" stopOpacity="0.12" />
+            <linearGradient
+              id={uid("awGrad")}
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="0%"
+            >
+              <stop
+                offset="0%"
+                stopColor="var(--brand-primary)"
+                stopOpacity="0.1"
+              />
+              <stop
+                offset="25%"
+                stopColor="var(--brand-primary)"
+                stopOpacity="0.6"
+              />
+              <stop
+                offset="65%"
+                stopColor="var(--brand-primary-dark)"
+                stopOpacity="0.55"
+              />
+              <stop
+                offset="100%"
+                stopColor="var(--brand-stop-0)"
+                stopOpacity="0.12"
+              />
             </linearGradient>
           </defs>
 
@@ -193,10 +265,26 @@ export function SectionWaveDivider({
         >
           <defs>
             <linearGradient id={uid("wGrad")} x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="var(--brand-primary)" stopOpacity="0.1" />
-              <stop offset="30%" stopColor="var(--brand-primary)" stopOpacity="0.55" />
-              <stop offset="70%" stopColor="var(--brand-primary-deep)" stopOpacity="0.5" />
-              <stop offset="100%" stopColor="var(--brand-stop-0)" stopOpacity="0.15" />
+              <stop
+                offset="0%"
+                stopColor="var(--brand-primary)"
+                stopOpacity="0.1"
+              />
+              <stop
+                offset="30%"
+                stopColor="var(--brand-primary)"
+                stopOpacity="0.55"
+              />
+              <stop
+                offset="70%"
+                stopColor="var(--brand-primary-deep)"
+                stopOpacity="0.5"
+              />
+              <stop
+                offset="100%"
+                stopColor="var(--brand-stop-0)"
+                stopOpacity="0.15"
+              />
             </linearGradient>
           </defs>
 
@@ -239,17 +327,49 @@ export function SectionWaveDivider({
       >
         <defs>
           <linearGradient id={uid("sfGrad")} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="var(--brand-primary)" stopOpacity="0.15" />
-            <stop offset="25%" stopColor="var(--brand-primary)" stopOpacity="0.65" />
-            <stop offset="55%" stopColor="var(--brand-primary-dark)" stopOpacity="0.55" />
-            <stop offset="80%" stopColor="var(--brand-stop-0)" stopOpacity="0.7" />
-            <stop offset="100%" stopColor="var(--brand-primary)" stopOpacity="0.1" />
+            <stop
+              offset="0%"
+              stopColor="var(--brand-primary)"
+              stopOpacity="0.15"
+            />
+            <stop
+              offset="25%"
+              stopColor="var(--brand-primary)"
+              stopOpacity="0.65"
+            />
+            <stop
+              offset="55%"
+              stopColor="var(--brand-primary-dark)"
+              stopOpacity="0.55"
+            />
+            <stop
+              offset="80%"
+              stopColor="var(--brand-stop-0)"
+              stopOpacity="0.7"
+            />
+            <stop
+              offset="100%"
+              stopColor="var(--brand-primary)"
+              stopOpacity="0.1"
+            />
           </linearGradient>
 
           <linearGradient id={uid("sfShine")} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="var(--brand-primary)" stopOpacity="0.08" />
-            <stop offset="50%" stopColor="var(--brand-primary)" stopOpacity="0.28" />
-            <stop offset="100%" stopColor="var(--brand-primary)" stopOpacity="0.05" />
+            <stop
+              offset="0%"
+              stopColor="var(--brand-primary)"
+              stopOpacity="0.08"
+            />
+            <stop
+              offset="50%"
+              stopColor="var(--brand-primary)"
+              stopOpacity="0.28"
+            />
+            <stop
+              offset="100%"
+              stopColor="var(--brand-primary)"
+              stopOpacity="0.05"
+            />
           </linearGradient>
         </defs>
 

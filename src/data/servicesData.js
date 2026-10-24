@@ -6,7 +6,7 @@ export const servicesData = [
     subtitle: "From login flows to database-backed features",
     description: "I build complete MERN applications for businesses and startups that need more than a brochure site.",
     deliverables: ["User authentication and protected pages", "MongoDB data models and REST APIs", "Payments, forms, and third-party integrations", "Responsive React UI with deployment handoff"],
-    timeline: "Starting from [add your range] · Usually 2–6 weeks",
+    timeline: "Usually 2–6 weeks",
     stack: ["MongoDB", "Express", "React", "Node.js"],
   },
   {
@@ -16,7 +16,7 @@ export const servicesData = [
     subtitle: "Clear screens before the build begins",
     description: "I turn product goals into practical user flows, wireframes, and polished interface designs in Figma or Adobe XD.",
     deliverables: ["User flows and low-fidelity wireframes", "Responsive desktop and mobile screens", "Reusable components and visual direction", "Developer-ready design handoff"],
-    timeline: "Starting from [add your range] · Usually 1–3 weeks",
+    timeline: "Usually 1–3 weeks",
     stack: ["Figma", "Adobe XD", "UI/UX"],
   },
   {
@@ -26,7 +26,7 @@ export const servicesData = [
     subtitle: "Accurate, responsive frontend implementation",
     description: "I convert approved Figma or XD designs into accessible React interfaces that hold together across real screen sizes.",
     deliverables: ["Responsive React components", "Pixel-conscious spacing and typography", "Accessible states and keyboard support", "API-ready frontend structure"],
-    timeline: "Starting from [add your range] · Usually 1–4 weeks",
+    timeline: "Usually 1–4 weeks",
     stack: ["React", "JavaScript", "Tailwind CSS"],
   },
   {
@@ -36,7 +36,7 @@ export const servicesData = [
     subtitle: "Practical sites your team can update",
     description: "I create focused WordPress websites for personal brands and small businesses that need a clear online presence.",
     deliverables: ["Responsive page structure and styling", "Editable content sections", "Contact form and basic SEO setup", "Launch support and handoff"],
-    timeline: "Starting from [add your range] · Usually 1–3 weeks",
+    timeline: "Usually 1–3 weeks",
     stack: ["WordPress", "CSS", "SEO basics"],
   },
 ];

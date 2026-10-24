@@ -38,7 +38,9 @@ function useIds() {
 }
 
 function Grad({ id, x1 = 0, y1 = 0, x2 = 1, y2 = 1, reverse = false }) {
-  const stops = reverse ? [...STOPS].reverse().map((s, i) => [STOPS[i][0], s[1]]) : STOPS;
+  const stops = reverse
+    ? [...STOPS].reverse().map((s, i) => [STOPS[i][0], s[1]])
+    : STOPS;
   return (
     <linearGradient id={id} x1={x1} y1={y1} x2={x2} y2={y2}>
       {stops.map(([o, c]) => (
@@ -112,7 +114,8 @@ export function BrandTopLeftShape({
         vb: "0 0 420 900",
         back: "M0 0 H310 C350 150 225 235 195 365 C165 495 275 565 235 705 C210 795 95 855 0 900 Z",
         mid: "M0 0 H245 C280 140 170 220 140 345 C110 470 215 540 178 670 C155 755 65 810 0 840 Z",
-        front: "M0 0 H175 C205 125 115 200 90 315 C65 430 150 495 120 610 C100 685 40 725 0 745 Z",
+        front:
+          "M0 0 H175 C205 125 115 200 90 315 C65 430 150 495 120 610 C100 685 40 725 0 745 Z",
         rings: ["M0 330 A330 330 0 0 0 330 0", "M0 520 A520 520 0 0 0 520 0"],
         cls: "w-[36vw] max-w-[460px] min-w-[220px] h-[85vh] min-h-[550px]",
       }
@@ -120,7 +123,8 @@ export function BrandTopLeftShape({
         vb: "0 0 560 760",
         back: "M0 0 H510 C550 115 475 195 395 255 C305 322 335 425 245 525 C175 600 70 645 0 705 Z",
         mid: "M0 0 H430 C458 100 388 172 312 228 C230 288 258 382 178 468 C118 532 46 568 0 612 Z",
-        front: "M0 0 H340 C358 88 300 142 236 188 C166 238 186 318 120 388 C76 436 30 456 0 482 Z",
+        front:
+          "M0 0 H340 C358 88 300 142 236 188 C166 238 186 318 120 388 C76 436 30 456 0 482 Z",
         rings: ["M0 280 A280 280 0 0 0 280 0", "M0 430 A430 430 0 0 0 430 0"],
         cls: "w-[44vw] max-w-[560px] min-w-[260px] h-[75vh] min-h-[580px]",
       };
@@ -140,20 +144,50 @@ export function BrandTopLeftShape({
         </clipPath>
       </defs>
 
-      <path d={layers.back} fill={color} fillOpacity="0.22" filter={`url(#${id("b")})`} />
-      <path d={layers.back} fill={`url(#${id("g")})`} fillOpacity={0.35 * opacity} />
-      <path d={layers.mid} fill={`url(#${id("g")})`} fillOpacity={0.7 * opacity} />
+      <path
+        d={layers.back}
+        fill={color}
+        fillOpacity="0.22"
+        filter={`url(#${id("b")})`}
+      />
+      <path
+        d={layers.back}
+        fill={`url(#${id("g")})`}
+        fillOpacity={0.35 * opacity}
+      />
+      <path
+        d={layers.mid}
+        fill={`url(#${id("g")})`}
+        fillOpacity={0.7 * opacity}
+      />
       <path d={layers.front} fill={`url(#${id("g")})`} fillOpacity={opacity} />
 
       {/* dot texture sirf front layer ke andar */}
-      <rect width="560" height="900" fill={`url(#${id("d")})`} clipPath={`url(#${id("c")})`} opacity="0.55" />
+      <rect
+        width="560"
+        height="900"
+        fill={`url(#${id("d")})`}
+        clipPath={`url(#${id("c")})`}
+        opacity="0.55"
+      />
 
       {/* concentric arcs */}
       {layers.rings.map((d, i) => (
-        <path key={i} d={d} stroke="#fff" strokeOpacity={0.22 - i * 0.07} strokeWidth="1.5" />
+        <path
+          key={i}
+          d={d}
+          stroke="#fff"
+          strokeOpacity={0.22 - i * 0.07}
+          strokeWidth="1.5"
+        />
       ))}
 
-      <path d={layers.mid} stroke={`url(#${id("s")})`} strokeWidth="2.5" strokeLinecap="round" />
+      <path
+        d={layers.mid}
+        stroke={`url(#${id("s")})`}
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
     </Frame>
   );
 }
@@ -181,13 +215,34 @@ function SideWaveArt({ mirror, opacity, color, id }) {
           <path d={front} />
         </clipPath>
       </defs>
-      <path d={back} fill={color} fillOpacity="0.12" filter={`url(#${id("b")})`} />
+      <path
+        d={back}
+        fill={color}
+        fillOpacity="0.12"
+        filter={`url(#${id("b")})`}
+      />
       <path d={back} fill={`url(#${id("g")})`} fillOpacity={0.32 * opacity} />
       <path d={mid} fill={`url(#${id("g")})`} fillOpacity={0.65 * opacity} />
       <path d={front} fill={`url(#${id("g")})`} fillOpacity={opacity} />
-      <rect width="420" height="860" fill={`url(#${id("d")})`} clipPath={`url(#${id("c")})`} opacity="0.5" />
-      <path d={mid.replace(" Z", "")} stroke={`url(#${id("s")})`} strokeWidth="2.5" strokeLinecap="round" />
-      <path d={front.replace(" Z", "")} stroke="#fff" strokeOpacity="0.22" strokeWidth="1.5" />
+      <rect
+        width="420"
+        height="860"
+        fill={`url(#${id("d")})`}
+        clipPath={`url(#${id("c")})`}
+        opacity="0.5"
+      />
+      <path
+        d={mid.replace(" Z", "")}
+        stroke={`url(#${id("s")})`}
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+      <path
+        d={front.replace(" Z", "")}
+        stroke="#fff"
+        strokeOpacity="0.22"
+        strokeWidth="1.5"
+      />
     </g>
   );
 }
@@ -198,10 +253,10 @@ function SideWave({ mirror, className, opacity, color, position = "top" }) {
     position === "bottom-raised"
       ? "bottom-24 sm:bottom-36"
       : position === "middle"
-      ? "top-1/2 -translate-y-1/2"
-      : position === "bottom"
-      ? "bottom-0 sm:bottom-6"
-      : "top-0 sm:top-6";
+        ? "top-1/2 -translate-y-1/2"
+        : position === "bottom"
+          ? "bottom-0 sm:bottom-6"
+          : "top-0 sm:top-6";
   return (
     <Frame
       viewBox="0 0 420 860"
@@ -221,22 +276,55 @@ function SideWave({ mirror, className, opacity, color, position = "top" }) {
   );
 }
 
-export function BrandSectionSideWave({ className = "", opacity = 0.9, color="var(--brand-primary)", position = "top" }) {
-  return <SideWave mirror={false} className={className} opacity={opacity} color={color} position={position} />;
+export function BrandSectionSideWave({
+  className = "",
+  opacity = 0.9,
+  color = "var(--brand-primary)",
+  position = "top",
+}) {
+  return (
+    <SideWave
+      mirror={false}
+      className={className}
+      opacity={opacity}
+      color={color}
+      position={position}
+    />
+  );
 }
 
-export function BrandSectionRightWave({ className = "", opacity = 0.9, color="var(--brand-primary)", position = "top" }) {
-  return <SideWave mirror className={className} opacity={opacity} color={color} position={position} />;
+export function BrandSectionRightWave({
+  className = "",
+  opacity = 0.9,
+  color = "var(--brand-primary)",
+  position = "top",
+}) {
+  return (
+    <SideWave
+      mirror
+      className={className}
+      opacity={opacity}
+      color={color}
+      position={position}
+    />
+  );
 }
 
 /* =============================================================================
    4. BOTTOM HERO WAVE  (3 phase-shifted waves)
    ============================================================================= */
-export function BrandBottomHeroWave({ className = "", opacity = 1, color="var(--brand-primary)" }) {
+export function BrandBottomHeroWave({
+  className = "",
+  opacity = 1,
+  color = "var(--brand-primary)",
+}) {
   const id = useIds();
-  const back = "M0 215 C220 120 360 260 560 250 C760 240 820 110 1010 140 C1190 168 1290 250 1440 120 V340 H0 Z";
-  const mid = "M0 250 C190 175 330 285 500 285 C690 285 745 150 920 180 C1100 212 1170 300 1440 160 V340 H0 Z";
-  const front = "M0 285 C200 225 320 315 500 320 C675 325 760 215 910 238 C1075 262 1170 332 1440 205 V340 H0 Z";
+  const back =
+    "M0 215 C220 120 360 260 560 250 C760 240 820 110 1010 140 C1190 168 1290 250 1440 120 V340 H0 Z";
+  const mid =
+    "M0 250 C190 175 330 285 500 285 C690 285 745 150 920 180 C1100 212 1170 300 1440 160 V340 H0 Z";
+  const front =
+    "M0 285 C200 225 320 315 500 320 C675 325 760 215 910 238 C1075 262 1170 332 1440 205 V340 H0 Z";
 
   return (
     <Frame
@@ -257,12 +345,28 @@ export function BrandBottomHeroWave({ className = "", opacity = 1, color="var(--
         </clipPath>
       </defs>
 
-      <path d={back} fill={color} fillOpacity="0.2" filter={`url(#${id("b")})`} />
+      <path
+        d={back}
+        fill={color}
+        fillOpacity="0.2"
+        filter={`url(#${id("b")})`}
+      />
       <path d={back} fill={`url(#${id("g")})`} fillOpacity={0.35 * opacity} />
       <path d={mid} fill={`url(#${id("g")})`} fillOpacity={0.7 * opacity} />
       <path d={front} fill={`url(#${id("g")})`} fillOpacity={opacity} />
-      <rect width="1440" height="340" fill={`url(#${id("d")})`} clipPath={`url(#${id("c")})`} opacity="0.4" />
-      <path d={mid} stroke={`url(#${id("h")})`} strokeWidth="2.5" strokeLinecap="round" />
+      <rect
+        width="1440"
+        height="340"
+        fill={`url(#${id("d")})`}
+        clipPath={`url(#${id("c")})`}
+        opacity="0.4"
+      />
+      <path
+        d={mid}
+        stroke={`url(#${id("h")})`}
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
       <path d={back} stroke="#fff" strokeOpacity="0.18" strokeWidth="1.5" />
     </Frame>
   );
@@ -324,10 +428,22 @@ function Accent({ mirror, className, opacity, color }) {
         />
         {/* orbs */}
         <g className="os-float">
-          <circle cx="248" cy="150" r="22" fill={`url(#${id("o")})`} fillOpacity="0.9" />
+          <circle
+            cx="248"
+            cy="150"
+            r="22"
+            fill={`url(#${id("o")})`}
+            fillOpacity="0.9"
+          />
         </g>
         <g className="os-float os-float-b">
-          <circle cx="226" cy="238" r="9" fill={`url(#${id("o")})`} fillOpacity="0.85" />
+          <circle
+            cx="226"
+            cy="238"
+            r="9"
+            fill={`url(#${id("o")})`}
+            fillOpacity="0.85"
+          />
           <circle cx="262" cy="300" r="5" fill={color} fillOpacity="0.5" />
         </g>
       </g>
@@ -335,22 +451,44 @@ function Accent({ mirror, className, opacity, color }) {
   );
 }
 
-export function BrandLeftAccentShape({ className = "", opacity = 0.9, color="var(--brand-primary)" }) {
-  return <Accent mirror={false} className={className} opacity={opacity} color={color} />;
+export function BrandLeftAccentShape({
+  className = "",
+  opacity = 0.9,
+  color = "var(--brand-primary)",
+}) {
+  return (
+    <Accent
+      mirror={false}
+      className={className}
+      opacity={opacity}
+      color={color}
+    />
+  );
 }
 
-export function BrandRightAccentShape({ className = "", opacity = 0.9, color="var(--brand-primary)" }) {
-  return <Accent mirror className={className} opacity={opacity} color={color} />;
+export function BrandRightAccentShape({
+  className = "",
+  opacity = 0.9,
+  color = "var(--brand-primary)",
+}) {
+  return (
+    <Accent mirror className={className} opacity={opacity} color={color} />
+  );
 }
 
 /* =============================================================================
    7. BOTTOM RIGHT SHAPE  (diagonal sweep + rings from the corner)
    ============================================================================= */
-export function BrandBottomRightShape({ className = "", opacity = 0.95, color="var(--brand-primary)" }) {
+export function BrandBottomRightShape({
+  className = "",
+  opacity = 0.95,
+  color = "var(--brand-primary)",
+}) {
   const id = useIds();
   const back = "M460 400 H60 C150 330 235 285 275 205 C320 118 385 40 460 0 Z";
   const mid = "M460 400 H100 C180 332 252 292 288 222 C328 145 388 72 460 36 Z";
-  const front = "M460 400 H150 C218 345 275 312 306 255 C340 192 395 125 460 92 Z";
+  const front =
+    "M460 400 H150 C218 345 275 312 306 255 C340 192 395 125 460 92 Z";
 
   return (
     <Frame
@@ -366,14 +504,40 @@ export function BrandBottomRightShape({ className = "", opacity = 0.95, color="v
           <path d={front} />
         </clipPath>
       </defs>
-      <path d={back} fill={color} fillOpacity="0.2" filter={`url(#${id("b")})`} />
+      <path
+        d={back}
+        fill={color}
+        fillOpacity="0.2"
+        filter={`url(#${id("b")})`}
+      />
       <path d={back} fill={`url(#${id("g")})`} fillOpacity={0.35 * opacity} />
       <path d={mid} fill={`url(#${id("g")})`} fillOpacity={0.7 * opacity} />
       <path d={front} fill={`url(#${id("g")})`} fillOpacity={opacity} />
-      <rect width="460" height="400" fill={`url(#${id("d")})`} clipPath={`url(#${id("c")})`} opacity="0.5" />
-      <path d="M460 170 A230 230 0 0 0 230 400" stroke="#fff" strokeOpacity="0.2" strokeWidth="1.5" />
-      <path d="M460 260 A140 140 0 0 0 320 400" stroke="#fff" strokeOpacity="0.16" strokeWidth="1.5" />
-      <path d={mid} stroke={`url(#${id("s")})`} strokeWidth="2.5" strokeLinecap="round" />
+      <rect
+        width="460"
+        height="400"
+        fill={`url(#${id("d")})`}
+        clipPath={`url(#${id("c")})`}
+        opacity="0.5"
+      />
+      <path
+        d="M460 170 A230 230 0 0 0 230 400"
+        stroke="#fff"
+        strokeOpacity="0.2"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M460 260 A140 140 0 0 0 320 400"
+        stroke="#fff"
+        strokeOpacity="0.16"
+        strokeWidth="1.5"
+      />
+      <path
+        d={mid}
+        stroke={`url(#${id("s")})`}
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
     </Frame>
   );
 }
@@ -386,7 +550,7 @@ export function BrandJourneyCardBlob({
   position = "top-right",
   size = "md",
   className = "",
-  color="var(--brand-primary)",
+  color = "var(--brand-primary)",
 }) {
   const sizeMap = {
     sm: "w-44 h-44 sm:w-52 sm:h-52",
@@ -433,20 +597,29 @@ export function BrandJourneyCardBlob({
             <stop offset="100%" stopColor="var(--brand-stop-3)" />
           </linearGradient>
 
-          <linearGradient
-            id={`${gradId}-sheen`}
-            x1="0" y1="0" x2="1" y2="1"
-          >
+          <linearGradient id={`${gradId}-sheen`} x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stopColor="#fff" stopOpacity="0.65" />
             <stop offset="50%" stopColor="#fff" stopOpacity="0.15" />
             <stop offset="100%" stopColor="#fff" stopOpacity="0" />
           </linearGradient>
 
-          <filter id={`${gradId}-glow`} x="-30%" y="-30%" width="160%" height="160%">
+          <filter
+            id={`${gradId}-glow`}
+            x="-30%"
+            y="-30%"
+            width="160%"
+            height="160%"
+          >
             <feGaussianBlur stdDeviation="8" />
           </filter>
 
-          <filter id={`${gradId}-blur`} x="-15%" y="-15%" width="130%" height="130%">
+          <filter
+            id={`${gradId}-blur`}
+            x="-15%"
+            y="-15%"
+            width="130%"
+            height="130%"
+          >
             <feGaussianBlur stdDeviation="6" />
           </filter>
         </defs>
@@ -508,7 +681,7 @@ export function BrandJourneyCardBlob({
    ============================================================================= */
 export function BrandCtaBottomWave({
   className = "",
-  color="var(--brand-primary)",
+  color = "var(--brand-primary)",
   opacity = 1,
 }) {
   return (
@@ -588,7 +761,7 @@ export function BrandBackgroundShapes({
   blobPos = "top-right",
   blobSize = "md",
   opacity,
-  color="var(--brand-primary)",
+  color = "var(--brand-primary)",
 }) {
   switch (position) {
     case "top-left":
@@ -601,19 +774,54 @@ export function BrandBackgroundShapes({
         />
       );
     case "bottom-hero":
-      return <BrandBottomHeroWave className={className} opacity={opacity ?? 1} color={color} />;
+      return (
+        <BrandBottomHeroWave
+          className={className}
+          opacity={opacity ?? 1}
+          color={color}
+        />
+      );
     case "right-accent":
-      return <BrandRightAccentShape className={className} opacity={opacity ?? 0.9} color={color} />;
+      return (
+        <BrandRightAccentShape
+          className={className}
+          opacity={opacity ?? 0.9}
+          color={color}
+        />
+      );
     case "left-accent":
-      return <BrandLeftAccentShape className={className} opacity={opacity ?? 0.9} color={color} />;
+      return (
+        <BrandLeftAccentShape
+          className={className}
+          opacity={opacity ?? 0.9}
+          color={color}
+        />
+      );
     case "bottom-right":
-      return <BrandBottomRightShape className={className} opacity={opacity ?? 0.95} color={color} />;
+      return (
+        <BrandBottomRightShape
+          className={className}
+          opacity={opacity ?? 0.95}
+          color={color}
+        />
+      );
     case "card-blob":
       return (
-        <BrandJourneyCardBlob position={blobPos} size={blobSize} className={className} color={color} />
+        <BrandJourneyCardBlob
+          position={blobPos}
+          size={blobSize}
+          className={className}
+          color={color}
+        />
       );
     case "cta-bottom":
-      return <BrandCtaBottomWave className={className} color={color} opacity={opacity ?? 1} />;
+      return (
+        <BrandCtaBottomWave
+          className={className}
+          color={color}
+          opacity={opacity ?? 1}
+        />
+      );
     default:
       return null;
   }
@@ -631,5 +839,7 @@ export {
   BrandCtaBottomWave as OrangeCtaBottomWave,
   BrandBackgroundShapes as OrangeBackgroundShapes,
 };
+
+export { BrandPortraitBackdropShape } from "./brandBackgroundShapes";
 
 export default BrandBackgroundShapes;

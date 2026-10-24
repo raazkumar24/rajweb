@@ -110,6 +110,39 @@ export const THEME_PALETTES = {
     rgbDark: "255, 119, 0",
     shimmerBg: "#FFF7EC",
   },
+
+    // Midnight Cyan (Premium Tech & Developer Portfolio)
+  cyan: {
+    name: "Midnight Cyan",
+    primary: "#06B6D4",
+    primaryDark: "#0891B2",
+    primaryLight: "#67E8F9",
+    primaryDeep: "#0E7490",
+    stop0: "#A5F3FC",
+    stop1: "#67E8F9",
+    stop2: "#06B6D4",
+    stop3: "#0E7490",
+    rgb: "6, 182, 212",
+    rgbDark: "8, 145, 178",
+    shimmerBg: "#ECFEFF",
+  },
+
+  // Acid Lime (Bold & Creative Portfolio)
+  lime: {
+    name: "Acid Lime",
+    primary: "#84CC16",
+    primaryDark: "#65A30D",
+    primaryLight: "#BEF264",
+    primaryDeep: "#4D7C0F",
+    stop0: "#D9F99D",
+    stop1: "#BEF264",
+    stop2: "#84CC16",
+    stop3: "#4D7C0F",
+    rgb: "132, 204, 22",
+    rgbDark: "101, 163, 13",
+    shimmerBg: "#F7FEE7",
+  },
+  
 };
 
-export const CURRENT_THEME = THEME_PALETTES.purple;
+export const CURRENT_THEME = THEME_PALETTES.cyan;

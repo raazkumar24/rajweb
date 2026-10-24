@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import Navbar from "./components/layout/Navbar.jsx";
 import Marquee from "./components/layout/Marquee.jsx";
 import CustomCursor from "./components/layout/CustomCursor.jsx";
@@ -11,15 +10,16 @@ import Works from "./pages/Works.jsx";
 import Services from "./pages/Services.jsx";
 import FAQ from "./pages/FAQ.jsx";
 import Contact from "./pages/Contact.jsx";
+import SectionWaveDivider from "./components/decoration/SectionWaveDivider.jsx";
 import "./App.css";
-
-// Global ScrollTrigger setup
-gsap.registerPlugin(ScrollTrigger);
-ScrollTrigger.config({ ignoreMobileResize: true });
 
 function App() {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const showScrollTopRef = useRef(false);
+
+  // Trigger Marquee reveal after Hero name intro finishes
+  const [heroRevealed, setHeroRevealed] = useState(false);
+  const handleHeroRevealed = useCallback(() => setHeroRevealed(true), []);
 
   useEffect(() => {
     let ticking = false;
@@ -28,7 +28,7 @@ function App() {
       if (!ticking) {
         ticking = true;
         requestAnimationFrame(() => {
-          const shouldShow = window.scrollY > 400;
+          const shouldShow = window.scrollY > 420;
           if (shouldShow !== showScrollTopRef.current) {
             showScrollTopRef.current = shouldShow;
             setShowScrollTop(shouldShow);
@@ -37,76 +37,73 @@ function App() {
         });
       }
     };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-
-    let refreshFrame = 0;
-    const refreshAnimations = () => {
-      cancelAnimationFrame(refreshFrame);
-      refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh());
-    };
-    const refreshAfterFonts = document.fonts?.ready?.then(refreshAnimations);
-    window.addEventListener("load", refreshAnimations, { once: true });
-    window.addEventListener("resize", refreshAnimations, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("load", refreshAnimations);
-      window.removeEventListener("resize", refreshAnimations);
-      void refreshAfterFonts;
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToTop = () => {
+    if (window.__lenis) {
+      window.__lenis.scrollTo(0);
+      return;
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#FAF8F5] text-[#111111] flex flex-col overflow-x-hidden selection:bg-brand selection:text-white">
+    <div className="min-h-screen w-full bg-[#FAF8F5] text-[#111111] flex flex-col overflow-x-clip selection:bg-brand selection:text-white">
       <ScrollProgress />
       <CustomCursor />
       <Navbar />
 
       <main className="flex-1 flex flex-col">
-        {/*
-          Hero + Marquee: Uses min-h-screen and min-h-[100dvh] on large screens.
-          Prevents content cutoff on small-height laptop screens (e.g. <= 720px)
-          while keeping seamless profile alignment with the marquee.
-        */}
+        {/* Hero + Marquee viewport wrapper */}
         <div className="relative flex flex-col min-h-screen lg:min-h-[100dvh] lg:h-auto 2xl:h-[100dvh] 2xl:max-h-[100dvh] 2xl:overflow-hidden justify-between">
-          <Hero />
-          <Marquee />
+          <Hero onRevealed={handleHeroRevealed} />
+          <Marquee show={heroRevealed} />
         </div>
 
-        {/* Core content sections with internal optimized scroll choreography */}
-        <div>
-          <About />
-        </div>
-        <div>
-          <Works />
-        </div>
-        <div>
-          <Services />
-        </div>
-        <div>
-          <FAQ />
-        </div>
-        <div>
-          <Contact />
-        </div>
+        {/* Core Portfolio Sections with Organic Wave Dividers */}
+        <About />
+        <SectionWaveDivider variant="about-to-works" />
+        <Works />
+        <SectionWaveDivider variant="works-to-services" />
+        <Services />
+        <SectionWaveDivider variant="services-to-faq" />
+        <FAQ />
+        <SectionWaveDivider variant="faq-to-contact" />
+        <Contact />
       </main>
 
-      {/* Floating smooth back to top control */}
-      {showScrollTop && (
-        <button
-          onClick={scrollToTop}
-          aria-label="Scroll back to top"
-          className="fixed bottom-6 right-6 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-[#111111] text-white shadow-xl hover:bg-brand hover:text-[#111111] transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 cursor-pointer"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-          </svg>
-        </button>
-      )}
+      {/* Smooth Animated Back-to-Top Floating Button */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            key="scroll-top-btn"
+            initial={{ opacity: 0, scale: 0.8, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 12 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            onClick={scrollToTop}
+            aria-label="Scroll back to top"
+            className="fixed bottom-6 right-6 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-[#111111] text-white shadow-xl hover:bg-brand hover:text-[#111111] transition-colors duration-200 border border-white/10 cursor-pointer"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M5 10l7-7m0 0l7 7m-7-7v18"
+              />
+            </svg>
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

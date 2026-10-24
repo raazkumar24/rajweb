@@ -5,9 +5,15 @@ const baseStyles =
 
 const variants = {
   dark: "bg-[#111111] text-white shadow-[0_8px_24px_rgba(0,0,0,0.18)] hover:bg-brand hover:text-[#111111] hover:shadow-[0_12px_28px_rgba(var(--brand-rgb),0.38)]",
-  outline: "border border-black/20 bg-white text-[#111111] shadow-sm hover:border-brand hover:text-brand hover:shadow-md",
-  brand: "bg-brand text-[#111111] shadow-[0_8px_24px_rgba(var(--brand-rgb),0.3)] hover:bg-white hover:shadow-[0_10px_24px_rgba(255,255,255,0.22)]",
-  source: "border border-black/12 bg-white text-[#444444] shadow-sm hover:border-brand hover:bg-white hover:text-[#111111] hover:shadow-md",
+
+  outline:
+    "border border-black/20 bg-white text-[#111111] shadow-sm hover:border-brand hover:text-brand hover:shadow-md",
+
+  brand:
+    "bg-brand text-[#111111] shadow-[0_8px_24px_rgba(var(--brand-rgb),0.3)] hover:bg-white hover:shadow-[0_10px_24px_rgba(255,255,255,0.22)]",
+
+  source:
+    "border border-black/12 bg-white text-[#444444] shadow-sm hover:border-brand hover:bg-white hover:text-[#111111] hover:shadow-md",
 };
 
 export default function InteractiveButton({
@@ -20,15 +26,37 @@ export default function InteractiveButton({
   ...props
 }) {
   const Component = href ? "a" : "button";
+
   return (
     <Component
       {...props}
       {...(href ? { href } : {})}
-      className={`${baseStyles} ${variants[variant]} ${noShadow ? "shadow-none hover:shadow-none" : ""} ${className}`}
+      className={`${baseStyles} ${variants[variant] || variants.dark} ${
+        noShadow ? "shadow-none hover:shadow-none" : ""
+      } ${className}`}
     >
+      {/* Shine effect */}
       <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-      <span className="relative">{children}</span>
-      {icon && <span className="relative transition-transform duration-200 group-hover:translate-x-1">{icon}</span>}
+
+      {/* Button text with subtle shadow */}
+      <span
+        className={`relative ${
+          noShadow ? "" : "[text-shadow:0_1px_2px_rgba(0,0,0,0.2)]"
+        }`}
+      >
+        {children}
+      </span>
+
+      {/* Optional icon */}
+      {icon && (
+        <span
+          className={`relative transition-transform duration-200 group-hover:translate-x-1 ${
+            noShadow ? "" : "[filter:drop-shadow(0_1px_1px_rgba(0,0,0,0.15))]"
+          }`}
+        >
+          {icon}
+        </span>
+      )}
     </Component>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
+import { motion, useReducedMotion } from "motion/react";
 import { useGsapScope } from "../../animation/useGsapScope";
 
 const navItems = [
@@ -30,13 +31,14 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const navRef = useRef(null);
+  const shouldReduceMotion = useReducedMotion();
 
   // useLayoutEffect: runs synchronously after DOM mutations, before browser paint
   // This prevents the navbar from being visible even for a single frame
   useLayoutEffect(() => {
     if (!navRef.current) return;
     const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
+      "(prefers-reduced-motion: reduce)",
     ).matches;
     if (!prefersReducedMotion) {
       gsap.set(navRef.current, { y: -30, opacity: 0 });
@@ -116,6 +118,8 @@ function Navbar() {
     };
   }, []);
 
+  const closeMenu = () => setIsMenuOpen(false);
+
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === "Escape") closeMenu();
@@ -124,8 +128,6 @@ function Navbar() {
     window.addEventListener("keydown", handleEscape);
     return () => window.removeEventListener("keydown", handleEscape);
   }, []);
-
-  const closeMenu = () => setIsMenuOpen(false);
 
   const handleSmoothScroll = (e, href) => {
     e.preventDefault();
@@ -144,13 +146,14 @@ function Navbar() {
     const el = document.getElementById(targetId);
     if (el) {
       const navOffset = targetId === "about" ? 0 : 68;
-      const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
+      const elementPosition =
+        el.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo({
         top: Math.max(
           0,
           targetId === "about"
             ? Math.ceil(elementPosition) + 2
-            : elementPosition - navOffset
+            : elementPosition - navOffset,
         ),
         behavior: "smooth",
       });
@@ -196,14 +199,33 @@ function Navbar() {
                   href={item.href}
                   onClick={(e) => handleSmoothScroll(e, item.href)}
                   aria-current={isActive ? "page" : undefined}
-                  className={`group relative rounded-full px-4 py-2 text-xs font-bold tracking-wider uppercase transition-[background-color,color,box-shadow] duration-200 ${
+                  className={`group relative rounded-full px-4 py-2 text-xs font-bold tracking-wider uppercase transition-colors duration-200 ${
                     isActive
-                      ? "bg-white/90 text-brand shadow-[0_4px_12px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,1)]"
+                      ? "text-brand"
                       : "text-[#222222] hover:text-brand hover:bg-white/55"
                   }`}
                 >
-                  {item.label}
-                  <span className={`absolute inset-x-4 -bottom-0.5 h-0.5 origin-left rounded-full bg-brand transition-transform duration-300 ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-60"}`} aria-hidden="true" />
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-active-pill"
+                      aria-hidden="true"
+                      className="absolute inset-0 rounded-full bg-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,1)]"
+                      transition={
+                        shouldReduceMotion
+                          ? { duration: 0 }
+                          : { type: "spring", stiffness: 420, damping: 32 }
+                      }
+                    />
+                  )}
+                  <span className="relative z-10">{item.label}</span>
+                  <span
+                    className={`absolute inset-x-4 -bottom-0.5 z-10 h-0.5 origin-left rounded-full bg-brand transition-transform duration-300 ${
+                      isActive
+                        ? "scale-x-100"
+                        : "scale-x-0 group-hover:scale-x-60"
+                    }`}
+                    aria-hidden="true"
+                  />
                 </a>
               );
             })}
@@ -235,9 +257,19 @@ function Navbar() {
             aria-hidden="true"
           >
             {isMenuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M6 18L18 6M6 6l12 12"
+              />
             ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2.5}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             )}
           </svg>
         </button>
@@ -266,7 +298,9 @@ function Navbar() {
                   }`}
                 >
                   <span>{item.label}</span>
-                  {isActive && <span className="w-1.5 h-1.5 rounded-full bg-brand" />}
+                  {isActive && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand" />
+                  )}
                 </a>
               );
             })}

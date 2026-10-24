@@ -1,6 +1,10 @@
 /**
  * Site-wide configuration and single source of truth for portfolio data.
+ *
+ * TODO: Replace public/resume.pdf (currently a 4 KB placeholder) with your real resume PDF.
  */
+
+export const RESUME_PATH = "/resume.pdf";
 
 export const WEB3FORMS_KEY = "2410c80d-9bea-48cd-9ce9-5b678f1cced4";
 

@@ -1,724 +1,324 @@
-import React, { useRef, useState, useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowDownRight, ArrowDownLeft, MapPin } from "lucide-react";
-import { RobotHead } from "robot-heads";
-import { SectionBadge } from "../components/ui";
+import { useState, useEffect } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { MapPin } from "lucide-react";
+
+import SectionBadge from "../components/ui/SectionBadge";
 import InteractiveButton from "../components/ui/InteractiveButton";
+import LazyRobotHead from "../components/features/LazyRobotHead";
+import Journey from "../components/features/Journey";
+import { WhatIUseTypographic } from "../components/features";
+import { CURRENT_THEME } from "../config/theme";
+import { HandwrittenBadge } from "../components/decoration/doodleCard";
+
 import {
-  HandDrawnUnderline,
   BrandTopLeftShape,
   BrandSectionRightWave,
-  BrandJourneyCardBlob,
-  HandwrittenBadge,
-  SectionWaveDivider,
-} from "../components/decorative";
-import {
-  WhatIUseTypographic,
-  WhatDrivesMePinned,
-} from "../components/features";
-import { useGsapScope } from "../animation/useGsapScope";
-import { ANIM } from "../animation/config";
-import { CURRENT_THEME } from "../config/theme";
+  // BrandCtaBottomWave,
+  BrandCardCornerWave,
+} from "../components/decoration/brandBackgroundShapes";
 
-gsap.registerPlugin(ScrollTrigger);
+/* ──────────────────────────────────────────────
+   Animation Variants
+   ────────────────────────────────────────────── */
+const EASE = [0.22, 1, 0.36, 1];
 
-const journeySteps = [
-  {
-    num: "01",
-    year: "2024",
-    title: "CURIOUS BEGINNINGS",
-    desc: "Started by exploring how thoughtful interfaces guide attention, communicate clearly, and make every interaction feel intentional.",
-    tags: ["HTML", "CSS"],
-    side: "left",
+const introContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.12,
+    },
   },
-  {
-    num: "02",
-    year: "2024 – 2025",
-    title: "LEARNING TO BUILD",
-    desc: "Moved from small experiments to polished interfaces, learning how structure, motion, and responsive thinking turn ideas into dependable products.",
-    tags: ["HTML", "CSS", "JavaScript", "React"],
-    side: "right",
+};
+
+const introItem = {
+  hidden: {
+    opacity: 0,
+    y: 22,
   },
-  {
-    num: "03",
-    year: "2025 – Now",
-    title: "GOING FULL-STACK",
-    desc: "Stepped beyond the browser to build complete systems with APIs, databases, and the practical backend decisions that keep products reliable.",
-    tags: ["Node.js", "Express.js", "MongoDB"],
-    side: "left",
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.65,
+      ease: EASE,
+    },
   },
-  {
-    num: "04",
-    year: "Now",
-    title: "BUILDING PROJECTS",
-    desc: "Today, I turn rough ideas into useful full-stack products—balancing a clear visual point of view with thoughtful details and real-world performance.",
-    tags: ["Full-Stack", "Web Apps"],
-    side: "right",
-  },
-];
+};
 
 export default function About() {
-  const containerRef = useRef(null);
-  const pathDesktopRef = useRef(null);
-  const pathMobileRef = useRef(null);
-  const [robotSize, setRobotSize] = useState(() =>
-    typeof window !== "undefined" && window.innerWidth < 640 ? 220 : 270,
-  );
+  const shouldReduceMotion = useReducedMotion();
+  const [robotSize, setRobotSize] = useState(260);
+
+  // Smooth RAF-throttled resize listener for Robot mascot size
   useEffect(() => {
+    let rafId = null;
+
     const updateSize = () => {
-      if (window.innerWidth < 480) {
-        setRobotSize(220);
-      } else if (window.innerWidth < 768) {
-        setRobotSize(250);
-      } else {
-        setRobotSize(270);
-      }
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const w = window.innerWidth;
+        if (w < 480) {
+          setRobotSize(210);
+        } else if (w < 768) {
+          setRobotSize(240);
+        } else {
+          setRobotSize(260);
+        }
+      });
     };
+
     updateSize();
-    window.addEventListener("resize", updateSize);
-    return () => window.removeEventListener("resize", updateSize);
+    window.addEventListener("resize", updateSize, { passive: true });
+
+    return () => {
+      window.removeEventListener("resize", updateSize);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
-  useGsapScope(containerRef, () => {
-    const mm = gsap.matchMedia();
+  // Smooth scroll helper supporting Lenis if initialized
+  const handleSmoothScroll = (e, id) => {
+    e.preventDefault();
+    if (window.__lenis) {
+      window.__lenis.scrollTo(`#${id}`, { offset: -80 });
+      return;
+    }
+    const el = document.getElementById(id);
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  };
 
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      gsap.fromTo(
-        ".ab-intro-stagger",
-        { y: ANIM.REVEAL_Y, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: ANIM.STAGGER,
-          duration: ANIM.DURATION.base,
-          ease: ANIM.EASE,
-          scrollTrigger: {
-            trigger: ".ab-intro-section",
-            start: ANIM.SCROLL_START,
-            once: true,
-          },
-        },
-      );
+  const revealProps = shouldReduceMotion
+    ? {}
+    : {
+        initial: "hidden",
+        whileInView: "visible",
+        viewport: { once: true, amount: 0.15 },
+        variants: introContainer,
+      };
 
-      gsap.fromTo(
-        ".ab-badge-wrap",
-        { scale: 0.92, opacity: 0, y: 20 },
-        {
-          scale: 1,
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".ab-intro-section",
-            start: ANIM.SCROLL_START,
-            once: true,
-          },
-        },
-      );
-
-      gsap.fromTo(
-        ".ab-journey-header > *",
-        { y: ANIM.REVEAL_Y, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: ANIM.STAGGER,
-          duration: ANIM.DURATION.base,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: ".ab-journey-header",
-            start: ANIM.SCROLL_START,
-            once: true,
-          },
-        },
-      );
-
-      // Desktop Timeline Path Scrub (only triggered on desktop)
-      mm.add("(min-width: 1024px)", () => {
-        if (pathDesktopRef.current) {
-          const len = pathDesktopRef.current.getTotalLength() || 1400;
-          gsap.set(pathDesktopRef.current, {
-            strokeDasharray: len,
-            strokeDashoffset: len,
-          });
-          gsap.to(pathDesktopRef.current, {
-            strokeDashoffset: 0,
-            ease: "none",
-            scrollTrigger: {
-              trigger: ".ab-timeline-container",
-              start: "top 75%",
-              end: "bottom 75%",
-              scrub: 0.6,
-            },
-          });
-        }
-      });
-
-      // Mobile Timeline Path Scrub (only triggered on mobile/tablet)
-      mm.add("(max-width: 1023px)", () => {
-        if (pathMobileRef.current) {
-          const len = pathMobileRef.current.getTotalLength() || 1200;
-          gsap.set(pathMobileRef.current, {
-            strokeDasharray: len,
-            strokeDashoffset: len,
-          });
-          gsap.to(pathMobileRef.current, {
-            strokeDashoffset: 0,
-            ease: "none",
-            scrollTrigger: {
-              trigger: ".ab-timeline-container",
-              start: "top 80%",
-              end: "bottom 75%",
-              scrub: 0.6,
-            },
-          });
-        }
-      });
-
-      // Journey cards side reveal with once: true
-      gsap.utils.toArray(".ab-journey-card-row").forEach((row, i) => {
-        const isLeft = i % 2 === 0;
-        gsap.fromTo(
-          row.querySelector(".ab-card-inner"),
-          {
-            x:
-              window.innerWidth >= 1024
-                ? isLeft
-                  ? -35
-                  : 35
-                : isLeft
-                  ? -16
-                  : 16,
-            y: 20,
-            opacity: 0,
-            scale: 0.97,
-          },
-          {
-            x: 0,
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 0.7,
-            ease: "power2.out",
-            clearProps: "transform",
-            scrollTrigger: {
-              trigger: row,
-              start: ANIM.SCROLL_START,
-              once: true,
-            },
-          },
-        );
-      });
-    });
-
-    mm.add("(prefers-reduced-motion: reduce)", () => {
-      gsap.set(
-        [
-          ".ab-intro-stagger",
-          ".ab-badge-wrap",
-          ".ab-journey-header > *",
-          ".ab-card-inner",
-        ],
-        { opacity: 1, x: 0, y: 0, scale: 1, rotate: 0, clearProps: "all" },
-      );
-      if (pathDesktopRef.current)
-        gsap.set(pathDesktopRef.current, { strokeDashoffset: 0 });
-      if (pathMobileRef.current)
-        gsap.set(pathMobileRef.current, { strokeDashoffset: 0 });
-    });
-  }, []);
+  const itemProps = shouldReduceMotion ? {} : { variants: introItem };
 
   return (
     <div
-      ref={containerRef}
       id="about"
-      className="relative w-full bg-[#FAF8F5] text-[#111111] overflow-hidden select-none font-sans"
+      className="relative w-full overflow-hidden bg-[#FAF8F5] font-sans text-[#111111] select-none"
     >
-      <BrandTopLeftShape variant="about" />
+      <BrandTopLeftShape variant="about" opacity={0.5} />
+      <BrandSectionRightWave opacity={0.4} />
 
-      {/* 1. ABOUT ME (HERO / INTRO SECTION) */}
-      <section className="ab-intro-section relative z-10 pt-20 sm:pt-24 lg:pt-[72px] xl:pt-[78px] pb-16 sm:pb-24">
+      {/* ── 1. ABOUT INTRO ── */}
+      <section className="ab-intro-section relative z-10 border-b border-black/8 pt-16 pb-16 sm:pt-20 sm:pb-20 lg:pt-24">
         <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-            <div className="lg:col-span-6 flex flex-col justify-center">
-              <div className="ab-intro-stagger mb-3 sm:mb-4">
-                <SectionBadge label="About me" />
-              </div>
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
+            {/* Left Intro Content */}
+            <motion.div
+              className="flex flex-col justify-center lg:col-span-7"
+              {...revealProps}
+            >
+              <motion.div className="mb-3 sm:mb-4" {...itemProps}>
+                <SectionBadge number="01" label="About" />
+              </motion.div>
 
-              <div className="ab-intro-stagger relative inline-block mb-6 sm:mb-7">
-                <h1 className="font-black italic uppercase leading-[0.92] tracking-[-0.04em] text-[3.2rem] sm:text-[4.4rem] lg:text-[5.2rem]">
-                  <span className="text-[#111111] block">A LITTLE</span>
-                  <span className="text-[#111111]">ABOUT </span>
-                  <span className="relative inline-block text-brand-dark drop-shadow-[0_2px_4px_rgba(0,0,0,0.32)]">
-                    ME
-                    <HandDrawnUnderline
-                      className="absolute left-0 w-full"
-                      style={{ bottom: "-0.12em" }}
-                      color="var(--brand-primary)"
-                    />
-                  </span>
-                </h1>
-              </div>
+              <motion.div className="mb-6 sm:mb-7" {...itemProps}>
+                <div className="relative inline-block">
+                  <h2 className="font-display text-[clamp(2.5rem,5.2vw+0.5rem,4.75rem)] leading-[1] font-bold tracking-[-0.03em]">
+                    A little about{" "}
+                    <span className="font-normal italic text-brand-dark">
+                      me.
+                    </span>
+                  </h2>
 
-              <p className="ab-intro-stagger text-[#4B5563] text-base sm:text-lg leading-relaxed max-w-lg mb-8 font-normal">
+                  {/* Doodle annotation: "Hey there!" */}
+                  <HandwrittenBadge
+                    text="Hey there!"
+                    arrowDirection="down-left"
+                    rotation="-rotate-2"
+                    textClass="text-sm sm:text-base"
+                    textColor="text-[#333333]"
+                    arrowClass="h-8 w-8 sm:h-10 sm:w-10"
+                    className="absolute -top-7 right-0 hidden sm:flex"
+                  />
+                </div>
+              </motion.div>
+
+              <motion.p
+                className="mb-6 max-w-xl text-base leading-relaxed font-normal text-[#4B5563] sm:text-lg"
+                {...itemProps}
+              >
                 I'm Raj Shekhar, a{" "}
-                <strong className="text-[#111111] font-semibold">
+                <strong className="font-semibold text-[#111111]">
                   Full-Stack MERN Developer &amp; Designer
                 </strong>{" "}
-                who designs in Figma/XD and builds full-stack MERN websites and web apps.
-                I work across interface design, React frontend development,
-                APIs, databases, and practical e-commerce experiences.
-              </p>
+                who designs in Figma/XD and builds complete MERN web
+                applications. I work across interface design, React frontend
+                architecture, RESTful APIs, MongoDB data modeling, and practical
+                e-commerce flows.
+              </motion.p>
 
-              <div className="ab-intro-stagger flex flex-wrap items-center gap-3.5">
+              <motion.div
+                className="flex flex-wrap items-center gap-3.5"
+                {...itemProps}
+              >
                 <InteractiveButton
                   href="#works"
+                  onClick={(e) => handleSmoothScroll(e, "works")}
                   variant="dark"
-                  className="px-8 py-3.5"
+                  className="px-7 py-3"
                   icon={<span aria-hidden="true">&rarr;</span>}
                 >
                   View my work
                 </InteractiveButton>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
-            <div className="ab-badge-wrap lg:col-span-6 relative flex items-center justify-center w-full py-2 lg:py-0">
-              <div className="relative w-full max-w-[420px] flex flex-col items-center justify-center gap-4 sm:gap-5">
-                {/* ── Refined Status Pill (Top) ── */}
-                <div className="flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-black/8 shadow-xs text-xs font-semibold text-[#111111]">
+            {/* Right Robot Mascot Profile */}
+            <motion.div
+              className="flex w-full items-center justify-center py-2 lg:col-span-5 lg:py-0"
+              initial={
+                shouldReduceMotion ? false : { opacity: 0, y: 24, scale: 0.97 }
+              }
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{
+                duration: shouldReduceMotion ? 0 : 0.8,
+                ease: EASE,
+              }}
+            >
+              <div className="relative flex w-full max-w-[380px] flex-col items-center justify-center gap-4 p-6 text-center">
+                <div className="flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-xs font-semibold text-[#111111]">
                   <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
                   </span>
-                  <span>Open to projects</span>
-                  <span className="text-[#888888]">&bull;</span>
-                  <span className="text-[10.5px] uppercase font-bold tracking-wider text-brand-dark">
-                    Open for Work
-                  </span>
+                  <span>Available for Work &bull; Remote</span>
                 </div>
 
-                {/* ── Interactive 3D Robot Mascot ── */}
-                <div className="relative flex items-center justify-center">
-                  <RobotHead
+                <div className="my-1 flex items-center justify-center">
+                  <LazyRobotHead
                     shape="hexagon"
                     state="idle"
-                    color={CURRENT_THEME.primary}
+                    color={CURRENT_THEME?.primary}
                     size={robotSize}
                     interactive={true}
-                    aria-label="Raj Shekhar - Frontend & MERN Developer Mascot"
+                    ariaLabel="Raj Shekhar - Mascot"
                   />
                 </div>
 
-                {/* ── Refined Info & Title (Bottom) ── */}
-                <div className="flex flex-col items-center text-center gap-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-black italic uppercase text-xl sm:text-2xl text-[#111111] tracking-tight">
-                      RAJ SHEKHAR
-                    </h3>
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-brand/12 text-brand-dark border border-brand/25">
-                      MERN + Figma/XD
-                    </span>
-                  </div>
-                  <p className="text-xs sm:text-sm font-semibold text-[#4B5563]">
-                    Full-Stack MERN Developer &amp; Designer
-                  </p>
-                  <p className="text-[11px] text-[#777777] flex items-center gap-1.5 font-medium mt-0.5">
-                    <MapPin className="w-3.5 h-3.5 text-brand-dark" />
-                    <span>India</span>
-                    <span>&bull;</span>
-                    <span>Remote Worldwide</span>
-                  </p>
-                </div>
+                <div>
+                  <h3 className="font-display text-xl font-bold tracking-tight text-[#111111]">
+                    Raj Shekhar
+                  </h3>
 
-                {/* ── Refined Metrics Bar ── */}
-                <div className="grid grid-cols-3 gap-2 sm:gap-2.5 w-full">
-                  <div className="p-3 rounded-2xl bg-white/75 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-xs hover:border-brand/40 transition-colors">
-                    <span className="font-black italic text-lg sm:text-xl text-[#111111] leading-none">
-                      10+
-                    </span>
-                    <span className="text-[10px] font-semibold text-[#666666] mt-1 uppercase tracking-tight">
-                      Projects
-                    </span>
-                  </div>
-                  <div className="p-3 rounded-2xl bg-white/75 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-xs hover:border-brand/40 transition-colors">
-                    <span className="font-black italic text-lg sm:text-xl text-brand-dark leading-none">
-                      2+ Yrs
-                    </span>
-                    <span className="text-[10px] font-semibold text-[#666666] mt-1 uppercase tracking-tight">
-                      Experience
-                    </span>
-                  </div>
-                  <div className="p-3 rounded-2xl bg-white/75 backdrop-blur-sm border border-black/8 flex flex-col items-center text-center shadow-xs hover:border-brand/40 transition-colors">
-                    <span className="font-black italic text-lg sm:text-xl text-[#111111] leading-none">
-                      MERN
-                    </span>
-                    <span className="text-[10px] font-semibold text-[#666666] mt-1 uppercase tracking-tight">
-                      Full Stack
-                    </span>
-                  </div>
+                  <p className="mt-0.5 font-mono text-xs font-medium text-brand-dark">
+                    Full-Stack MERN + Figma/XD
+                  </p>
+
+                  <p className="mt-1 flex items-center justify-center gap-1.5 text-xs font-normal text-[#777777]">
+                    <MapPin className="h-3.5 w-3.5 text-brand" />
+                    <span>India &bull; Remote Worldwide</span>
+                  </p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* 2. MY JOURNEY */}
-      <section className="relative z-10 pt-20 sm:pt-24 pb-20 sm:pb-32">
-        <BrandSectionRightWave />
+      {/* ── 2. MY JOURNEY ── */}
+      <Journey />
 
-        <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14">
-          <div className="ab-journey-header grid grid-cols-1 lg:grid-cols-12 gap-6 items-end mb-14 sm:mb-18 border-b border-black/8 pb-6 sm:pb-8">
-            <div className="lg:col-span-7">
-              <div className="mb-2.5">
-                <SectionBadge label="My journey" />
-              </div>
-              <div className="relative inline-block">
-                <h2 className="font-black italic uppercase leading-[0.92] tracking-[-0.03em] text-[2.8rem] sm:text-[3.8rem] lg:text-[4.6rem]">
-                  <span className="text-[#111111] block">FROM CURIOSITY</span>
-                  <span className="text-[#111111]">TO </span>
-                  <span className="relative inline-block text-brand">
-                    CREATION
-                    <HandDrawnUnderline
-                      className="absolute -bottom-1 sm:-bottom-1.5 left-0 w-full"
-                      color="var(--brand-primary)"
-                    />
-                  </span>
-                </h2>
-              </div>
-            </div>
-            <div className="lg:col-span-5 lg:pb-3">
-              <p className="text-[#4B5563] text-base sm:text-lg font-light leading-relaxed max-w-md">
-                A journey of continuous learning, building and turning ideas
-                into real-world projects.
-              </p>
-              <HandwrittenBadge
-                text="The journey so far"
-                direction="curved-right"
-                rotation="-rotate-6"
-                className="mt-3 hidden sm:inline-flex"
-              />
-            </div>
-          </div>
-
-          <div className="ab-timeline-container relative">
-            {/* ── DESKTOP ZIGZAG SVG PATH (lg: 1024px+) ── */}
-            <div
-              className="hidden lg:block absolute inset-0 w-full h-full pointer-events-none z-0"
-              aria-hidden="true"
-            >
-              <svg
-                viewBox="0 0 1000 1200"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-full h-full"
-                preserveAspectRatio="none"
-              >
-                <defs>
-                  <linearGradient
-                    id="journeyBrandGradDesktop"
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                    <stop offset="0%" stopColor="var(--brand-stop-0)" />
-                    <stop offset="35%" stopColor="var(--brand-primary)" />
-                    <stop offset="70%" stopColor="var(--brand-primary-dark)" />
-                    <stop offset="100%" stopColor="var(--brand-primary-deep)" />
-                  </linearGradient>
-                </defs>
-                {/* Background Dashed True Zigzag Line */}
-                <path
-                  d="M 500 20 C 500 70, 360 90, 360 160 C 360 260, 640 300, 640 440 C 640 580, 360 620, 360 760 C 360 900, 640 940, 640 1050 C 640 1110, 500 1140, 500 1180"
-                  stroke="#E5E7EB"
-                  strokeWidth="3.5"
-                  strokeDasharray="8 8"
-                  strokeLinecap="round"
-                />
-                {/* Active Scroll-Animated Brand Zigzag Line */}
-                <path
-                  ref={pathDesktopRef}
-                  d="M 500 20 C 500 70, 360 90, 360 160 C 360 260, 640 300, 640 440 C 640 580, 360 620, 360 760 C 360 900, 640 940, 640 1050 C 640 1110, 500 1140, 500 1180"
-                  stroke="url(#journeyBrandGradDesktop)"
-                  strokeWidth="4.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </div>
-
-            {/* ── MOBILE & TABLET ZIGZAG SVG PATH (< 1024px) ── */}
-            <div
-              className="block lg:hidden absolute inset-0 w-full h-full pointer-events-none z-0"
-              aria-hidden="true"
-            >
-              <svg
-                viewBox="0 0 360 1100"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-full h-full"
-                preserveAspectRatio="none"
-              >
-                <defs>
-                  <linearGradient
-                    id="journeyMobileGrad"
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                    <stop offset="0%" stopColor="var(--brand-stop-0)" />
-                    <stop offset="50%" stopColor="var(--brand-primary)" />
-                    <stop offset="100%" stopColor="var(--brand-primary-deep)" />
-                  </linearGradient>
-                </defs>
-                {/* Mobile Dashed Zigzag Base */}
-                <path
-                  d="M 50 30 C 50 80, 60 110, 70 160 C 80 230, 290 260, 290 400 C 290 530, 70 560, 70 700 C 70 820, 290 850, 290 980 C 290 1020, 180 1060, 180 1090"
-                  stroke="#E5E7EB"
-                  strokeWidth="3"
-                  strokeDasharray="6 6"
-                  strokeLinecap="round"
-                />
-                {/* Mobile Active Scrub Zigzag Line */}
-                <path
-                  ref={pathMobileRef}
-                  d="M 50 30 C 50 80, 60 110, 70 160 C 80 230, 290 260, 290 400 C 290 530, 70 560, 70 700 C 70 820, 290 850, 290 980 C 290 1020, 180 1060, 180 1090"
-                  stroke="url(#journeyMobileGrad)"
-                  strokeWidth="3.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </div>
-
-            {/* ── ALTERNATING ZIGZAG CARDS CONTAINER ── */}
-            <div className="relative z-10 flex flex-col gap-8 xs:gap-10 sm:gap-20 lg:gap-28">
-              {journeySteps.map((step, idx) => {
-                const isLeft = idx % 2 === 0;
-                return (
-                  <div
-                    key={step.num}
-                    className={`ab-journey-card-row relative flex items-center w-full px-0 max-[639px]:px-1 ${
-                      isLeft
-                        ? "justify-start lg:flex-row"
-                        : "justify-end lg:flex-row-reverse"
-                    }`}
-                  >
-                    {/* Horizontal Connector Line on Desktop */}
-                    {/* <div
-                      className={`hidden lg:block absolute top-1/2 -translate-y-1/2 z-10 h-[2px] ${
-                        isLeft
-                          ? "right-[50%] w-[6%] bg-gradient-to-r from-transparent to-brand"
-                          : "left-[50%] w-[6%] bg-gradient-to-r from-brand to-transparent"
-                      }`}
-                    /> */}
-
-                    {/* The Card Component */}
-                    <div
-                      className={`w-full sm:w-[84%] lg:w-[44%] ${
-                        isLeft
-                          ? "mr-auto lg:mr-auto lg:ml-0"
-                          : "ml-auto lg:ml-auto lg:mr-0"
-                      }`}
-                    >
-                      <div className="relative group">
-                        {/* Organic decorative shape behind card corner */}
-                        {isLeft ? (
-                          <BrandJourneyCardBlob
-                            position="top-right"
-                            size="md"
-                          />
-                        ) : (
-                          <BrandJourneyCardBlob position="top-left" size="lg" />
-                        )}
-
-                        <div className="ab-card-inner relative z-10 rounded-[1.5rem] sm:rounded-[2rem] bg-white/60 backdrop-blur-3xl border border-white/70 p-5 xs:p-6 sm:p-9 shadow-[0_8px_24px_rgba(var(--brand-rgb),0.08),0_16px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,1)] ring-1 ring-brand/15 hover:ring-brand/30 hover:shadow-[0_12px_36px_rgba(var(--brand-rgb),0.14),0_20px_50px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,1)] transition-[box-shadow,border-color,background-color] duration-300 hover:-translate-y-1.5 overflow-hidden">
-                          {/* Multi-layer glass sheen */}
-                          <div
-                            className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/80 via-white/20 to-transparent opacity-80"
-                            aria-hidden="true"
-                          />
-                          {/* Brand accent bottom glow */}
-                          <div
-                            className="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand/40 to-transparent"
-                            aria-hidden="true"
-                          />
-
-                          {/* Top Meta Header */}
-                          <div className="relative z-10 flex items-center justify-between gap-3 mb-4">
-                            <div className="flex items-center gap-3">
-                              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-brand to-brand-deep text-white flex items-center justify-center font-black text-sm shadow-[0_4px_14px_rgba(var(--brand-rgb),0.4)]">
-                                {step.num}
-                              </div>
-                              <span className="text-xs font-bold text-brand-dark uppercase tracking-wider">
-                                {step.year}
-                              </span>
-                            </div>
-
-                            {/* Mobile Directional Zigzag Badge */}
-                            <span className="lg:hidden text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-brand/10 text-brand-dark border border-brand/20 inline-flex items-center">
-                              {idx === 0 && (
-                                <span className="inline-flex items-center gap-1">
-                                  Start <ArrowDownRight className="w-3 h-3" />
-                                </span>
-                              )}
-                              {idx === 1 && (
-                                <span className="inline-flex items-center gap-1">
-                                  <ArrowDownLeft className="w-3 h-3" />{" "}
-                                  Exploring
-                                </span>
-                              )}
-                              {idx === 2 && (
-                                <span className="inline-flex items-center gap-1">
-                                  Building{" "}
-                                  <ArrowDownRight className="w-3 h-3" />
-                                </span>
-                              )}
-                              {idx === 3 && (
-                                <span className="inline-flex items-center gap-1.5">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-brand-dark animate-pulse" />{" "}
-                                  Present
-                                </span>
-                              )}
-                            </span>
-                          </div>
-
-                          <h3 className="relative z-10 font-black italic uppercase text-lg xs:text-xl sm:text-2xl text-[#111111] tracking-tight leading-snug mb-4">
-                            {step.title}
-                          </h3>
-
-                          <p className="relative z-10 max-w-[34rem] text-[#4B5563] text-[0.95rem] xs:text-base sm:text-[1.12rem] leading-[1.7] sm:leading-[1.75] mb-5 sm:mb-7 font-normal line-clamp-none overflow-visible">
-                            {step.desc}
-                          </p>
-
-                          <div className="relative z-10 flex flex-wrap items-center gap-x-2.5 gap-y-1 pt-3.5 border-t border-black/[0.07] text-xs font-medium text-[#555555]">
-                            <span className="text-[12px] font-semibold text-[#111111] mr-1">
-                              Stack:
-                            </span>
-                            {step.tags.map((tag, tagIdx) => (
-                              <React.Fragment key={tag}>
-                                <span className="text-[#333333] font-medium">
-                                  {tag}
-                                </span>
-                                {tagIdx < step.tags.length - 1 && (
-                                  <span
-                                    className="text-brand font-bold"
-                                    aria-hidden="true"
-                                  >
-                                    &bull;
-                                  </span>
-                                )}
-                              </React.Fragment>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. TOOLS & TECHNOLOGIES (EDITORIAL TYPOGRAPHIC LIST) */}
+      {/* ── 3. TOOLS & TECHNOLOGIES ── */}
       <WhatIUseTypographic />
 
-      {/* 4. WHAT DRIVES ME (PINNED TYPOGRAPHY SEQUENCE) */}
-      <WhatDrivesMePinned />
+      {/* ── 4. REDESIGNED EDITORIAL COLLABORATION CTA ── */}
+      <section className="relative z-10 isolate overflow-hidden py-16 sm:py-24">
+        {/* <BrandCtaBottomWave opacity={0.35} /> */}
 
-      {/* 5. BOTTOM CTA BANNER (COMPACT SLEEK GLASS STRIP) */}
-      <section className="relative z-10 pb-16 pt-5 sm:pb-24 overflow-hidden">
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14">
-          <div className="relative group">
-            {/* Organic corner blob */}
-            <BrandJourneyCardBlob position="bottom-right" size="md" />
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-14">
+          <motion.div
+            className="flat-card relative isolate overflow-hidden rounded-3xl p-6 sm:p-10 lg:p-14"
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{
+              duration: shouldReduceMotion ? 0 : 0.65,
+              ease: EASE,
+            }}
+          >
+            {/* Decorative Top-Right Brand Wave inside CTA Card */}
+            <BrandCardCornerWave
+              position="top-right"
+              opacity={0.85}
+              className="h-44 w-[65%] sm:h-56 sm:w-[50%] lg:h-64 lg:w-[42%]"
+            />
 
-            <div className="ab-cta-banner-wrap relative z-10 rounded-2xl sm:rounded-3xl bg-white/60 backdrop-blur-2xl border border-white/70 py-6 px-6 sm:py-7 sm:px-9 lg:py-8 lg:px-10 shadow-[0_8px_30px_rgba(var(--brand-rgb),0.12),0_12px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,1)] ring-1 ring-brand/20 hover:ring-brand/35 transition-all duration-300 overflow-hidden">
-              {/* Subtle glass sheen */}
-              <div
-                className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/70 via-white/10 to-transparent opacity-70"
-                aria-hidden="true"
-              />
-              {/* Brand accent bottom line */}
-              <div
-                className="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand/40 to-transparent"
-                aria-hidden="true"
-              />
+            <div className="relative z-10 grid grid-cols-1 items-end gap-8 lg:grid-cols-12">
+              {/* Left Column: Badge, Editorial Heading & Description */}
+              <div className="lg:col-span-7">
+                <div className="mb-3 flex flex-wrap items-center gap-3">
+                  <SectionBadge number="01.3" label="Collaboration" />
 
-              {/* Main Content Layout */}
-              <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-                <div>
-                  <div className="inline-flex items-center gap-2 mb-2 px-3 py-0.5 rounded-full bg-white/80 border border-brand/25 shadow-2xs">
-                    <span className="relative flex h-1.5 w-1.5">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-75" />
-                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand-dark" />
-                    </span>
-                    <span className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-brand-dark">
-                      Let's Build Together
-                    </span>
-                  </div>
-
-                  <h2 className="font-black italic uppercase text-2xl sm:text-3xl lg:text-4xl leading-tight tracking-[-0.03em] text-[#111111]">
-                    LET'S CREATE SOMETHING{" "}
-                    <span className="relative inline-block text-brand-dark">
-                      AMAZING
-                      <HandDrawnUnderline
-                        className="absolute -bottom-1 left-0 w-full"
-                        color="var(--brand-primary)"
-                      />
-                    </span>{" "}
-                    TOGETHER
-                  </h2>
-
-                  <p className="text-[#555555] text-xs sm:text-sm mt-1.5 font-normal max-w-lg">
-                    Have a project in mind or need a frontend developer? Let's
-                    turn your ideas into reality.
-                  </p>
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 font-mono text-[10px] font-semibold text-emerald-700">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                    Taking new projects
+                  </span>
                 </div>
 
-                {/* Right Action Buttons */}
-                <div className="relative flex flex-wrap items-center gap-3 flex-shrink-0">
-                  <a
-                    href="#contact"
-                    className="group relative inline-flex items-center gap-2 rounded-full bg-[#111111] hover:bg-brand text-white hover:text-[#111111] px-6 py-3 sm:px-7 sm:py-3.5 text-xs sm:text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 shadow-md hover:shadow-[0_8px_20px_rgba(var(--brand-rgb),0.35)] active:scale-95 cursor-pointer overflow-hidden"
-                  >
-                    <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
-                    <span>Start a Project</span>
-                    <svg
-                      className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                      />
-                    </svg>
-                  </a>
+                <h2 className="font-display text-[clamp(2rem,3.8vw+0.5rem,3.25rem)] leading-[1.06] font-bold tracking-[-0.03em] text-[#111111]">
+                  Let's create something{" "}
+                  <span className="font-normal italic text-brand-dark">
+                    meaningful
+                  </span>
+                </h2>
 
-                  <a
-                    href="#works"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-black/15 hover:border-brand text-[#111111] hover:text-brand px-5 py-3 sm:px-6 sm:py-3.5 text-xs sm:text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:scale-95 bg-white/70 backdrop-blur-md shadow-2xs hover:shadow-[0_6px_20px_rgba(var(--brand-rgb),0.15)] cursor-pointer"
+                <p className="mt-3 max-w-xl text-sm leading-relaxed font-normal text-[#4B5563] sm:text-base">
+                  Whether you need a high-converting restaurant or business
+                  website, a custom Figma-to-React build, or a complete
+                  full-stack MERN application—let's turn your roadmap into a
+                  fast, reliable product.
+                </p>
+              </div>
+
+              {/* Right Column: Handwritten Doodle + InteractiveButtons */}
+              <div className="flex flex-col items-start gap-4 lg:col-span-5 lg:items-end">
+                <div className="hidden sm:block lg:mr-4">
+                  <HandwrittenBadge
+                    text="Ready when you are!"
+                    rotation="-rotate-3"
+                    textClass="text-sm sm:text-base"
+                    arrowDirection="curved-down-right"
+                    arrowPosition="after"
+                  />
+                </div>
+
+                <div className="flex w-full flex-wrap items-center gap-3.5 sm:w-auto lg:justify-end">
+                  <InteractiveButton
+                    href="#contact"
+                    onClick={(e) => handleSmoothScroll(e, "contact")}
+                    variant="dark"
+                    icon={<span aria-hidden="true">&rarr;</span>}
                   >
-                    <span>View work</span>
-                    <span className="text-[#888888]">&rarr;</span>
-                  </a>
+                    Start a Project
+                  </InteractiveButton>
+
+                  <InteractiveButton
+                    href="#works"
+                    onClick={(e) => handleSmoothScroll(e, "works")}
+                    variant="outline"
+                    icon={<span aria-hidden="true">&rarr;</span>}
+                  >
+                    Explore Works
+                  </InteractiveButton>
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
-
-      {/* ── Wave Divider: About → Works transition ── */}
-      <SectionWaveDivider variant="about-to-works" className="relative z-10" />
     </div>
   );
 }
