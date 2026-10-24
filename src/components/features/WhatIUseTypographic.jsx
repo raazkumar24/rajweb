@@ -36,7 +36,6 @@ export default function WhatIUseTypographic() {
     [activeFilter],
   );
 
-<<<<<<< HEAD
   const categoryCounts = useMemo(() => {
     const counts = { all: techStackData.length };
     TABS.forEach((tab) => {
@@ -45,58 +44,10 @@ export default function WhatIUseTypographic() {
           (item) => item.category === tab.id,
         ).length;
       }
-=======
-  const filteredTech = techStackData.filter((t) =>
-    activeFilter === "all" ? true : t.category === activeFilter,
-  );
-
-  // Har tab me kitne tools hain
-  const getCount = (tabId) =>
-    tabId === "all"
-      ? techStackData.length
-      : techStackData.filter((t) => t.category === tabId).length;
-
-  // Filter badalne par agar active tool naye filter me nahi hai to pehla tool active karo
-  useEffect(() => {
-    if (!filteredTech.some((t) => t.id === activeHoverId) && filteredTech[0]) {
-      setActiveHoverId(filteredTech[0].id);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeFilter]);
-
-    // Reveal each tool row independently as it enters the viewport.
-  useGsapScope(containerRef, () => {
-    const mm = gsap.matchMedia();
-
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      const rows = gsap.utils.toArray(".wiu-row");
-      rows.forEach((row, index) => {
-        gsap.fromTo(
-          row,
-          { y: 34, opacity: 0, scale: 0.985 },
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: ANIM.DURATION.fast + 0.15,
-            delay: Math.min(index * 0.025, 0.14),
-            ease: ANIM.EASE,
-            clearProps: "transform",
-            scrollTrigger: {
-              trigger: row,
-              start: "top 88%",
-              toggleActions: "play none none reverse",
-              invalidateOnRefresh: true,
-            },
-          },
-        );
-      });
->>>>>>> f120871806c59e896d0315140e5e64d76711ce3b
     });
     return counts;
   }, []);
 
-<<<<<<< HEAD
   // Ensure an item is always active in the spotlight panel
   const activeTech = useMemo(() => {
     return (
@@ -112,12 +63,6 @@ export default function WhatIUseTypographic() {
   const transition = shouldReduceMotion
     ? { duration: 0 }
     : { duration: 0.65, ease: EASE };
-=======
-    mm.add("(prefers-reduced-motion: reduce)", () => {
-      gsap.set(".wiu-row", { opacity: 1, y: 0, scale: 1, clearProps: "all" });
-    });
-  }, [activeFilter]);
->>>>>>> f120871806c59e896d0315140e5e64d76711ce3b
 
   return (
     <section
@@ -147,7 +92,9 @@ export default function WhatIUseTypographic() {
                 className="font-display text-[clamp(2.2rem,4vw+0.6rem,3.6rem)] leading-[1.05] font-bold tracking-[-0.03em] text-[#111111]"
               >
                 What I work{" "}
-                <span className="font-normal italic text-brand-dark">with.</span>
+                <span className="font-normal italic text-brand-dark">
+                  with.
+                </span>
               </h2>
 
               {/* Doodle: "Daily tools" with curved-down arrow — positioned top-right of title */}

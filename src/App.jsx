@@ -63,7 +63,6 @@ function App() {
           <Marquee show={heroRevealed} />
         </div>
 
-<<<<<<< HEAD
         {/* Core Portfolio Sections with Organic Wave Dividers */}
         <About />
         <SectionWaveDivider variant="about-to-works" />
@@ -73,13 +72,6 @@ function App() {
         <SectionWaveDivider variant="services-to-faq" />
         <FAQ />
         <SectionWaveDivider variant="faq-to-contact" />
-=======
-        {/* Core content sections with internal optimized scroll choreography */}
-        <About />
-        <Works />
-        <Services />
-        <FAQ />
->>>>>>> f120871806c59e896d0315140e5e64d76711ce3b
         <Contact />
       </main>
 
