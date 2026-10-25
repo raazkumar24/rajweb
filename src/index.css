@@ -7,20 +7,20 @@
 
 :root {
   /* ═══════════════════════════════════════════════════════════════════
-     ACTIVE THEME: SUNSET ORANGE
+     ACTIVE THEME: CRIMSON RED / CORAL
      To change colors manually, edit these CSS variables.
      Or run: node scripts/switch-theme.mjs <theme-name>
      ═══════════════════════════════════════════════════════════════════ */
-  --brand-primary: #FF8A00;
-  --brand-primary-dark: #FF7700;
-  --brand-primary-light: #FF9500;
-  --brand-primary-deep: #FF6A00;
-  --brand-stop-0: #FFC85A;
-  --brand-stop-1: #FF9A1F;
-  --brand-stop-2: #FF6A00;
-  --brand-stop-3: #E94A00;
-  --brand-rgb: 255, 138, 0;
-  --brand-rgb-dark: 255, 119, 0;
+  --brand-primary: #EF4444;
+  --brand-primary-dark: #DC2626;
+  --brand-primary-light: #F87171;
+  --brand-primary-deep: #B91C1C;
+  --brand-stop-0: #FCA5A5;
+  --brand-stop-1: #F87171;
+  --brand-stop-2: #EF4444;
+  --brand-stop-3: #B91C1C;
+  --brand-rgb: 239, 68, 68;
+  --brand-rgb-dark: 220, 38, 38;
 
   /* Surfaces */
   --color-surface: #FAF8F5;
@@ -43,7 +43,7 @@
   --card-foreground: #111111;
   --popover: #FFFFFF;
   --popover-foreground: #111111;
-  --primary: #FF8A00;
+  --primary: #EF4444;
   --primary-foreground: #FFFFFF;
   --secondary: #F3F0EA;
   --secondary-foreground: #111111;
@@ -54,7 +54,7 @@
   --destructive: #EF4444;
   --border: rgba(17, 17, 17, 0.1);
   --input: rgba(17, 17, 17, 0.15);
-  --ring: #FF8A00;
+  --ring: #EF4444;
 }
 
 @theme {
