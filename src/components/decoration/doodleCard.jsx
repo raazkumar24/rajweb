@@ -28,41 +28,55 @@ export function TitleDoodle({
  */
 function SketchArrow({ direction = "down-left", className = "" }) {
   const arrows = {
+    // 1. Curves down and left (clear two-winged arrowhead pointing down-left)
     "down-left": {
-      line: "M 54 5 C 51 23, 36 39, 14 49",
-      head: "M 27 38 L 14 49 L 28 51",
+      line: "M 48 6 C 44 20, 32 34, 16 46",
+      head: "M 24 32 L 16 46 L 28 52",
     },
+    // 2. Curves down and right (clear two-winged arrowhead pointing down-right)
     "down-right": {
-      line: "M 6 5 C 10 25, 26 40, 47 48",
-      head: "M 33 37 L 47 48 L 33 51",
+      line: "M 16 6 C 20 20, 32 34, 48 46",
+      head: "M 40 32 L 48 46 L 36 52",
     },
-    "curved-right": {
-      line: "M 5 30 C 20 37, 36 28, 48 12",
-      head: "M 35 11 L 48 12 L 45 25",
-    },
-    "up-right": {
-      line: "M 8 42 C 17 24, 29 14, 44 9",
-      head: "M 31 8 L 44 9 L 40 22",
-    },
-    right: {
-      line: "M 5 27 C 20 13, 39 14, 53 25",
-      head: "M 41 15 L 53 25 L 41 33",
-    },
-    left: {
-      line: "M 55 27 C 40 13, 21 14, 7 25",
-      head: "M 19 15 L 7 25 L 19 33",
-    },
-    "arc-down-right": {
-      line: "M 48 8 C 22 16, 12 36, 38 52",
-      head: "M 32 38 L 38 52 L 23 49",
-    },
+    // 3. Swooping arc down-right (e.g. for Hero / CTA buttons)
     "curved-down-right": {
-      line: "M 48 8 C 22 16, 12 36, 38 52",
-      head: "M 32 38 L 38 52 L 23 49",
+      line: "M 8 10 C 18 6, 36 12, 46 44",
+      head: "M 32 34 L 46 44 L 54 32",
     },
+    // 4. Swooping arc down-left
+    "curved-down-left": {
+      line: "M 56 10 C 46 6, 28 12, 18 44",
+      head: "M 32 34 L 18 44 L 10 32",
+    },
+    // 5. Arching over and down-right
+    "arc-down-right": {
+      line: "M 10 24 C 14 8, 40 8, 46 44",
+      head: "M 32 34 L 46 44 L 54 32",
+    },
+    // 6. Arching over and down-left
     "arc-down-left": {
-      line: "M 12 8 C 38 16, 48 36, 22 52",
-      head: "M 28 38 L 22 52 L 37 49",
+      line: "M 54 24 C 50 8, 24 8, 18 44",
+      head: "M 32 34 L 18 44 L 10 32",
+    },
+    // 7. Smooth horizontal pointing right
+    right: {
+      line: "M 8 30 C 20 26, 34 26, 50 30",
+      head: "M 38 20 L 50 30 L 38 40",
+    },
+    // 8. Smooth horizontal pointing left
+    left: {
+      line: "M 56 30 C 44 26, 30 26, 14 30",
+      head: "M 26 20 L 14 30 L 26 40",
+    },
+    // 9. Swooping upward and to the right
+    "curved-right": {
+      line: "M 8 44 C 20 44, 34 36, 48 18",
+      head: "M 34 14 L 48 18 L 44 30",
+    },
+    // 10. Pointing up and right
+    "up-right": {
+      line: "M 10 48 C 18 34, 30 22, 48 12",
+      head: "M 34 14 L 48 12 L 46 26",
     },
   };
 
@@ -74,10 +88,10 @@ function SketchArrow({ direction = "down-left", className = "" }) {
       viewBox="0 0 60 60"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.8"
+      strokeWidth="2.2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={`pointer-events-none overflow-visible ${className}`}
+      className={`pointer-events-none overflow-visible shrink-0 ${className}`}
     >
       <path d={selected.line} />
       <path d={selected.head} />
@@ -105,7 +119,7 @@ export function RightDoodle({
     <div
       ref={forwardRef}
       aria-hidden="true"
-      className={`pointer-events-none absolute z-20 flex flex-col select-none ${className}`}
+      className={`pointer-events-none absolute z-20 flex flex-col select-none ${textColor} ${className}`}
     >
       <div className="flex items-start gap-1.5">
         <TitleDoodle
@@ -114,20 +128,6 @@ export function RightDoodle({
           rotation={rotation}
           textColor={textColor}
         />
-
-        {/* {showSunburst && (
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            aria-hidden="true"
-            className="mt-0.5 h-5 w-5 shrink-0 text-brand sm:h-6 sm:w-6"
-          >
-            <path d="M12 2v4 M20 5l-3 3 M22 13h-4 M5 4l3 4" />
-          </svg>
-        )} */}
       </div>
 
       {showArrow && (
@@ -163,7 +163,7 @@ export function LeftDoodle({
     <div
       ref={forwardRef}
       aria-hidden="true"
-      className={`pointer-events-none absolute bottom-[19%] left-0 z-20 flex flex-col items-center select-none ${className}`}
+      className={`pointer-events-none absolute bottom-[19%] left-0 z-20 flex flex-col items-center select-none ${textColor} ${className}`}
     >
       <TitleDoodle
         text={text}
@@ -184,38 +184,51 @@ export function LeftDoodle({
 
 /**
  * Reusable handwritten badge for any section.
+ * Smart layout: downward arrows automatically position under the text and align toward target.
  */
 export function HandwrittenBadge({
   text,
   direction,
-  arrowDirection = "down-right",
+  arrowDirection = "down-left",
   className = "",
-  rotation = "-rotate-6",
-  textClass = "text-base sm:text-lg lg:text-xl",
-  textColor = "text-[#171717]",
-  arrowClass = "h-9 w-10 sm:h-10 sm:w-12",
+  rotation = "-rotate-3",
+  textClass = "text-sm sm:text-base",
+  textColor = "text-[#333333]",
+  arrowClass = "h-8 w-8 sm:h-9 sm:w-9",
   showArrow = true,
-  layout = "row",
-  arrowPosition = "before",
+  layout = "auto",
+  arrowPosition = "auto",
 }) {
   const activeDirection =
     arrowDirection !== "down-right"
       ? arrowDirection
       : direction || arrowDirection;
 
-  const isCol = layout === "col";
+  const isDown = activeDirection.includes("down");
+  const isCol = layout === "col" || (layout === "auto" && isDown);
+
+  const placeAfter =
+    arrowPosition === "after" ||
+    (arrowPosition === "auto" && isDown) ||
+    arrowPosition !== "before";
+
+  const arrowAlign = isCol
+    ? activeDirection.includes("left")
+      ? "self-start ml-2 mt-0.5"
+      : "self-end mr-2 mt-0.5"
+    : "shrink-0";
 
   return (
     <div
       aria-hidden="true"
       className={`pointer-events-none inline-flex ${
-        isCol ? "flex-col items-start" : "flex-row items-center gap-0"
-      } select-none ${className}`}
+        isCol ? "flex-col items-start" : "flex-row items-center gap-1.5"
+      } ${textColor} select-none ${className}`}
     >
-      {showArrow && arrowPosition === "before" && (
+      {showArrow && !placeAfter && (
         <SketchArrow
           direction={activeDirection}
-          className={`${arrowClass} ${isCol ? "ml-2 mb-1" : "shrink-0"}`}
+          className={`${arrowClass} ${arrowAlign}`}
         />
       )}
 
@@ -226,10 +239,10 @@ export function HandwrittenBadge({
         textColor={textColor}
       />
 
-      {showArrow && arrowPosition === "after" && (
+      {showArrow && placeAfter && (
         <SketchArrow
           direction={activeDirection}
-          className={`${arrowClass} ${isCol ? "ml-2 mt-1" : "shrink-0"}`}
+          className={`${arrowClass} ${arrowAlign}`}
         />
       )}
     </div>

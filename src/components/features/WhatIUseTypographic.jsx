@@ -108,13 +108,13 @@ export default function WhatIUseTypographic() {
                   viewBox="0 0 60 60"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="1.8"
+                  strokeWidth="2.2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   className="h-9 w-9 ml-2 mt-0.5 text-[#333333] overflow-visible"
                 >
-                  <path d="M 54 5 C 51 23, 36 39, 14 49" />
-                  <path d="M 27 38 L 14 49 L 28 51" />
+                  <path d="M 48 6 C 44 20, 32 34, 16 46" />
+                  <path d="M 24 32 L 16 46 L 28 52" />
                 </svg>
               </div>
             </div>

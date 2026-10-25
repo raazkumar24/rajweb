@@ -291,7 +291,6 @@ export default function About() {
                     rotation="-rotate-3"
                     textClass="text-sm sm:text-base"
                     arrowDirection="curved-down-right"
-                    arrowPosition="before"
                   />
                 </div>
 
