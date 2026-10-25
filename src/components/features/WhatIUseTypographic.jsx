@@ -69,12 +69,12 @@ export default function WhatIUseTypographic() {
       id="tools"
       aria-labelledby="stack-heading"
       // Ensure z-20 so it layers cleanly above the journey section bottom
-      className="ab-tech-section relative z-20 isolate overflow-hidden border-b border-black/8 bg-[#FAF8F5] py-14 sm:py-20 lg:py-24 scroll-mt-20"
+      className="ab-tech-section relative z-20 isolate overflow-hidden border-b border-black/8 bg-[#FAF8F5] py-16 sm:py-20 lg:py-24 scroll-mt-20"
     >
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-14">
         {/* ── 1. EDITORIAL HEADER (Matches Journey.jsx Typography & Grid) ── */}
         <motion.div
-          className="mb-10 grid grid-cols-1 items-end gap-6 border-b border-black/8 pb-6 sm:mb-14 sm:pb-8 lg:grid-cols-12"
+          className="mb-10 grid grid-cols-1 items-end gap-6 border-b border-black/8 pb-6 sm:mb-12 sm:pb-8 lg:grid-cols-12"
           initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
@@ -201,16 +201,15 @@ export default function WhatIUseTypographic() {
                   initial={
                     shouldReduceMotion
                       ? false
-                      : { opacity: 0, y: 48, scale: 0.97 }
+                      : { opacity: 0, y: 20, scale: 0.98 }
                   }
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{
                     once: true,
-                    amount: 0.25,
-                    margin: "0px 0px -60px 0px",
+                    amount: 0.1,
                   }}
                   exit={shouldReduceMotion ? undefined : { opacity: 0, y: -8 }}
-                  transition={{ duration: 0.6, ease: EASE }}
+                  transition={{ duration: 0.5, ease: EASE }}
                   onMouseEnter={() => setSelectedId(tech.id)}
                   onFocus={() => setSelectedId(tech.id)}
                   onClick={() => setSelectedId(tech.id)}

@@ -158,7 +158,7 @@ export default function Hero({ onRevealed }) {
     >
       <BrandTopLeftShape opacity={0.5} reveal={revealed} />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-12 flex-1 flex flex-col justify-end overflow-visible">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-14 flex-1 flex flex-col justify-end overflow-visible">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-6 items-end flex-1 overflow-visible">
           {/* ── LEFT COLUMN ── */}
           <div className="lg:col-span-6 flex flex-col justify-center z-20 self-center pt-8 pb-2 lg:py-12 overflow-visible">

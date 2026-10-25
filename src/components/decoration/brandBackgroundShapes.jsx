@@ -972,18 +972,4 @@ export function BrandBackgroundShapes({
   }
 }
 
-export {
-  BrandPortraitBackdropShape as OrangePortraitBackdropShape,
-  BrandTopLeftShape as OrangeTopLeftShape,
-  BrandSectionSideWave as OrangeSectionSideWave,
-  BrandSectionRightWave as OrangeSectionRightWave,
-  BrandBottomHeroWave as OrangeBottomHeroWave,
-  BrandLeftAccentShape as OrangeLeftAccentShape,
-  BrandRightAccentShape as OrangeRightAccentShape,
-  BrandBottomRightShape as OrangeBottomRightShape,
-  BrandCtaBottomWave as OrangeCtaBottomWave,
-  BrandBackgroundShapes as OrangeBackgroundShapes,
-  BrandCardCornerWave as OrangeCardCornerWave,
-};
-
 export default BrandBackgroundShapes;

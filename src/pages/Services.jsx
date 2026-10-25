@@ -30,6 +30,7 @@ import {
    ────────────────────────────────────────────── */
 const EASE = [0.22, 1, 0.36, 1];
 const desktopTilts = [-2.5, 0, 2.5, 3.8];
+const mobileTilts  = [-1.8, 0, 1.8, 2.8];
 
 const serviceIcons = {
   "full-stack": Database,
@@ -54,6 +55,7 @@ function StackingCard({
   total,
   smoothP,
   desktopTilt,
+  mobileTilt,
   shouldReduceMotion,
   handleRequestQuote,
   isDesktop,
@@ -68,13 +70,13 @@ function StackingCard({
   const y = useTransform(
     smoothP,
     isFirst ? [0, 1] : [start, end],
-    isFirst ? ["0%", "0%"] : ["100%", "0%"],
+    isFirst ? ["0%", "0%"] : ["110%", "0%"],
   );
 
-  // opacity transition: fades in as it slides up
+  // opacity transition: card stays hidden until its turn, then snaps solid quickly (no washed out fade)
   const opacity = useTransform(
     smoothP,
-    isFirst ? [0, 1] : [start, start + step * 0.25, end],
+    isFirst ? [0, 1] : [start, start + step * 0.15, end],
     isFirst ? [1, 1] : [0, 1, 1],
   );
 
@@ -82,6 +84,27 @@ function StackingCard({
   const remainingCards = total - 1 - index;
   const targetScale = Math.max(0.92, 1 - remainingCards * 0.025);
   const scale = useTransform(smoothP, [end, 1], [1, targetScale]);
+
+  // Subtle x-axis slip: gentle side glide on entry
+  const xSlipDir = index % 2 === 0 ? 1 : -1;
+  const maxSlip = isDesktop ? 26 : 14;
+  const xSlip = useTransform(
+    smoothP,
+    isFirst ? [0, 1] : [start, start + step * 0.5, end],
+    isFirst ? [0, 0] : [xSlipDir * maxSlip, xSlipDir * Math.round(maxSlip * 0.2), 0],
+  );
+
+  // Rotate-settle: card enters with subtle wobble and settles to final tilt
+  const finalTilt = !shouldReduceMotion
+    ? (isDesktop ? desktopTilt : mobileTilt)
+    : 0;
+  const wobble = isDesktop ? 2.8 : 1.4;
+  const entryRotate = finalTilt + xSlipDir * wobble;
+  const rotateZ = useTransform(
+    smoothP,
+    isFirst ? [0, 1] : [start, start + step * 0.5, end],
+    isFirst ? [finalTilt, finalTilt] : [entryRotate, finalTilt + xSlipDir * (wobble * 0.25), finalTilt],
+  );
 
   // pointerEvents: enabled when card has arrived and is active
   const [isInteractive, setIsInteractive] = useState(isFirst);
@@ -93,15 +116,14 @@ function StackingCard({
     }
   });
 
-  const tilt = !shouldReduceMotion && isDesktop ? desktopTilt : 0;
-
   return (
     <motion.div
       style={{
         y: shouldReduceMotion ? 0 : y,
+        x: shouldReduceMotion ? 0 : xSlip,
         opacity: shouldReduceMotion ? 1 : opacity,
         scale: shouldReduceMotion ? 1 : scale,
-        rotate: tilt,
+        rotate: shouldReduceMotion ? finalTilt : rotateZ,
         zIndex: index + 1,
         pointerEvents: isInteractive ? "auto" : "none",
         transformOrigin: "center 85%",
@@ -446,6 +468,7 @@ export default function Services() {
                   total={servicesData.length}
                   smoothP={smoothP}
                   desktopTilt={desktopTilts[idx]}
+                  mobileTilt={mobileTilts[idx]}
                   shouldReduceMotion={shouldReduceMotion}
                   handleRequestQuote={handleRequestQuote}
                   isDesktop={isDesktop}

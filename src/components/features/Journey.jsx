@@ -68,10 +68,10 @@ const narrowMobilePath =
   "M 200 10 C 200 45, 110 55, 110 150 C 110 235, 290 250, 290 370 C 290 475, 110 490, 110 610 C 110 725, 290 740, 290 850 C 290 960, 200 1000, 200 1090";
 
 const cardVariants = {
-  hidden: (isLeft) => ({
+  hidden: ({ isLeft, isDesktop }) => ({
     opacity: 0,
-    x: isLeft ? -28 : 28,
-    y: 22,
+    x: isDesktop ? (isLeft ? -28 : 28) : 0,
+    y: 20,
   }),
   visible: {
     opacity: 1,
@@ -369,7 +369,7 @@ export default function Journey() {
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-14">
         {/* Section Heading */}
         <motion.div
-          className="mb-12 grid grid-cols-1 items-end gap-6 border-b border-black/8 pb-6 sm:mb-16 sm:pb-8 lg:grid-cols-12"
+          className="mb-10 grid grid-cols-1 items-end gap-6 border-b border-black/8 pb-6 sm:mb-12 sm:pb-8 lg:grid-cols-12"
           initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
@@ -440,7 +440,7 @@ export default function Journey() {
               return (
                 <motion.article
                   key={step.num}
-                  custom={isLeft}
+                  custom={{ isLeft, isDesktop: viewportMode === "desktop" }}
                   variants={cardVariants}
                   initial={shouldReduceMotion ? false : "hidden"}
                   whileInView="visible"

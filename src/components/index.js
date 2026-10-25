@@ -16,8 +16,5 @@ export * from "./layout/index.js";
 // UI Components
 export * from "./ui/index.js";
 
-// Decorative Components
-export * from "./decorative/index.js";
-
 // Feature Components
 export * from "./features/index.js";

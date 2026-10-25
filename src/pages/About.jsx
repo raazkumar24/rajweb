@@ -111,8 +111,8 @@ export default function About() {
       <BrandSectionRightWave opacity={0.4} />
 
       {/* ── 1. ABOUT INTRO ── */}
-      <section className="ab-intro-section relative z-10 border-b border-black/8 pt-16 pb-16 sm:pt-20 sm:pb-20 lg:pt-24">
-        <div className="mx-auto w-full max-w-7xl px-6 sm:px-10 lg:px-14">
+      <section className="ab-intro-section relative z-10 border-b border-black/8 pt-16 pb-16 sm:pt-20 sm:pb-20 lg:pt-24 lg:pb-24">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-14">
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
             {/* Left Intro Content */}
             <motion.div

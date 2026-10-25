@@ -79,7 +79,7 @@ export default function FAQ() {
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-14">
         {/* ── 1. HEADER ── */}
         <motion.div
-          className="mb-10 border-b border-black/8 pb-6 sm:mb-14 sm:pb-8"
+          className="mb-10 border-b border-black/8 pb-6 sm:mb-12 sm:pb-8"
           initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}

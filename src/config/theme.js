@@ -145,4 +145,4 @@ export const THEME_PALETTES = {
   
 };
 
-export const CURRENT_THEME = THEME_PALETTES.cyan;
+export const CURRENT_THEME = THEME_PALETTES.orange;
