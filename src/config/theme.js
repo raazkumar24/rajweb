@@ -142,7 +142,70 @@ export const THEME_PALETTES = {
     rgbDark: "101, 163, 13",
     shimmerBg: "#F7FEE7",
   },
+    // Electric Indigo (Modern SaaS & Premium Portfolio)
+  indigo: {
+    name: "Electric Indigo",
+    primary: "#6366F1",
+    primaryDark: "#4F46E5",
+    primaryLight: "#818CF8",
+    primaryDeep: "#4338CA",
+    stop0: "#C7D2FE",
+    stop1: "#818CF8",
+    stop2: "#6366F1",
+    stop3: "#4338CA",
+    rgb: "99, 102, 241",
+    rgbDark: "79, 70, 229",
+    shimmerBg: "#EEF2FF",
+  },
+
+  // Golden Amber (Luxury & Warm Highlight)
+  amber: {
+    name: "Golden Amber",
+    primary: "#F59E0B",
+    primaryDark: "#D97706",
+    primaryLight: "#FBBF24",
+    primaryDeep: "#B45309",
+    stop0: "#FDE68A",
+    stop1: "#FBBF24",
+    stop2: "#F59E0B",
+    stop3: "#B45309",
+    rgb: "245, 158, 11",
+    rgbDark: "217, 119, 6",
+    shimmerBg: "#FFFBEB",
+  },
+
+  // Teal Aqua (Calm, Clean & Modern)
+  teal: {
+    name: "Teal Aqua",
+    primary: "#14B8A6",
+    primaryDark: "#0D9488",
+    primaryLight: "#5EEAD4",
+    primaryDeep: "#0F766E",
+    stop0: "#99F6E4",
+    stop1: "#5EEAD4",
+    stop2: "#14B8A6",
+    stop3: "#0F766E",
+    rgb: "20, 184, 166",
+    rgbDark: "13, 148, 136",
+    shimmerBg: "#F0FDFA",
+  },
+
+  // Fuchsia Magenta (Bold & Creative Standout)
+  fuchsia: {
+    name: "Fuchsia Magenta",
+    primary: "#D946EF",
+    primaryDark: "#C026D3",
+    primaryLight: "#E879F9",
+    primaryDeep: "#A21CAF",
+    stop0: "#F5D0FE",
+    stop1: "#E879F9",
+    stop2: "#D946EF",
+    stop3: "#A21CAF",
+    rgb: "217, 70, 239",
+    rgbDark: "192, 38, 211",
+    shimmerBg: "#FDF4FF",
+  },
   
 };
 
-export const CURRENT_THEME = THEME_PALETTES.crimson;
+export const CURRENT_THEME = THEME_PALETTES.cyan;
