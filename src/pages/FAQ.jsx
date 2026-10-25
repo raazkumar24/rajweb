@@ -72,7 +72,7 @@ export default function FAQ() {
     <section
       id="faq"
       aria-labelledby="faq-heading"
-      className="relative z-20 w-full overflow-hidden border-b border-black/8 bg-[#FAF8F5] pt-16 pb-16 font-sans text-[#111111] select-none scroll-mt-20 sm:pt-20 sm:pb-24"
+      className="relative z-20 w-full overflow-hidden bg-[#FAF8F5] pt-16 pb-16 font-sans text-[#111111] select-none scroll-mt-20 sm:pt-20 sm:pb-24"
     >
       <BrandSectionSideWave position="middle" opacity={0.25} />
 
@@ -102,7 +102,9 @@ export default function FAQ() {
                   className="font-display text-[clamp(2.1rem,4vw+0.8rem,3.8rem)] leading-[1.05] tracking-[-0.03em] font-bold text-[#111111]"
                 >
                   Frequently asked{" "}
-                  <span className="italic font-normal text-brand-dark">questions.</span>
+                  <span className="italic font-normal text-brand-dark">
+                    questions.
+                  </span>
                 </h2>
 
                 {/* Doodle: "All clear!" with arrow */}
