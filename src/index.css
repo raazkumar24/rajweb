@@ -149,11 +149,20 @@ h4,
   opacity: .32;
 }
 .portfolio-section__kicker { color: var(--color-chartreuse); letter-spacing: .22em; }
+.wiu-row { min-height: clamp(4.5rem, 8vw, 8rem); font-size: clamp(1.25rem, 3vw, 3.25rem); letter-spacing: -.05em; border-bottom: 1px solid rgba(16,16,16,.18); }
+.wiu-row svg { width: clamp(1.4rem, 2.6vw, 2.5rem); height: clamp(1.4rem, 2.6vw, 2.5rem); }
 .portfolio-section__marker { background: var(--color-lemon); color: var(--color-soft-black); }
 .portfolio-section > div:first-of-type { border-top: 2px solid rgba(16,16,16,.18); }
 .portfolio-section h2 { letter-spacing: -.07em; text-wrap: balance; }
+.portfolio-section > div:first-of-type { padding-top: clamp(4rem, 9vw, 9rem); padding-bottom: clamp(4rem, 9vw, 9rem); }
+.portfolio-section h3 { font-size: clamp(1.35rem, 2.2vw, 2.4rem); line-height: .98; letter-spacing: -.04em; }
+.portfolio-section p { font-size: clamp(.95rem, 1.15vw, 1.2rem); }
+.portfolio-section [class*="rounded"] { border-radius: clamp(1.25rem, 2vw, 2.25rem); }
 .portfolio-section a, .portfolio-section button { transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s ease, background-color .3s ease; }
 .portfolio-section a:hover, .portfolio-section button:hover { transform: translateY(-3px); }
+@media (min-width: 768px) {
+  .portfolio-section::after { content: "SCROLL / EXPLORE"; position: absolute; right: clamp(1.5rem, 4vw, 5rem); top: 50%; writing-mode: vertical-rl; font: 700 10px/1 ui-monospace, monospace; letter-spacing: .28em; color: rgba(16,16,16,.45); }
+}
 @media (max-width: 767px) {
   .portfolio-section::before { background-size: 32px 32px; opacity: .22; }
 }

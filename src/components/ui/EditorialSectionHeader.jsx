@@ -93,7 +93,7 @@ export default function EditorialSectionHeader({
         )}
 
         {solidTitle && (
-          <h2 className="font-display text-[clamp(2.9rem,8.5vw,9rem)] font-black uppercase tracking-[-0.04em] leading-[0.82] flex items-baseline">
+          <h2 className="font-display text-[clamp(3.25rem,9.5vw,10rem)] font-black uppercase tracking-[-0.06em] leading-[0.78] flex items-baseline">
             <span style={{ color: theme.solidFill }}>{solidTitle}</span>
             <span style={{ color: theme.accentDot }}>.</span>
           </h2>
