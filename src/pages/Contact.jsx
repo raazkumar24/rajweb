@@ -226,7 +226,7 @@ export default function Contact({ heroMode = "red" }) {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="relative z-20 w-full overflow-hidden pt-16 pb-12 font-sans select-none scroll-mt-20 sm:pt-24 sm:pb-16 transition-colors duration-700"
+      className="portfolio-section relative z-20 w-full overflow-hidden pt-16 pb-12 font-sans select-none scroll-mt-20 sm:pt-24 sm:pb-16 transition-colors duration-700"
       style={{
         background: theme.bg,
         color: theme.textPrimary,

@@ -81,7 +81,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#FAF8F5] text-[#111111] flex flex-col overflow-x-clip selection:bg-brand selection:text-white">
+    <div className="min-h-screen w-full bg-[#e6d5bd] text-[#101010] flex flex-col overflow-x-clip selection:bg-brand selection:text-[#101010]">
       <ScrollProgress />
       <CustomCursor />
       <Navbar heroMode={heroMode} onToggleMode={(mode) => setHeroMode(mode)} />

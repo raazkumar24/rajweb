@@ -192,7 +192,7 @@ export default function Works({ heroMode = "red", onOpenCaseStudy }) {
     <section
       id="works"
       aria-labelledby="works-heading"
-      className="relative z-20 w-full overflow-hidden transition-colors duration-700 select-none scroll-mt-14 font-sans"
+      className="portfolio-section relative z-20 w-full overflow-hidden transition-colors duration-700 select-none scroll-mt-14 font-sans"
     >
       {/* ══════════════════════════════════════════════════════════════════════
           PART A: TOP SHOWCASE CANVAS (HERO-GRADE VIBRANT LIGHTING & POLISH)

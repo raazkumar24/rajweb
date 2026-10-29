@@ -78,7 +78,7 @@ export default function FAQ({ heroMode = "red" }) {
     <section
       id="faq"
       aria-labelledby="faq-heading"
-      className="relative z-20 w-full overflow-hidden pt-16 pb-20 font-sans select-none scroll-mt-20 sm:pt-20 sm:pb-28 transition-colors duration-700"
+      className="portfolio-section relative z-20 w-full overflow-hidden pt-16 pb-20 font-sans select-none scroll-mt-20 sm:pt-20 sm:pb-28 transition-colors duration-700"
       style={{
         background: theme.bg,
         color: theme.textPrimary,
