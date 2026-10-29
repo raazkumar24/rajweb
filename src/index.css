@@ -136,7 +136,16 @@ h4,
 .portfolio-section {
   position: relative;
   isolation: isolate;
+  overflow: clip;
 }
+#works.portfolio-section { background: #101010 !important; color: #e6d5bd !important; }
+#services.portfolio-section { background: #e6d5bd !important; color: #101010 !important; }
+#faq.portfolio-section { background: #ffe51a !important; color: #101010 !important; }
+#contact.portfolio-section { background: #101010 !important; color: #e6d5bd !important; }
+#works.portfolio-section .portfolio-section__kicker, #contact.portfolio-section .portfolio-section__kicker { color: #d4ff3f; }
+#faq.portfolio-section .portfolio-section__kicker { color: #101010; }
+#works.portfolio-section::before, #contact.portfolio-section::before { background-image: linear-gradient(rgba(230,213,189,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(230,213,189,.12) 1px, transparent 1px); }
+#faq.portfolio-section::before { opacity: .18; }
 .portfolio-section::before {
   content: "";
   position: absolute;
