@@ -7,7 +7,7 @@
 
 :root {
   /* ═══════════════════════════════════════════════════════════════════
-     ACTIVE THEME: MIDNIGHT CYAN
+     ACTIVE THEME: IVORY / LEMON / CHARTREUSE
      To change colors manually, edit these CSS variables.
      Or run: node scripts/switch-theme.mjs <theme-name>
      ═══════════════════════════════════════════════════════════════════ */
@@ -150,6 +150,10 @@ h4,
 }
 .portfolio-section__kicker { color: var(--color-chartreuse); letter-spacing: .22em; }
 .portfolio-section__marker { background: var(--color-lemon); color: var(--color-soft-black); }
+.portfolio-section > div:first-of-type { border-top: 2px solid rgba(16,16,16,.18); }
+.portfolio-section h2 { letter-spacing: -.07em; text-wrap: balance; }
+.portfolio-section a, .portfolio-section button { transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s ease, background-color .3s ease; }
+.portfolio-section a:hover, .portfolio-section button:hover { transform: translateY(-3px); }
 @media (max-width: 767px) {
   .portfolio-section::before { background-size: 32px 32px; opacity: .22; }
 }

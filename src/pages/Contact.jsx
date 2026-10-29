@@ -228,8 +228,8 @@ export default function Contact({ heroMode = "red" }) {
       aria-labelledby="contact-heading"
       className="portfolio-section relative z-20 w-full overflow-hidden pt-16 pb-12 font-sans select-none scroll-mt-20 sm:pt-24 sm:pb-16 transition-colors duration-700"
       style={{
-        background: theme.bg,
-        color: theme.textPrimary,
+        background: heroMode ? "#101010" : "#e6d5bd",
+        color: heroMode ? "#e6d5bd" : "#101010",
       }}
     >
       {/* Film grain subtle overlay */}
