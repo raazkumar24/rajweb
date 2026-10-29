@@ -27,7 +27,10 @@ export default function CustomCursor() {
       targetPos.current.y = e.clientY;
 
       const target = e.target;
-      const viewEl = target ? target.closest("[data-cursor='view']") : null;
+      const viewEl =
+        target && typeof target.closest === "function"
+          ? target.closest("[data-cursor='view']")
+          : null;
       const shouldView = Boolean(viewEl);
 
       if (shouldView !== isViewRef.current) {

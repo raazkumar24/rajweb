@@ -10,7 +10,7 @@ import Works from "./pages/Works.jsx";
 import Services from "./pages/Services.jsx";
 import FAQ from "./pages/FAQ.jsx";
 import Contact from "./pages/Contact.jsx";
-import SectionWaveDivider from "./components/decoration/SectionWaveDivider.jsx";
+import CaseStudy from "./pages/CaseStudy.jsx";
 import "./App.css";
 
 function App() {
@@ -20,6 +20,36 @@ function App() {
   // Trigger Marquee reveal after Hero name intro finishes
   const [heroRevealed, setHeroRevealed] = useState(false);
   const handleHeroRevealed = useCallback(() => setHeroRevealed(true), []);
+  const [heroMode, setHeroMode] = useState("red");
+
+  // Active full-page Case Study ID (URL hash synchronized: #case-study/:id)
+  const [activeCaseStudyId, setActiveCaseStudyId] = useState(null);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash.startsWith("#case-study/")) {
+        const id = hash.replace("#case-study/", "");
+        setActiveCaseStudyId(id);
+      } else {
+        setActiveCaseStudyId(null);
+      }
+    };
+
+    handleHashChange();
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  const handleOpenCaseStudy = (id) => {
+    window.location.hash = `#case-study/${id}`;
+    setActiveCaseStudyId(id);
+  };
+
+  const handleCloseCaseStudy = () => {
+    window.location.hash = "#works";
+    setActiveCaseStudyId(null);
+  };
 
   useEffect(() => {
     let ticking = false;
@@ -54,26 +84,47 @@ function App() {
     <div className="min-h-screen w-full bg-[#FAF8F5] text-[#111111] flex flex-col overflow-x-clip selection:bg-brand selection:text-white">
       <ScrollProgress />
       <CustomCursor />
-      <Navbar />
+      <Navbar heroMode={heroMode} onToggleMode={(mode) => setHeroMode(mode)} />
 
       <main className="flex-1 flex flex-col">
         {/* Hero + Marquee viewport wrapper */}
         <div className="relative flex flex-col min-h-screen lg:min-h-[100dvh] lg:h-auto 2xl:h-[100dvh] 2xl:max-h-[100dvh] 2xl:overflow-hidden justify-between">
-          <Hero onRevealed={handleHeroRevealed} />
+          <Hero
+            heroMode={heroMode}
+            onToggleMode={(mode) => setHeroMode(mode)}
+            onRevealed={handleHeroRevealed}
+          />
           <Marquee show={heroRevealed} />
         </div>
 
-        {/* Core Portfolio Sections with Organic Wave Dividers */}
-        <About />
-        <SectionWaveDivider variant="about-to-works" />
-        <Works />
-        <SectionWaveDivider variant="works-to-services" />
-        <Services />
-        <SectionWaveDivider variant="services-to-faq" />
-        <FAQ />
-        <SectionWaveDivider variant="faq-to-contact" />
-        <Contact />
+        {/* Core Portfolio Sections */}
+        <About heroMode={heroMode} />
+        <Works heroMode={heroMode} onOpenCaseStudy={handleOpenCaseStudy} />
+        <Services heroMode={heroMode} />
+        <FAQ heroMode={heroMode} />
+        <Contact heroMode={heroMode} />
       </main>
+
+      {/* Full-Page Immersive Case Study (Dedicated Route / View) */}
+      <AnimatePresence>
+        {activeCaseStudyId && (
+          <motion.div
+            key="case-study-page"
+            initial={{ opacity: 0, y: 35 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 35 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-50 overflow-y-auto"
+          >
+            <CaseStudy
+              projectId={activeCaseStudyId}
+              heroMode={heroMode}
+              onClose={handleCloseCaseStudy}
+              onSelectProject={(id) => handleOpenCaseStudy(id)}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Smooth Animated Back-to-Top Floating Button */}
       <AnimatePresence>

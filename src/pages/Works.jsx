@@ -1,738 +1,945 @@
-import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import React, { useState, useId, useMemo } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import {
+  ExternalLink,
+  Palette,
+  Check,
   ArrowUpRight,
+  Sparkles,
+  Maximize2,
+  Terminal,
   ArrowRight,
-  Code2,
-  X,
-  ChevronLeft,
-  ChevronRight,
-  Play,
-  Image as ImageIcon,
-  Globe,
+  Zap,
+  ShieldCheck,
+  Laptop,
+  Smartphone,
 } from "lucide-react";
+import { GitHubIcon, EditorialSectionHeader, CircularStampBadge } from "../components/ui";
 import { projectsData } from "../data/projectsData";
-import InteractiveButton from "../components/ui/InteractiveButton";
-import WorksStage from "../components/features/WorksStage";
-import LiveSitePreview from "../components/features/LiveSitePreview";
-import SectionBadge from "../components/ui/SectionBadge";
-import { HandwrittenBadge } from "../components/decoration/doodleCard";
-import {
-  BrandCardCornerWave,
-  BrandSectionSideWave,
-} from "../components/decoration/brandBackgroundShapes";
 
 /* ──────────────────────────────────────────────
-   Animation Variants
+   Torn Paper SVG Generator (Deterministic Mulberry32)
    ────────────────────────────────────────────── */
-const EASE = [0.22, 1, 0.36, 1];
+function mulberry32(seed) {
+  let a = seed;
+  return () => {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
 
-const mobileCardVariants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: EASE },
-  },
-  exit: {
-    opacity: 0,
-    y: -12,
-    transition: { duration: 0.2, ease: "easeInOut" },
-  },
-};
+function generateTornPaths(width = 1440, height = 160, step = 14) {
+  const rnd = mulberry32(1042);
+  const base = 48;
+  const amp = 8.5;
 
-export default function Works() {
-  const [activeFilter, setActiveFilter] = useState("all");
-  const [activeProjectModal, setActiveProjectModal] = useState(null);
-  const [modalImageIdx, setModalImageIdx] = useState(0);
-  const [modalViewMode, setModalViewMode] = useState("images"); // 'images' | 'live'
-  const [activeMobileLiveId, setActiveMobileLiveId] = useState(null);
-  const [mobileImgMap, setMobileImgMap] = useState({});
+  const points = [];
+  for (let x = 0; x <= width; x += step) {
+    const notch = rnd() > 0.88 ? amp * 1.15 : 0;
+    const y = base + (rnd() - 0.5) * 2 * amp + notch;
+    const edgeOffset = 6 + rnd() * 4;
+    points.push({ x, y, edgeY: y - edgeOffset });
+  }
 
-  const shouldReduceMotion = useReducedMotion();
+  if (points[points.length - 1].x < width) {
+    points.push({ x: width, y: base, edgeY: base - 7 });
+  }
 
-  const filteredProjects = projectsData.filter((p) => {
-    if (activeFilter === "all") return true;
-    if (activeFilter === "fullstack")
-      return p.stack.includes("Node.js") || p.stack.includes("MongoDB");
-    if (activeFilter === "frontend")
-      return p.stack.includes("GSAP 3") || p.stack.includes("Web Storage");
-    return true;
-  });
+  let paperD = `M 0 ${height} L 0 ${points[0].y.toFixed(1)}`;
+  let shadowD = `M 0 ${height} L 0 ${points[0].edgeY.toFixed(1)}`;
 
-  // Modal keyboard and scroll lock
-  useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === "Escape") setActiveProjectModal(null);
-    };
-    if (activeProjectModal) {
-      document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", onKey);
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [activeProjectModal]);
+  for (let i = 1; i < points.length; i++) {
+    paperD += ` L ${points[i].x} ${points[i].y.toFixed(1)}`;
+    shadowD += ` L ${points[i].x} ${points[i].edgeY.toFixed(1)}`;
+  }
 
-  const handleOpenModal = (project) => {
-    setModalImageIdx(mobileImgMap[project.id] || 0);
-    setModalViewMode("images");
-    setActiveProjectModal(project);
+  paperD += ` L ${width} ${height} Z`;
+  shadowD += ` L ${width} ${height} Z`;
+
+  return { paper: paperD, shadow: shadowD };
+}
+
+function WorksTornDivider({ fillColor, edgeColor }) {
+  const uid = useId().replace(/:/g, "");
+  const paths = useMemo(() => generateTornPaths(), []);
+
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none relative w-full h-24 sm:h-32 -mt-10 sm:-mt-12 z-20 overflow-hidden"
+    >
+      <svg
+        viewBox="0 0 1440 160"
+        preserveAspectRatio="none"
+        className="w-full h-full"
+      >
+        <defs>
+          <clipPath id={`clip-works-${uid}`}>
+            <path d={paths.paper} />
+          </clipPath>
+          <filter id={`noise-works-${uid}`}>
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.9"
+              numOctaves="3"
+              stitchTiles="stitch"
+            />
+            <feColorMatrix type="saturate" values="0" />
+          </filter>
+        </defs>
+
+        {/* Paper fiber edge peeking out cleanly above the torn paper */}
+        <path d={paths.shadow} fill={edgeColor} />
+
+        {/* Lower background paper body */}
+        <g clipPath={`url(#clip-works-${uid})`}>
+          <path d={paths.paper} fill={fillColor} />
+          <rect
+            x="0"
+            y="0"
+            width="1440"
+            height="160"
+            filter={`url(#noise-works-${uid})`}
+            opacity="0.08"
+          />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+export default function Works({ heroMode = "red", onOpenCaseStudy }) {
+  const isRedTheme = heroMode === "red";
+  const [copiedHex, setCopiedHex] = useState(null);
+  const [hoveredArchiveId, setHoveredArchiveId] = useState("ai-tutor-vision");
+
+  const project01 = projectsData[0] || {};
+  const project02 = projectsData[1] || {};
+  const archiveProjects = projectsData.slice(2);
+
+  const handleCopyHex = (e, hex) => {
+    e.stopPropagation();
+    navigator.clipboard?.writeText(hex);
+    setCopiedHex(hex);
+    setTimeout(() => setCopiedHex(null), 1800);
   };
 
-  const getCleanHostname = (url) => {
-    if (!url || url.startsWith("#")) return "showcase.app";
-    return url.replace(/^https?:\/\/(www\.)?/, "").split("/")[0];
-  };
+  // Theme styling tokens exactly aligned with Hero Section lighting & energy
+  const theme = isRedTheme
+    ? {
+        topBg: "radial-gradient(ellipse at 60% 32%, #C41618 0%, #8A0B0D 55%, #50080B 100%)",
+        lowerBg: "#0B0C0E",
+        textPrimary: "#FFFFFF",
+        textMuted: "rgba(255, 255, 255, 0.75)",
+        outlineTitle: "rgba(255, 255, 255, 0.9)",
+        outlineNum: "rgba(255, 255, 255, 0.85)",
+        titleFill: "#FFFFFF",
+        browserBorder: "rgba(255, 255, 255, 0.35)",
+        browserGlow:
+          "0 0 55px rgba(255, 60, 60, 0.45), 0 25px 60px rgba(0, 0, 0, 0.65)",
+        bracketBg: "rgba(20, 21, 26, 0.92)",
+        bracketBorder: "rgba(255, 255, 255, 0.3)",
+        bracketText: "#FFFFFF",
+        arrowColor: "#FFFFFF",
+        arrowDashColor: "rgba(255, 255, 255, 0.8)",
+        tornEdge: "#C81D1D",
+        tornFill: "#0B0C0E",
+        gridLine: "rgba(255, 255, 255, 0.15)",
+        gridLineAccent: "rgba(239, 68, 68, 0.55)",
+        tableRowHover: "rgba(239, 68, 68, 0.15)",
+        stampColor: "#FFFFFF",
+        btnPrimaryBg: "#FFFFFF",
+        btnPrimaryText: "#A81014",
+        btnOutlineBorder: "rgba(255, 255, 255, 0.45)",
+        btnOutlineText: "#FFFFFF",
+      }
+    : {
+        topBg: "radial-gradient(ellipse at 60% 32%, #F7F5EE 0%, #E8E4DA 60%, #D8D4C8 100%)",
+        lowerBg: "#DDD8CF",
+        textPrimary: "#111111",
+        textMuted: "#4B4B4B",
+        outlineTitle: "#111111",
+        outlineNum: "#111111",
+        titleFill: "#111111",
+        browserBorder: "rgba(0, 0, 0, 0.28)",
+        browserGlow: "0 28px 65px -15px rgba(0, 0, 0, 0.32)",
+        bracketBg: "#111111",
+        bracketBorder: "rgba(0, 0, 0, 0.35)",
+        bracketText: "#FFFFFF",
+        arrowColor: "#C81D1D",
+        arrowDashColor: "#C81D1D",
+        tornEdge: "#C81D1D",
+        tornFill: "#DDD8CF",
+        gridLine: "rgba(0, 0, 0, 0.14)",
+        gridLineAccent: "rgba(200, 29, 29, 0.5)",
+        tableRowHover: "rgba(255, 255, 255, 0.65)",
+        stampColor: "#111111",
+        btnPrimaryBg: "#111111",
+        btnPrimaryText: "#FFFFFF",
+        btnOutlineBorder: "rgba(0, 0, 0, 0.35)",
+        btnOutlineText: "#111111",
+      };
+
+  const activeArchiveProject =
+    projectsData.find((p) => p.id === hoveredArchiveId) ||
+    archiveProjects[0] ||
+    project01;
 
   return (
     <section
       id="works"
       aria-labelledby="works-heading"
-      className="relative z-20 w-full overflow-x-clip  bg-[#FAF8F5] pt-16 pb-16 font-sans text-[#111111] select-none scroll-mt-20 sm:pt-20 sm:pb-24"
+      className="relative z-20 w-full overflow-hidden transition-colors duration-700 select-none scroll-mt-14 font-sans"
     >
-      <BrandSectionSideWave position="middle" opacity={0.35} />
+      {/* ══════════════════════════════════════════════════════════════════════
+          PART A: TOP SHOWCASE CANVAS (HERO-GRADE VIBRANT LIGHTING & POLISH)
+          — 03 / SELECTED ARCHIVE
+          ROTATING STAMP
+          STARBURST DECAL
+          GIANT SELECTED WORKS.
+          Project 01 3D Tilted Device with Neon Rim Glow & Floating Tag Stickers
+          Project 02 Titanium Dual Smartphones with Parallax & Connecting SVG Flow
+          ══════════════════════════════════════════════════════════════════════ */}
+      <div
+        className="relative w-full pt-16 sm:pt-24 pb-20 sm:pb-32 px-4 sm:px-8 lg:px-14 transition-all duration-700"
+        style={{ background: theme.topBg, color: theme.textPrimary }}
+      >
+        {/* Paper & Film Grain Overlay matching Hero */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0 opacity-[0.07]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundSize: "240px",
+          }}
+        />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-14">
-        {/* ── 1. EDITORIAL HEADER ── */}
-        <motion.div
-          className="mb-10 grid grid-cols-1 items-end gap-6 border-b border-black/8 pb-6 sm:mb-12 sm:pb-8 lg:grid-cols-12"
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.65, ease: EASE }}
+        {/* Ambient Radial Spotlight Glow */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[120px] opacity-25"
+          style={{
+            background: isRedTheme
+              ? "radial-gradient(circle, #FF4545 0%, transparent 70%)"
+              : "radial-gradient(circle, #FFFFFF 0%, transparent 70%)",
+          }}
+        />
+
+        {/* Hero-Grade Starburst Decal in Background */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-[10%] top-[18%] opacity-15 select-none"
         >
-          <div className="lg:col-span-7">
-            <div className="mb-3">
-              <SectionBadge number="02" label="Works" />
-            </div>
-
-            <div className="relative inline-block">
-              <h2
-                id="works-heading"
-                className="font-display text-[clamp(2.2rem,4vw+0.6rem,3.6rem)] leading-[1.05] font-bold tracking-[-0.03em] text-[#111111]"
-              >
-                Selected{" "}
-                <span className="font-normal italic text-brand-dark">
-                  projects.
-                </span>
-              </h2>
-
-              {/* Doodle annotation: "Live & shipped!" */}
-              <HandwrittenBadge
-                text="Live & shipped!"
-                arrowDirection="down-left"
-                rotation="rotate-2"
-                textClass="text-sm sm:text-base"
-                textColor="text-[#333333]"
-                arrowClass="h-8 w-8 sm:h-10 sm:w-10"
-                className="absolute -top-7 right-0 hidden sm:flex"
-              />
-            </div>
-          </div>
-
-          <div className="lg:col-span-5 lg:pb-1">
-            <p className="max-w-md text-sm leading-relaxed font-normal text-[#4B5563] sm:text-base">
-              Real web applications and digital stores engineered for
-              responsiveness, high performance, and smooth user flows.
-            </p>
-          </div>
-        </motion.div>
-
-        {/* ── 2. FILTER TABS (With Animated Spring Motion Pill + Shadow) ── */}
-        <div className="mb-10 flex flex-wrap items-center justify-between gap-4 sm:mb-14">
-          <div
-            role="tablist"
-            aria-label="Filter projects"
-            className="flex w-fit items-center gap-1 overflow-x-auto rounded-full border border-black/10 bg-white p-1.5 shadow-2xs sm:gap-1.5"
-            style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
-          >
-            {[
-              {
-                id: "all",
-                labelFull: "All work",
-                labelShort: "All",
-                count: projectsData.length,
-              },
-              {
-                id: "fullstack",
-                labelFull: "Full-stack apps",
-                labelShort: "Full-stack",
-                count: projectsData.filter(
-                  (p) =>
-                    p.stack.includes("Node.js") || p.stack.includes("MongoDB"),
-                ).length,
-              },
-              {
-                id: "frontend",
-                labelFull: "Frontend & motion",
-                labelShort: "Frontend",
-                count: projectsData.filter(
-                  (p) =>
-                    p.stack.includes("GSAP 3") ||
-                    p.stack.includes("Web Storage"),
-                ).length,
-              },
-            ].map((tab) => {
-              const active = activeFilter === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={active}
-                  onClick={() => setActiveFilter(tab.id)}
-                  className={`relative flex cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-2 text-xs font-semibold transition-colors duration-200 sm:gap-2 sm:px-4 sm:py-2 sm:text-sm ${
-                    active
-                      ? "text-white"
-                      : "text-[#555555] hover:bg-black/4 hover:text-[#111111]"
-                  }`}
-                >
-                  {/* Animated sliding dark pill with shadow */}
-                  {active && (
-                    <motion.span
-                      layoutId="works-filter-pill"
-                      className="absolute inset-0 rounded-full bg-[#111111] shadow-md shadow-black/20 ring-1 ring-white/10"
-                      transition={
-                        shouldReduceMotion
-                          ? { duration: 0 }
-                          : { type: "spring", stiffness: 420, damping: 32 }
-                      }
-                    />
-                  )}
-
-                  <span className="relative z-10 sm:hidden">
-                    {tab.labelShort}
-                  </span>
-                  <span className="relative z-10 hidden sm:inline">
-                    {tab.labelFull}
-                  </span>
-                  <span
-                    className={`relative z-10 rounded-full px-1.5 py-0.5 font-mono text-[9px] font-bold transition-colors sm:text-[10px] ${
-                      active
-                        ? "bg-brand text-white"
-                        : "bg-black/6 text-[#666666]"
-                    }`}
-                  >
-                    {String(tab.count).padStart(2, "0")}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="hidden items-center gap-2 font-mono text-xs text-[#777777] lg:flex">
-            <span className="inline-block h-2 w-2 rounded-full bg-brand" />
-            <span>Scroll to explore showcase</span>
-          </div>
+          <svg width="280" height="280" viewBox="0 0 260 260" fill="none">
+            <path
+              d="M130 0L145 95L240 50L175 125L260 130L175 145L240 215L145 175L130 260L115 175L20 215L85 145L0 130L85 125L20 50L115 95L130 0Z"
+              fill={isRedTheme ? "#FFFFFF" : "#111111"}
+            />
+          </svg>
         </div>
 
-        {/* ── 3. DESKTOP VIEW (>= 1024px): Sticky WorksStage ── */}
-        <div className="hidden lg:block">
-          <WorksStage
-            key={activeFilter}
-            projects={filteredProjects}
-            onOpen={handleOpenModal}
+        <div className="relative z-10 w-full max-w-7xl mx-auto">
+          {/* ── UNIFIED EDITORIAL HEADER ── */}
+          <EditorialSectionHeader
+            number="03"
+            label="SELECTED ARCHIVE"
+            outlineTitle="SELECTED"
+            solidTitle="WORKS"
+            description="A curated archive of full-stack engineering builds, real-time client systems, and high-performance interactive web applications."
+            heroMode={heroMode}
           />
-        </div>
 
-        {/* ── 4. MOBILE & TABLET VIEW (< 1024px): Uncropped Widescreen Browser Cards ── */}
-        <div className="flex flex-col gap-8 sm:gap-12 lg:hidden">
-          <AnimatePresence mode="popLayout" initial={false}>
-            {filteredProjects.map((project) => {
-              const isLivePreviewActive = activeMobileLiveId === project.id;
-              const canEmbed =
-                project.embeddable && project.liveUrl?.startsWith("https://");
-              const images =
-                project.images && project.images.length > 0
-                  ? project.images
-                  : [project.image];
-              const activeImgIdx = mobileImgMap[project.id] || 0;
-              const currentImg = images[activeImgIdx] || images[0];
-              const hasLiveUrl =
-                project.liveUrl && !project.liveUrl.startsWith("#");
-
-              return (
-                <motion.article
-                  key={project.id}
-                  layout={!shouldReduceMotion}
-                  variants={shouldReduceMotion ? undefined : mobileCardVariants}
-                  initial={shouldReduceMotion ? false : "hidden"}
-                  whileInView="visible"
-                  exit={shouldReduceMotion ? undefined : "exit"}
-                  viewport={{ once: true, amount: 0.12 }}
-                  className="flat-card group relative isolate flex flex-col overflow-hidden rounded-3xl bg-white p-4 sm:p-6 shadow-[0_10px_35px_-10px_rgba(17,17,17,0.07)]"
-                >
-                  <BrandCardCornerWave
-                    position="top-right"
-                    opacity={0.75}
-                    className="h-36 w-[65%] sm:h-44 sm:w-[55%]"
-                  />
-
-                  {/* Top Card Meta Header */}
-                  <div className="relative z-10 mb-3.5 flex items-center justify-between gap-2">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="rounded-lg bg-brand/12 px-2.5 py-1 font-mono text-xs font-bold text-brand-dark">
-                        {project.num}
-                      </span>
-                      <span className="font-mono text-xs font-medium text-[#666666]">
-                        {project.year}
-                      </span>
-                      <span className="text-[#CCCCCC]">&bull;</span>
-                      <span className="text-xs font-semibold text-[#222222]">
-                        {project.client}
-                      </span>
-                    </div>
-
-                    {hasLiveUrl && (
-                      <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-700">
-                        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
-                        Live
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Desktop-Style Browser Window Frame (16:10 Full Width, No Side Cropping) */}
-                  <div className="relative z-10 overflow-hidden rounded-2xl border border-black/12 bg-[#141414] shadow-md">
-                    {/* Browser Chrome Bar */}
-                    <div className="flex items-center justify-between border-b border-white/10 bg-[#1E1E1E] px-3.5 py-2">
-                      <div className="flex items-center gap-1.5">
-                        <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F56]" />
-                        <span className="h-2.5 w-2.5 rounded-full bg-[#FFBD2E]" />
-                        <span className="h-2.5 w-2.5 rounded-full bg-[#27C93F]" />
-                      </div>
-
-                      <div className="flex max-w-[55%] items-center gap-1.5 truncate rounded-md bg-white/8 px-2.5 py-0.5 font-mono text-[10px] text-white/75">
-                        <Globe className="h-2.5 w-2.5 shrink-0 text-brand-light" />
-                        <span className="truncate">
-                          {getCleanHostname(project.liveUrl)}
-                        </span>
-                      </div>
-
-                      {images.length > 1 && !isLivePreviewActive ? (
-                        <div className="flex items-center gap-1">
-                          {images.map((_, idx) => (
-                            <button
-                              key={idx}
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setMobileImgMap((prev) => ({
-                                  ...prev,
-                                  [project.id]: idx,
-                                }));
-                              }}
-                              aria-label={`Preview screen ${idx + 1}`}
-                              className={`h-4 min-w-4 cursor-pointer rounded px-1 font-mono text-[9px] font-bold transition-colors ${
-                                activeImgIdx === idx
-                                  ? "bg-brand text-[#111111]"
-                                  : "bg-white/10 text-white/60 hover:bg-white/20"
-                              }`}
-                            >
-                              {idx + 1}
-                            </button>
-                          ))}
-                        </div>
-                      ) : (
-                        <span className="w-8" />
-                      )}
-                    </div>
-
-                    {/* Uncropped Desktop Screenshot Viewport */}
-                    <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#0F1115]">
-                      {isLivePreviewActive && canEmbed ? (
-                        <LiveSitePreview
-                          url={project.liveUrl}
-                          title={project.title}
-                          onClose={() => setActiveMobileLiveId(null)}
-                        />
-                      ) : (
-                        <div
-                          className="group/img relative h-full w-full cursor-pointer overflow-hidden"
-                          onClick={() => handleOpenModal(project)}
-                        >
-                          {/* w-full h-auto shows 100% of desktop width without side cropping */}
-                          <img
-                            src={currentImg}
-                            alt={`${project.title} preview`}
-                            loading="lazy"
-                            className="block h-auto min-h-full w-full object-contain object-top transition-transform duration-500 group-hover/img:scale-[1.02]"
-                          />
-
-                          <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-black/65 via-black/20 to-transparent p-3">
-                            <span className="rounded-full border border-white/20 bg-black/60 px-3 py-1 font-mono text-[10px] font-semibold text-white backdrop-blur-md">
-                              Tap to inspect
-                            </span>
-
-                            {images.length > 1 && (
-                              <span className="rounded-full bg-black/60 px-2.5 py-1 font-mono text-[10px] font-bold text-white/90 backdrop-blur-md">
-                                {activeImgIdx + 1}/{images.length}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Project Title, Summary & Tech Stack */}
-                  <div className="relative z-10 mt-5 flex flex-col">
-                    <div className="mb-1.5 flex items-baseline justify-between gap-2">
-                      <h3
-                        onClick={() => handleOpenModal(project)}
-                        className="cursor-pointer font-display text-2xl font-black italic uppercase leading-tight tracking-tight text-[#111111] transition-colors hover:text-brand-dark sm:text-3xl"
-                      >
-                        {project.title}
-                      </h3>
-
-                      {project.role && (
-                        <span className="shrink-0 font-mono text-[10px] italic text-[#777777]">
-                          {project.role}
-                        </span>
-                      )}
-                    </div>
-
-                    <p className="mb-4 text-xs leading-relaxed text-[#4B5563] sm:text-sm">
-                      {project.summary}
-                    </p>
-
-                    <div className="mb-5 flex flex-wrap items-center gap-1.5">
-                      {project.stack.map((tech) => (
-                        <span
-                          key={tech}
-                          className="rounded-md border border-black/8 bg-[#FAF8F5] px-2.5 py-1 font-mono text-[10px] font-semibold text-[#333333]"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Action Bar */}
-                    <div className="flex flex-wrap items-center justify-between gap-2.5 border-t border-black/8 pt-4">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <InteractiveButton
-                          type="button"
-                          onClick={() => handleOpenModal(project)}
-                          variant="dark"
-                          noShadow
-                          className="px-4 py-2.5 text-xs"
-                          icon={<ArrowRight className="h-3.5 w-3.5" />}
-                        >
-                          Case study
-                        </InteractiveButton>
-
-                        {canEmbed && (
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setActiveMobileLiveId(
-                                isLivePreviewActive ? null : project.id,
-                              )
-                            }
-                            className={`inline-flex cursor-pointer items-center gap-1.5 rounded-full border px-3.5 py-2 text-xs font-semibold transition-colors ${
-                              isLivePreviewActive
-                                ? "border-brand bg-brand/10 text-brand-dark"
-                                : "border-black/15 bg-white text-[#111111] hover:border-brand hover:text-brand-dark"
-                            }`}
-                          >
-                            <Play className="h-3 w-3 fill-current" />
-                            <span>
-                              {isLivePreviewActive ? "Close live" : "Try live"}
-                            </span>
-                          </button>
-                        )}
-                      </div>
-
-                      <div className="flex items-center gap-1">
-                        {hasLiveUrl && (
-                          <a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="inline-flex items-center gap-1 rounded-full border border-black/10 bg-[#FAF8F5] px-3 py-2 text-xs font-semibold text-[#222222] transition-colors hover:border-brand hover:text-brand-dark"
-                          >
-                            <span>Visit</span>
-                            <ArrowUpRight className="h-3.5 w-3.5" />
-                          </a>
-                        )}
-
-                        {project.githubUrl && (
-                          <a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                            aria-label={`${project.title} GitHub repository`}
-                            className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold text-[#555555] transition-colors hover:text-[#111111]"
-                          >
-                            <Code2 className="h-3.5 w-3.5" />
-                            <span>Code</span>
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </motion.article>
-              );
-            })}
-          </AnimatePresence>
-        </div>
-      </div>
-
-      {/* ── 5. ANIMATED CASE STUDY MODAL ── */}
-      <AnimatePresence>
-        {activeProjectModal && (
-          <motion.div
-            key="project-modal-backdrop"
-            role="dialog"
-            aria-modal="true"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.22 }}
-            className="modal-backdrop-scroll fixed inset-0 z-50 overflow-y-auto bg-black/75 p-3 backdrop-blur-md overscroll-contain select-auto sm:p-6"
-            onClick={() => setActiveProjectModal(null)}
-          >
-            <div className="pointer-events-none flex min-h-full items-center justify-center py-4 sm:py-6">
+          {/* ──────────────────────────────────────────────────────────────
+              PROJECT 01: GENZ STORE & ADMIN PANEL
+              3D Tilted Device Frame + Neon Rim Glow + Floating Callouts
+              Hollow 01 + Title + Description + Live & Case Study Buttons
+              ────────────────────────────────────────────────────────────── */}
+          <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center mb-24 sm:mb-32">
+            {/* Tilted Desktop Device Frame (Col 1-7) */}
+            <div className="lg:col-span-7 relative flex items-center justify-center pt-8 pb-4">
+              {/* Floating Sticker 1: [ NEXT.JS 15 ] (Top-Left) */}
               <motion.div
-                initial={
-                  shouldReduceMotion
-                    ? false
-                    : { opacity: 0, scale: 0.95, y: 20 }
-                }
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={
-                  shouldReduceMotion
-                    ? undefined
-                    : { opacity: 0, scale: 0.96, y: 12 }
-                }
-                transition={{ duration: 0.3, ease: EASE }}
-                className="pointer-events-auto relative my-auto w-full max-w-3xl rounded-2xl border border-black/10 bg-[#FAF8F5] p-5 text-[#111111] shadow-2xl select-auto sm:rounded-3xl sm:p-10"
-                onClick={(e) => e.stopPropagation()}
+                whileHover={{ scale: 1.1, rotate: -2 }}
+                className="absolute -top-5 left-2 sm:left-6 z-25 flex flex-col items-center cursor-pointer"
               >
-                <button
-                  onClick={() => setActiveProjectModal(null)}
-                  aria-label="Close modal"
-                  className="absolute right-4 top-4 z-20 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-black/5 text-[#111111] transition-all hover:scale-105 hover:bg-black/10 sm:right-5 sm:top-5"
+                <span
+                  className="px-3.5 py-1.5 rounded-full font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider shadow-xl backdrop-blur-md"
+                  style={{
+                    background: theme.bracketBg,
+                    border: `1.5px solid ${theme.bracketBorder}`,
+                    color: theme.bracketText,
+                  }}
                 >
-                  <X className="h-5 w-5 stroke-[2.5]" />
-                </button>
+                  [ NEXT.JS 15 ]
+                </span>
+                <svg
+                  width="44"
+                  height="36"
+                  viewBox="0 0 44 36"
+                  fill="none"
+                  className="overflow-visible hidden sm:block pointer-events-none mt-1"
+                >
+                  <path
+                    d="M 12 2 C 14 18, 28 24, 38 30"
+                    stroke={theme.arrowColor}
+                    strokeWidth="1.8"
+                    strokeDasharray="4 4"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M 32 28 L 40 32 L 36 24"
+                    stroke={theme.arrowColor}
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </motion.div>
 
-                <p className="mb-2 text-xs font-semibold text-brand-dark sm:text-sm">
-                  Case study &bull; {activeProjectModal.year} &bull;{" "}
-                  {activeProjectModal.client}
-                </p>
+              {/* Floating Sticker 2: [ MERN STACK ] (Middle-Right) */}
+              <motion.div
+                whileHover={{ scale: 1.1, rotate: 3 }}
+                className="absolute top-1/4 -right-2 sm:-right-6 z-25 flex items-center gap-2 cursor-pointer"
+              >
+                <svg
+                  width="36"
+                  height="28"
+                  viewBox="0 0 36 28"
+                  fill="none"
+                  className="overflow-visible hidden sm:block pointer-events-none"
+                >
+                  <path
+                    d="M 32 20 C 20 20, 12 12, 4 8"
+                    stroke={theme.arrowColor}
+                    strokeWidth="1.8"
+                    strokeDasharray="4 4"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <span
+                  className="px-3.5 py-1.5 rounded-full font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider shadow-xl backdrop-blur-md"
+                  style={{
+                    background: theme.bracketBg,
+                    border: `1.5px solid ${theme.bracketBorder}`,
+                    color: theme.bracketText,
+                  }}
+                >
+                  [ MERN STACK ]
+                </span>
+              </motion.div>
 
-                <h2 className="mb-4 font-display text-3xl font-black italic uppercase tracking-tight sm:text-4xl">
-                  {activeProjectModal.title}
-                </h2>
+              {/* Floating Sticker 3: [ STRIPE CHECKOUT ] (Bottom-Right) */}
+              <motion.div
+                whileHover={{ scale: 1.1, rotate: -3 }}
+                className="absolute -bottom-5 right-8 sm:right-16 z-25 flex flex-col items-center cursor-pointer"
+              >
+                <span
+                  className="px-3.5 py-1.5 rounded-full font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider shadow-xl backdrop-blur-md flex items-center gap-1.5"
+                  style={{
+                    background: theme.bracketBg,
+                    border: `1.5px solid ${theme.bracketBorder}`,
+                    color: theme.bracketText,
+                  }}
+                >
+                  <Zap className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>[ STRIPE CHECKOUT ]</span>
+                </span>
+              </motion.div>
 
-                {activeProjectModal.embeddable &&
-                  activeProjectModal.liveUrl?.startsWith("https://") && (
-                    <div className="mb-4 flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => setModalViewMode("images")}
-                        className={`inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors ${
-                          modalViewMode === "images"
-                            ? "bg-[#111111] text-white"
-                            : "bg-black/5 text-[#555555] hover:bg-black/10"
-                        }`}
-                      >
-                        <ImageIcon className="h-3.5 w-3.5" />
-                        <span>Screenshots</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setModalViewMode("live")}
-                        className={`inline-flex cursor-pointer items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors ${
-                          modalViewMode === "live"
-                            ? "bg-brand text-white"
-                            : "bg-black/5 text-[#555555] hover:bg-black/10"
-                        }`}
-                      >
-                        <Play className="h-3 w-3 fill-current" />
-                        <span>Interactive live site</span>
-                      </button>
-                    </div>
-                  )}
-
-                {modalViewMode === "live" &&
-                activeProjectModal.embeddable &&
-                activeProjectModal.liveUrl?.startsWith("https://") ? (
-                  <div className="mb-7">
-                    <LiveSitePreview
-                      url={activeProjectModal.liveUrl}
-                      title={activeProjectModal.title}
-                      onClose={() => setModalViewMode("images")}
-                    />
+              {/* The 3D Tilted Device Container */}
+              <motion.div
+                whileHover={{ rotate: -1.5, scale: 1.025 }}
+                transition={{ type: "spring", stiffness: 240, damping: 22 }}
+                role="button"
+                tabIndex={0}
+                onClick={() => onOpenCaseStudy?.("genz-store")}
+                className="relative w-full max-w-xl aspect-[16/10] rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer -rotate-[4deg] shadow-2xl transition-all duration-500 group"
+                style={{
+                  border: `2px solid ${theme.browserBorder}`,
+                  boxShadow: theme.browserGlow,
+                  background: isRedTheme ? "#111216" : "#18191E",
+                }}
+              >
+                {/* Mac Chrome Header Bar */}
+                <div className="h-9 px-4 flex items-center justify-between border-b border-white/10 bg-black/50 backdrop-blur-md">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#10B981]" />
                   </div>
-                ) : (
-                  (() => {
-                    const modalImages =
-                      activeProjectModal.images &&
-                      activeProjectModal.images.length > 0
-                        ? activeProjectModal.images
-                        : [activeProjectModal.image];
-
-                    return (
-                      <div className="mb-6">
-                        <div
-                          className="group/modalImg relative overflow-hidden rounded-2xl border border-black/8 bg-[#0F1115] shadow-md"
-                          style={{ maxHeight: "520px", minHeight: "220px" }}
-                        >
-                          <img
-                            key={modalImageIdx}
-                            src={
-                              modalImages[modalImageIdx] ||
-                              activeProjectModal.image
-                            }
-                            alt={`${activeProjectModal.title} preview ${modalImageIdx + 1}`}
-                            loading="lazy"
-                            className="block h-auto max-h-[520px] w-full object-contain object-top transition-opacity duration-300"
-                          />
-
-                          {modalImages.length > 1 && (
-                            <>
-                              <button
-                                type="button"
-                                aria-label="Previous image"
-                                onClick={() =>
-                                  setModalImageIdx((prev) =>
-                                    prev === 0
-                                      ? modalImages.length - 1
-                                      : prev - 1,
-                                  )
-                                }
-                                className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/70 text-white shadow-lg backdrop-blur-md transition-all hover:scale-105 hover:bg-brand active:scale-95"
-                              >
-                                <ChevronLeft className="h-5 w-5 stroke-[2.5]" />
-                              </button>
-
-                              <button
-                                type="button"
-                                aria-label="Next image"
-                                onClick={() =>
-                                  setModalImageIdx((prev) =>
-                                    prev === modalImages.length - 1
-                                      ? 0
-                                      : prev + 1,
-                                  )
-                                }
-                                className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/70 text-white shadow-lg backdrop-blur-md transition-all hover:scale-105 hover:bg-brand active:scale-95"
-                              >
-                                <ChevronRight className="h-5 w-5 stroke-[2.5]" />
-                              </button>
-
-                              <div className="absolute right-3 top-3 rounded-full border border-white/10 bg-black/75 px-3.5 py-1 text-xs font-semibold text-white shadow-md backdrop-blur-md">
-                                {modalImageIdx + 1} / {modalImages.length}
-                              </div>
-                            </>
-                          )}
-                        </div>
-
-                        {modalImages.length > 1 && (
-                          <div className="mt-3 grid grid-cols-3 gap-3">
-                            {modalImages.map((thumb, tIdx) => (
-                              <button
-                                key={tIdx}
-                                type="button"
-                                onClick={() => setModalImageIdx(tIdx)}
-                                className={`relative aspect-[16/10] cursor-pointer overflow-hidden rounded-xl border-2 bg-[#0F1115] transition-all ${
-                                  modalImageIdx === tIdx
-                                    ? "scale-[1.02] border-brand shadow-md ring-2 ring-brand/30"
-                                    : "border-black/10 opacity-70 hover:border-black/30 hover:opacity-100"
-                                }`}
-                              >
-                                <img
-                                  src={thumb}
-                                  alt={`Thumbnail ${tIdx + 1}`}
-                                  className="h-full w-full object-contain object-top"
-                                />
-                                <span className="absolute bottom-1 right-1 rounded-md bg-black/70 px-1.5 py-0.5 text-[10px] font-bold text-white backdrop-blur-xs">
-                                  0{tIdx + 1}
-                                </span>
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })()
-                )}
-
-                <div className="mb-6">
-                  <h4 className="mb-2 text-xs font-bold uppercase tracking-wider text-[#666666]">
-                    How this was built
-                  </h4>
-                  <p className="text-sm leading-relaxed text-[#4B5563] sm:text-base">
-                    {activeProjectModal.deepDive}
-                  </p>
+                  <div className="px-4 py-0.5 rounded-full bg-white/10 border border-white/15 font-mono text-[10px] sm:text-[11px] text-white/80 tracking-wider flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                    <span>genz-store-platform.app</span>
+                  </div>
+                  <span className="text-white/60 text-xs">⤢</span>
                 </div>
 
-                {activeProjectModal.highlights && (
-                  <div className="mb-6 grid grid-cols-1 gap-3 rounded-2xl border border-black/8 bg-white/80 p-4 shadow-xs sm:grid-cols-3 sm:p-5">
-                    {activeProjectModal.highlights.map((highlight, idx) => (
-                      <div key={idx} className="flex items-center gap-2">
-                        <span className="h-2 w-2 shrink-0 rounded-full bg-brand" />
-                        <span className="text-xs font-semibold text-[#111111] sm:text-sm">
-                          {highlight}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                {/* Device Screen Preview with Reflective Sheen */}
+                <div className="relative w-full h-[calc(100%-2.25rem)] overflow-hidden bg-[#0C0D10]">
+                  <img
+                    src={project01.image}
+                    alt="GENZ Store Platform"
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                  />
 
-                <div className="flex flex-wrap items-center justify-between gap-4 border-t border-black/8 pt-4">
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="mr-1 text-xs font-semibold text-[#111111]">
-                      Built with:
+                  {/* Diagonal Glass Reflection Sheen */}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 opacity-20"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 60%)",
+                    }}
+                  />
+
+                  {/* Glass overlay badge on preview */}
+                  <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 bg-gradient-to-t from-black/95 via-black/60 to-transparent flex items-end justify-between">
+                    <div>
+                      <p className="font-display text-lg sm:text-xl font-black text-white uppercase tracking-tight">
+                        GENZ STORE & ADMIN PANEL
+                      </p>
+                      <p className="font-mono text-[10px] sm:text-xs text-white/80 uppercase tracking-wider">
+                        E-Commerce Architecture • 99 Lighthouse
+                      </p>
+                    </div>
+                    <span className="px-3 py-1.5 rounded-full bg-[#C81D1D] text-white font-mono text-[10px] sm:text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-md">
+                      <span>VIEW SYSTEM</span>
+                      <span>↗</span>
                     </span>
-                    {activeProjectModal.stack.map((tech) => (
-                      <span
-                        key={tech}
-                        className="rounded-lg bg-black/5 px-2.5 py-1 font-mono text-xs font-semibold text-[#333333]"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center gap-2.5">
-                    {activeProjectModal.liveUrl &&
-                      !activeProjectModal.liveUrl.startsWith("#") && (
-                        <InteractiveButton
-                          href={activeProjectModal.liveUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          variant="dark"
-                          noShadow
-                          className="px-4 py-2 text-xs"
-                          icon={<ArrowUpRight className="h-3.5 w-3.5" />}
-                        >
-                          Visit live site
-                        </InteractiveButton>
-                      )}
-                    {activeProjectModal.githubUrl && (
-                      <a
-                        href={activeProjectModal.githubUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 rounded-full border border-black/15 bg-white px-4 py-2 text-xs font-bold text-[#111111] transition-colors hover:border-brand hover:text-brand-dark"
-                      >
-                        <Code2 className="h-3.5 w-3.5" />
-                        <span>View code</span>
-                      </a>
-                    )}
                   </div>
                 </div>
               </motion.div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
+            {/* Project 01 Info Panel (Col 8-12) */}
+            <div className="lg:col-span-5 flex flex-col gap-5 lg:pl-6">
+              <div className="flex items-start gap-4">
+                {/* Giant Hollow Wireframe Number 01 */}
+                <span
+                  className="font-display text-6xl sm:text-7xl lg:text-8xl font-black leading-[0.8] tracking-tight select-none"
+                  style={{
+                    WebkitTextStroke: `2px ${theme.outlineNum}`,
+                    color: "transparent",
+                    filter: "drop-shadow(0 10px 20px rgba(0,0,0,0.3))",
+                  }}
+                >
+                  01
+                </span>
+
+                {/* Subtitle & Category */}
+                <div className="flex flex-col pt-1">
+                  <span className="font-mono text-xs sm:text-sm font-black uppercase tracking-wider text-[#FFFFFF] bg-[#C81D1D] px-2 py-0.5 rounded w-fit mb-1">
+                    01 / FULL-STACK PLATFORM
+                  </span>
+                  <span className="font-display text-xl sm:text-2xl font-black uppercase tracking-tight leading-tight">
+                    HIGH-VOLUME E-COMMERCE
+                  </span>
+                </div>
+              </div>
+
+              {/* Title & Description Paragraph */}
+              <div>
+                <h3 className="font-display text-3xl sm:text-4xl font-black uppercase tracking-tight mb-2">
+                  GENZ STORE &amp; ADMIN PANEL
+                </h3>
+                <p
+                  className="font-sans text-sm sm:text-base leading-relaxed"
+                  style={{ color: theme.textMuted }}
+                >
+                  {project01.problem ||
+                    "Curated digital commerce experience with multi-attribute filtering, optimistic cart sync, and real-time order tracking."}
+                </p>
+              </div>
+
+              {/* Tech Stack Pills in Bracket Notation */}
+              <div className="flex flex-wrap gap-2 pt-1">
+                {(project01.stack || []).slice(0, 4).map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-3 py-1 rounded-md border font-mono text-[11px] font-bold uppercase tracking-wider shadow-sm"
+                    style={{
+                      borderColor: theme.bracketBorder,
+                      background: isRedTheme ? "rgba(0,0,0,0.25)" : "rgba(255,255,255,0.6)",
+                      color: theme.textPrimary,
+                    }}
+                  >
+                    [ {tech} ]
+                  </span>
+                ))}
+              </div>
+
+              {/* Color Palette Preview Dots */}
+              {project01.colorPalette && (
+                <div className="flex items-center gap-2 pt-1">
+                  <span
+                    className="font-mono text-[10px] uppercase tracking-wider flex items-center gap-1"
+                    style={{ color: theme.textMuted }}
+                  >
+                    <Palette className="w-3.5 h-3.5 text-[#C81D1D]" /> COLOR SYSTEM:
+                  </span>
+                  <div className="flex items-center gap-2">
+                    {project01.colorPalette.slice(0, 5).map((c, cIdx) => (
+                      <button
+                        key={cIdx}
+                        type="button"
+                        title={`${c.name} (${c.hex}) - Click to copy`}
+                        onClick={(e) => handleCopyHex(e, c.hex)}
+                        className="w-4 h-4 rounded-full border border-black/25 relative hover:scale-125 transition-transform cursor-pointer shadow-sm"
+                        style={{ background: c.hex }}
+                      >
+                        {copiedHex === c.hex && (
+                          <span className="absolute -top-6 left-1/2 -translate-x-1/2 px-1.5 py-0.5 text-[8px] bg-black text-white rounded font-mono whitespace-nowrap">
+                            copied
+                          </span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Action Buttons Row */}
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                {project01.liveUrl && (
+                  <a
+                    href={project01.liveUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-6 py-2.5 rounded-full font-mono text-xs font-black tracking-wider uppercase transition-all duration-200 hover:scale-105 shadow-lg flex items-center gap-1.5"
+                    style={{
+                      background: theme.btnPrimaryBg,
+                      color: theme.btnPrimaryText,
+                    }}
+                  >
+                    <span>LIVE PREVIEW</span>
+                    <span className="text-sm">↗</span>
+                  </a>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => onOpenCaseStudy?.("genz-store")}
+                  className="px-6 py-2.5 rounded-full font-mono text-xs font-black tracking-wider uppercase text-white bg-[#C81D1D] hover:bg-[#E02626] transition-all duration-200 hover:scale-105 shadow-lg cursor-pointer flex items-center gap-1.5"
+                >
+                  <span>CASE STUDY</span>
+                  <span className="text-sm">↗</span>
+                </button>
+
+                {project01.githubUrl && (
+                  <a
+                    href={project01.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-4 py-2.5 rounded-full font-mono text-xs font-bold tracking-wider uppercase border opacity-80 hover:opacity-100 transition-all hover:scale-105 flex items-center gap-1.5"
+                    style={{
+                      borderColor: theme.btnOutlineBorder,
+                      color: theme.btnOutlineText,
+                    }}
+                  >
+                    <GitHubIcon className="w-3.5 h-3.5" />
+                    <span>CODE</span>
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* ──────────────────────────────────────────────────────────────
+              CONNECTING CURVED RED DASHED ARROW:
+              Hand-drawn style SVG path connecting Project 01 down to Project 02
+              ────────────────────────────────────────────────────────────── */}
+          <div className="relative w-full h-20 sm:h-28 my-4 flex items-center justify-center overflow-visible pointer-events-none">
+            <svg
+              viewBox="0 0 800 120"
+              fill="none"
+              className="w-full h-full max-w-2xl overflow-visible"
+            >
+              <path
+                d="M 220 10 C 260 90, 420 100, 560 60"
+                stroke={theme.arrowDashColor}
+                strokeWidth="2.4"
+                strokeDasharray="6 6"
+                strokeLinecap="round"
+              />
+              <path
+                d="M 548 50 L 564 60 L 552 72"
+                stroke={theme.arrowDashColor}
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+
+          {/* ──────────────────────────────────────────────────────────────
+              PROJECT 02: UDUPI VRINDAVAN (DUBAI)
+              Left: Title & Subtitle with overlays text & status badges
+              Right: Titanium Dual Smartphone Mockups with Parallax & Glare
+              ────────────────────────────────────────────────────────────── */}
+          <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center pt-2 pb-12">
+            {/* Project 02 Info (Col 1-5) */}
+            <div className="lg:col-span-5 flex flex-col gap-5 lg:pr-6">
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-xs sm:text-sm font-black uppercase tracking-wider text-[#FFFFFF] bg-[#C81D1D] px-2 py-0.5 rounded w-fit">
+                  02 / CLIENT HOSPITALITY
+                </span>
+                <span className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded border border-current opacity-70">
+                  DUBAI, UAE
+                </span>
+              </div>
+
+              <h3 className="font-display text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-[0.92]">
+                UDUPI <br />
+                VRINDAVAN <br />
+                <span className="text-[#C81D1D]">(DUBAI)</span>
+              </h3>
+
+              <p
+                className="font-sans text-sm sm:text-base leading-relaxed"
+                style={{ color: theme.textMuted }}
+              >
+                Project details with mobile & desktop overlays. Real-time table
+                reservation engine with interactive visual floor plan and
+                automated SMS dispatches.
+              </p>
+
+              {/* Verified Stat Pill */}
+              <div
+                className="p-3 rounded-xl border flex items-center justify-between w-fit gap-4 backdrop-blur-md"
+                style={{
+                  borderColor: theme.gridLine,
+                  background: isRedTheme ? "rgba(0,0,0,0.25)" : "rgba(255,255,255,0.6)",
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  <span className="font-mono text-xs font-bold uppercase tracking-wider">
+                    0 DOUBLE-BOOKINGS POST-LAUNCH
+                  </span>
+                </div>
+                <span className="font-mono text-[10px] font-bold text-[#C81D1D]">
+                  WEBSOCKET SYNC
+                </span>
+              </div>
+
+              {/* Color Palette Preview */}
+              {project02.colorPalette && (
+                <div className="flex items-center gap-2 pt-1">
+                  <span
+                    className="font-mono text-[10px] uppercase tracking-wider flex items-center gap-1"
+                    style={{ color: theme.textMuted }}
+                  >
+                    <Palette className="w-3.5 h-3.5 text-[#C81D1D]" /> PALETTE:
+                  </span>
+                  <div className="flex items-center gap-2">
+                    {project02.colorPalette.slice(0, 5).map((c, cIdx) => (
+                      <button
+                        key={cIdx}
+                        type="button"
+                        title={`${c.name} (${c.hex}) - Click to copy`}
+                        onClick={(e) => handleCopyHex(e, c.hex)}
+                        className="w-4 h-4 rounded-full border border-black/25 relative hover:scale-125 transition-transform cursor-pointer shadow-sm"
+                        style={{ background: c.hex }}
+                      >
+                        {copiedHex === c.hex && (
+                          <span className="absolute -top-6 left-1/2 -translate-x-1/2 px-1.5 py-0.5 text-[8px] bg-black text-white rounded font-mono whitespace-nowrap">
+                            copied
+                          </span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Buttons */}
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                {project02.liveUrl && (
+                  <a
+                    href={project02.liveUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-6 py-2.5 rounded-full font-mono text-xs font-black tracking-wider uppercase transition-all duration-200 hover:scale-105 shadow-lg flex items-center gap-1.5"
+                    style={{
+                      background: theme.btnPrimaryBg,
+                      color: theme.btnPrimaryText,
+                    }}
+                  >
+                    <span>LIVE PREVIEW</span>
+                    <span className="text-sm">↗</span>
+                  </a>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => onOpenCaseStudy?.("udupi-vrindavan")}
+                  className="px-6 py-2.5 rounded-full font-mono text-xs font-black tracking-wider uppercase text-white bg-[#C81D1D] hover:bg-[#E02626] transition-all duration-200 hover:scale-105 shadow-lg cursor-pointer flex items-center gap-1.5"
+                >
+                  <span>CASE STUDY</span>
+                  <span className="text-sm">↗</span>
+                </button>
+
+                {project02.githubUrl && (
+                  <a
+                    href={project02.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-4 py-2.5 rounded-full font-mono text-xs font-bold tracking-wider uppercase border opacity-80 hover:opacity-100 transition-all hover:scale-105 flex items-center gap-1.5"
+                    style={{
+                      borderColor: theme.btnOutlineBorder,
+                      color: theme.btnOutlineText,
+                    }}
+                  >
+                    <GitHubIcon className="w-3.5 h-3.5" />
+                    <span>CODE</span>
+                  </a>
+                )}
+              </div>
+            </div>
+
+            {/* Titanium Dual Smartphone Mockups (Col 6-12) */}
+            <div className="lg:col-span-7 relative flex items-center justify-center py-6 sm:py-8">
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={() => onOpenCaseStudy?.("udupi-vrindavan")}
+                className="relative flex items-center justify-center cursor-pointer group select-none"
+              >
+                {/* Phone 1 (Back Smartphone / Angled Right) */}
+                <motion.div
+                  initial={{ rotate: 8, x: 35 }}
+                  whileHover={{ rotate: 12, x: 50, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 220, damping: 20 }}
+                  className="w-48 sm:w-60 aspect-[9/18] rounded-[32px] sm:rounded-[40px] p-2.5 bg-[#1C1D22] border-2 border-white/25 shadow-2xl overflow-hidden"
+                >
+                  <div className="w-full h-full rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#0A0A0B] relative">
+                    <img
+                      src={project02.images?.[1] || project02.image}
+                      alt="Udupi Table Booking Screen"
+                      className="w-full h-full object-cover object-top"
+                    />
+                    <div className="absolute top-2.5 inset-x-0 flex justify-center">
+                      <span className="w-14 h-3 rounded-full bg-black/90" />
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Phone 2 (Front Smartphone / Titanium Bezel / Main Focus) */}
+                <motion.div
+                  initial={{ rotate: -4, x: -25 }}
+                  whileHover={{ rotate: 0, x: -35, scale: 1.04 }}
+                  transition={{ type: "spring", stiffness: 220, damping: 20 }}
+                  className="relative z-10 w-52 sm:w-64 aspect-[9/18] rounded-[32px] sm:rounded-[40px] p-3 bg-[#111215] border-2 shadow-2xl overflow-hidden"
+                  style={{
+                    borderColor: isRedTheme
+                      ? "rgba(255, 255, 255, 0.4)"
+                      : "rgba(0, 0, 0, 0.35)",
+                    boxShadow: isRedTheme
+                      ? "0 0 45px rgba(239, 68, 68, 0.4), 0 25px 50px rgba(0,0,0,0.6)"
+                      : "0 25px 50px -10px rgba(0,0,0,0.35)",
+                  }}
+                >
+                  <div className="w-full h-full rounded-[22px] sm:rounded-[30px] overflow-hidden bg-[#18181B] relative flex flex-col justify-between">
+                    <img
+                      src={project02.image}
+                      alt="Udupi Mobile App Interface"
+                      className="w-full h-full object-cover object-top"
+                    />
+
+                    {/* Smartphone Dynamic Island Notch */}
+                    <div className="absolute top-2.5 inset-x-0 flex justify-center">
+                      <span className="w-16 h-4 rounded-full bg-black/95 flex items-center justify-between px-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
+                      </span>
+                    </div>
+
+                    {/* Glass glare */}
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 opacity-20"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 60%)",
+                      }}
+                    />
+
+                    {/* Tap to Enlarge footer CTA */}
+                    <div className="absolute inset-x-0 bottom-0 p-3.5 bg-gradient-to-t from-black/95 via-black/70 to-transparent flex items-center justify-between text-white">
+                      <span className="font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-wider">
+                        [ TAP TO ENLARGE ]
+                      </span>
+                      <Maximize2 className="w-4 h-4 text-[#C81D1D]" />
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          PART B: TORN PAPER REALISTIC HORIZONTAL RIP TRANSITION
+          ══════════════════════════════════════════════════════════════════════ */}
+      <WorksTornDivider
+        fillColor={theme.tornFill}
+        edgeColor={theme.tornEdge}
+      />
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          PART C: "MORE ARCHIVES" INTERACTIVE ARCHITECTURAL GRID TABLE
+          03 / AI TUTOR VISION
+          04 / GSAP PORTFOLIO
+          With 3D floating preview card hovering over the table!
+          ══════════════════════════════════════════════════════════════════════ */}
+      <div
+        className="relative w-full pt-10 sm:pt-14 pb-24 sm:pb-32 px-4 sm:px-8 lg:px-14 transition-colors duration-700"
+        style={{ background: theme.lowerBg, color: theme.textPrimary }}
+      >
+        <div className="relative z-10 w-full max-w-7xl mx-auto">
+          {/* Header of Archives Grid */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-8 sm:mb-12 border-b pb-5" style={{ borderColor: theme.gridLine }}>
+            <div>
+              <h3 className="font-display text-3xl sm:text-4xl font-black uppercase tracking-tight">
+                MORE ARCHIVES
+              </h3>
+              <p className="font-mono text-xs uppercase tracking-[0.25em] text-[#C81D1D] font-bold">
+                INTERACTIVE GRID // VOL. 03
+              </p>
+            </div>
+
+            <span className="font-mono text-xs uppercase tracking-wider text-neutral-400">
+              HOVER OR CLICK ROW FOR 3D MEDIA PREVIEW
+            </span>
+          </div>
+
+          {/* Grid Layout: Left Column Table, Right Floating 3D Laptop Preview */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* The Interactive Table Rows (Col 1-8) */}
+            <div className="lg:col-span-8 flex flex-col border-t" style={{ borderColor: theme.gridLine }}>
+              {archiveProjects.map((project) => {
+                const isHovered = hoveredArchiveId === project.id;
+
+                return (
+                  <div
+                    key={project.id}
+                    onMouseEnter={() => setHoveredArchiveId(project.id)}
+                    onClick={() => onOpenCaseStudy?.(project.id)}
+                    role="button"
+                    tabIndex={0}
+                    className="group relative flex flex-col sm:flex-row sm:items-center justify-between py-6 px-4 sm:px-6 border-b transition-all duration-300 cursor-pointer"
+                    style={{
+                      borderColor: isHovered
+                        ? theme.gridLineAccent
+                        : theme.gridLine,
+                      background: isHovered
+                        ? theme.tableRowHover
+                        : "transparent",
+                    }}
+                  >
+                    {/* Left details: 03 / Title */}
+                    <div className="flex items-center gap-6 sm:gap-8">
+                      <span
+                        className="font-display text-2xl sm:text-3xl font-black"
+                        style={{
+                          color: isHovered ? "#C81D1D" : theme.textPrimary,
+                        }}
+                      >
+                        {project.num}
+                      </span>
+
+                      <div className="flex flex-col">
+                        <h4 className="font-display text-lg sm:text-2xl font-black uppercase tracking-tight">
+                          {project.title.startsWith("GSAP") ? (
+                            <>
+                              <span className="text-[#C81D1D]">GSAP </span>
+                              <span>PORTFOLIO</span>
+                            </>
+                          ) : (
+                            project.title
+                          )}
+                        </h4>
+                        <span className="font-mono text-xs uppercase tracking-wider text-neutral-400">
+                          {project.category}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Right details: Stack Tags & Action Arrow */}
+                    <div className="flex items-center gap-3 sm:gap-6 mt-3 sm:mt-0">
+                      <div className="hidden md:flex items-center gap-1.5">
+                        {(project.stack || []).slice(0, 3).map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-2.5 py-0.5 rounded border border-current font-mono text-[10px] font-bold uppercase tracking-wider opacity-60"
+                          >
+                            [ {tag} ]
+                          </span>
+                        ))}
+                      </div>
+
+                      <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#C81D1D] flex items-center gap-1 group-hover:translate-x-1.5 transition-transform">
+                        <span>EXPLORE CASE STUDY</span>
+                        <span>↗</span>
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Floating 3D Laptop Preview Card (Col 9-12) */}
+            <div className="lg:col-span-4 relative flex items-center justify-center p-4">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeArchiveProject.id}
+                  initial={{ opacity: 0, scale: 0.92, y: 15 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.92, y: -15 }}
+                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => onOpenCaseStudy?.(activeArchiveProject.id)}
+                  className="w-full max-w-sm aspect-[4/3] rounded-2xl overflow-hidden border p-3.5 flex flex-col justify-between shadow-2xl cursor-pointer hover:scale-105 transition-transform"
+                  style={{
+                    background: isRedTheme ? "#14151A" : "#FFFFFF",
+                    borderColor: isRedTheme
+                      ? "rgba(239, 68, 68, 0.55)"
+                      : "rgba(0, 0, 0, 0.22)",
+                    boxShadow: isRedTheme
+                      ? "0 0 35px rgba(239, 68, 68, 0.35)"
+                      : "0 20px 45px -12px rgba(0,0,0,0.25)",
+                  }}
+                >
+                  <div className="relative w-full h-[80%] rounded-xl overflow-hidden bg-black/50">
+                    <img
+                      src={activeArchiveProject.image}
+                      alt={activeArchiveProject.title}
+                      className="w-full h-full object-cover object-top"
+                    />
+                    <span className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded bg-black/80 text-white font-mono text-[9px] font-bold">
+                      0{activeArchiveProject.num}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-2 px-1">
+                    <span className="font-mono text-xs font-bold uppercase tracking-wider">
+                      {activeArchiveProject.title}
+                    </span>
+                    <span className="font-mono text-xs text-[#C81D1D] font-bold">
+                      OPEN ↗
+                    </span>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

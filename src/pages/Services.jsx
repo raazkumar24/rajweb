@@ -16,21 +16,16 @@ import {
   Layers,
   ChevronLeft,
   ChevronRight,
+  Zap,
 } from "lucide-react";
 import { servicesData } from "../data/servicesData";
-import { SectionBadge, InteractiveButton } from "../components/ui";
-import { HandwrittenBadge } from "../components/decoration/doodleCard";
-import {
-  BrandCardCornerWave,
-  BrandSectionSideWave,
-} from "../components/decoration/brandBackgroundShapes";
+import { EditorialSectionHeader, CircularStampBadge } from "../components/ui";
 
 /* ──────────────────────────────────────────────
-   Constants & Utilities
+   Constants & Refined Subtle Tilts (Zero Mobile Overflow)
    ────────────────────────────────────────────── */
-const EASE = [0.22, 1, 0.36, 1];
-const desktopTilts = [-2.5, 0, 2.5, 3.8];
-const mobileTilts  = [-1.8, 0, 1.8, 2.8];
+const desktopTilts = [-2, 0, 2, 3];
+const mobileTilts = [-0.8, 0, 0.8, 1.2];
 
 const serviceIcons = {
   "full-stack": Database,
@@ -59,6 +54,7 @@ function StackingCard({
   shouldReduceMotion,
   handleRequestQuote,
   isDesktop,
+  isRedTheme,
 }) {
   const Icon = serviceIcons[svc.id] || Monitor;
   const isFirst = index === 0;
@@ -66,44 +62,48 @@ function StackingCard({
   const start = (index - 1) * step;
   const end = index * step;
 
-  // y transition: first card starts at 0, subsequent cards slide up from 100%
+  // y transition: first card starts at 0, subsequent cards slide up from 105%
   const y = useTransform(
     smoothP,
     isFirst ? [0, 1] : [start, end],
-    isFirst ? ["0%", "0%"] : ["110%", "0%"],
+    isFirst ? ["0%", "0%"] : ["105%", "0%"],
   );
 
-  // opacity transition: card stays hidden until its turn, then snaps solid quickly (no washed out fade)
+  // opacity transition: ONLY fades in when card is close to entering (prevents peeking on mobile)
   const opacity = useTransform(
     smoothP,
-    isFirst ? [0, 1] : [start, start + step * 0.15, end],
-    isFirst ? [1, 1] : [0, 1, 1],
+    isFirst ? [0, 1] : [start + step * 0.35, end],
+    isFirst ? [1, 1] : [0, 1],
   );
 
   // scale transition: card gently scales down as later cards stack over it
   const remainingCards = total - 1 - index;
-  const targetScale = Math.max(0.92, 1 - remainingCards * 0.025);
+  const targetScale = Math.max(0.93, 1 - remainingCards * 0.022);
   const scale = useTransform(smoothP, [end, 1], [1, targetScale]);
 
-  // Subtle x-axis slip: gentle side glide on entry
+  // Subtle x-axis slip (reduced on mobile for clean fit)
   const xSlipDir = index % 2 === 0 ? 1 : -1;
-  const maxSlip = isDesktop ? 26 : 14;
+  const maxSlip = isDesktop ? 18 : 6;
   const xSlip = useTransform(
     smoothP,
     isFirst ? [0, 1] : [start, start + step * 0.5, end],
     isFirst ? [0, 0] : [xSlipDir * maxSlip, xSlipDir * Math.round(maxSlip * 0.2), 0],
   );
 
-  // Rotate-settle: card enters with subtle wobble and settles to final tilt
+  // Rotate-settle: subtle tilt that stays neatly inside mobile screen bounds
   const finalTilt = !shouldReduceMotion
-    ? (isDesktop ? desktopTilt : mobileTilt)
+    ? isDesktop
+      ? desktopTilt
+      : mobileTilt
     : 0;
-  const wobble = isDesktop ? 2.8 : 1.4;
+  const wobble = isDesktop ? 1.8 : 0.6;
   const entryRotate = finalTilt + xSlipDir * wobble;
   const rotateZ = useTransform(
     smoothP,
     isFirst ? [0, 1] : [start, start + step * 0.5, end],
-    isFirst ? [finalTilt, finalTilt] : [entryRotate, finalTilt + xSlipDir * (wobble * 0.25), finalTilt],
+    isFirst
+      ? [finalTilt, finalTilt]
+      : [entryRotate, finalTilt + xSlipDir * (wobble * 0.25), finalTilt],
   );
 
   // pointerEvents: enabled when card has arrived and is active
@@ -112,7 +112,7 @@ function StackingCard({
     if (isFirst) {
       setIsInteractive(true);
     } else {
-      setIsInteractive(p >= start + step * 0.15);
+      setIsInteractive(p >= start + step * 0.25);
     }
   });
 
@@ -127,92 +127,188 @@ function StackingCard({
         zIndex: index + 1,
         pointerEvents: isInteractive ? "auto" : "none",
         transformOrigin: "center 85%",
+        willChange: "transform, opacity",
       }}
       className="absolute inset-0 h-full w-full"
     >
-      <div className="flat-card relative flex h-full w-full flex-col justify-between overflow-hidden rounded-3xl border border-black/8 bg-white p-5 shadow-[0_16px_45px_-12px_rgba(17,17,17,0.1)] sm:p-8 lg:p-9">
-        <BrandCardCornerWave
-          position="top-right"
-          opacity={0.65}
-          className="pointer-events-none h-32 w-48 sm:h-40 sm:w-60"
-        />
+      <div
+        className="relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl sm:rounded-3xl border p-4 sm:p-7 lg:p-8 shadow-xl transition-all duration-300"
+        style={{
+          background: isRedTheme ? "#131418" : "#FFFFFF",
+          borderColor: isRedTheme
+            ? "rgba(255, 255, 255, 0.12)"
+            : "rgba(0, 0, 0, 0.1)",
+          boxShadow: isRedTheme
+            ? "0 20px 45px -10px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.06)"
+            : "0 20px 45px -10px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05)",
+          color: isRedTheme ? "#FFFFFF" : "#111111",
+        }}
+      >
+        {/* Subtle Watermark Number in Background (Very faint to prevent distraction) */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-2 -bottom-4 font-display text-[clamp(6rem,14vw,12rem)] font-black leading-none select-none opacity-[0.04]"
+          style={{
+            WebkitTextStroke: isRedTheme
+              ? "1.5px rgba(255,255,255,0.6)"
+              : "1.5px rgba(0,0,0,0.5)",
+            color: "transparent",
+          }}
+        >
+          {svc.num}
+        </div>
 
         <div className="relative z-10 flex h-full flex-col justify-between">
           <div>
-            {/* Card Header */}
-            <div className="mb-3.5 flex items-center justify-between gap-3 sm:mb-4">
-              <div className="flex items-center gap-2.5">
-                <span className="font-mono text-lg font-bold text-brand sm:text-xl">
+            {/* ── CARD HEADER: ICON, CATEGORY & TIMELINE ── */}
+            <div
+              className="mb-3 sm:mb-4 flex items-center justify-between gap-3 border-b pb-3 sm:pb-3.5"
+              style={{
+                borderColor: isRedTheme
+                  ? "rgba(255, 255, 255, 0.08)"
+                  : "rgba(0, 0, 0, 0.06)",
+              }}
+            >
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                <span
+                  className="font-display text-xl sm:text-2xl font-black leading-none"
+                  style={{ color: isRedTheme ? "#FFFFFF" : "#C81D1D" }}
+                >
                   {svc.num}
                 </span>
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand/10 text-brand sm:h-8 sm:w-8">
+
+                <div
+                  className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl border"
+                  style={{
+                    background: isRedTheme
+                      ? "rgba(255, 255, 255, 0.06)"
+                      : "rgba(0, 0, 0, 0.04)",
+                    borderColor: isRedTheme
+                      ? "rgba(255, 255, 255, 0.12)"
+                      : "rgba(0, 0, 0, 0.1)",
+                    color: isRedTheme ? "#FFFFFF" : "#C81D1D",
+                  }}
+                >
                   <Icon className="h-4 w-4" />
                 </div>
-                <span className="font-mono text-[11px] uppercase text-[#666666] sm:text-xs">
+
+                <span className="font-mono text-[10px] sm:text-xs font-bold uppercase tracking-wider opacity-75 truncate max-w-[140px] sm:max-w-none">
                   {svc.subtitle}
                 </span>
               </div>
-              <span className="rounded-full bg-brand/10 px-3 py-1 font-mono text-[11px] font-semibold text-brand-dark sm:text-xs">
-                {svc.timeline}
+
+              {/* Timeline Pill */}
+              <span
+                className="shrink-0 rounded-full px-2.5 sm:px-3 py-1 font-mono text-[9px] sm:text-[11px] font-bold uppercase tracking-wider border flex items-center gap-1"
+                style={{
+                  background: isRedTheme
+                    ? "rgba(239, 68, 68, 0.12)"
+                    : "rgba(200, 29, 29, 0.06)",
+                  borderColor: isRedTheme
+                    ? "rgba(239, 68, 68, 0.3)"
+                    : "rgba(200, 29, 29, 0.2)",
+                  color: isRedTheme ? "#FFA5A5" : "#C81D1D",
+                }}
+              >
+                <Zap className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                <span>{svc.timeline}</span>
               </span>
             </div>
 
-            {/* Title & Description */}
-            <h3 className="font-display mb-2 text-xl font-bold tracking-tight text-[#111111] sm:text-2xl lg:text-3xl">
+            {/* ── TITLE & DESCRIPTION ── */}
+            <h3 className="font-display mb-1.5 sm:mb-2 text-xl sm:text-2xl lg:text-3xl font-black uppercase tracking-tight leading-tight">
               {svc.title}
             </h3>
 
-            <p className="mb-5 max-w-2xl text-xs leading-relaxed text-[#4B5563] sm:text-sm">
+            <p
+              className="mb-4 sm:mb-5 max-w-2xl text-[11px] sm:text-xs lg:text-sm leading-relaxed"
+              style={{
+                color: isRedTheme ? "rgba(255,255,255,0.72)" : "#4B5563",
+              }}
+            >
               {svc.description}
             </p>
 
-            {/* Deliverables Grid */}
+            {/* ── DELIVERABLES GRID ── */}
             <div>
-              <span className="mb-2 block font-mono text-[11px] font-semibold tracking-wider text-[#111111] uppercase sm:text-xs">
-                What is included:
+              <span className="mb-2 block font-mono text-[10px] sm:text-[11px] font-bold tracking-widest uppercase opacity-75">
+                INCLUDED DELIVERABLES:
               </span>
-              <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
                 {svc.deliverables.map((item, dIdx) => (
                   <li
                     key={dIdx}
-                    className="flex items-center gap-2.5 rounded-xl border border-black/6 bg-[#FAF8F5] p-2.5 text-xs text-[#333333]"
+                    className="flex items-center gap-2 rounded-lg border p-2 sm:p-2.5 text-[11px] sm:text-xs font-medium"
+                    style={{
+                      background: isRedTheme
+                        ? "rgba(255, 255, 255, 0.04)"
+                        : "#FAF8F5",
+                      borderColor: isRedTheme
+                        ? "rgba(255, 255, 255, 0.06)"
+                        : "rgba(0, 0, 0, 0.05)",
+                    }}
                   >
-                    <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-700">
+                    <span
+                      className="flex h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 items-center justify-center rounded-full"
+                      style={{
+                        background: isRedTheme
+                          ? "rgba(16, 185, 129, 0.2)"
+                          : "rgba(16, 185, 129, 0.15)",
+                        color: "#10B981",
+                      }}
+                    >
                       <Check className="h-2.5 w-2.5 stroke-[3]" />
                     </span>
-                    <span className="truncate font-medium">{item}</span>
+                    <span className="truncate">{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
 
-          {/* Card Footer */}
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-black/8 pt-4">
-            <div className="flex flex-wrap items-center gap-1.5">
-              <span className="mr-1 font-mono text-xs text-[#777777]">
-                Stack:
+          {/* ── CARD FOOTER: STACK TAGS & INQUIRE ACTION ── */}
+          <div
+            className="mt-4 sm:mt-5 flex flex-wrap items-center justify-between gap-2.5 border-t pt-3 sm:pt-4"
+            style={{
+              borderColor: isRedTheme
+                ? "rgba(255, 255, 255, 0.08)"
+                : "rgba(0, 0, 0, 0.06)",
+            }}
+          >
+            <div className="flex flex-wrap items-center gap-1 sm:gap-1.5">
+              <span className="mr-0.5 font-mono text-[10px] sm:text-xs opacity-60">
+                STACK:
               </span>
-              {svc.stack.map((tag) => (
+              {svc.stack.slice(0, 4).map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-md border border-black/6 bg-black/4 px-2 py-0.5 font-mono text-[11px] text-[#333333] sm:px-2.5 sm:py-1 sm:text-xs"
+                  className="rounded border px-2 py-0.5 font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-wider"
+                  style={{
+                    borderColor: isRedTheme
+                      ? "rgba(255, 255, 255, 0.14)"
+                      : "rgba(0, 0, 0, 0.12)",
+                    background: isRedTheme
+                      ? "rgba(0, 0, 0, 0.2)"
+                      : "rgba(0, 0, 0, 0.03)",
+                  }}
                 >
-                  {tag}
+                  [ {tag} ]
                 </span>
               ))}
             </div>
 
-            <InteractiveButton
+            <button
               type="button"
               onClick={(e) => handleRequestQuote(e, svc.title)}
-              variant="dark"
-              noShadow
-              className="px-4 py-2 text-xs"
-              icon={<ArrowRight className="h-3.5 w-3.5" />}
+              className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-mono text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-200 hover:scale-105 shadow-md flex items-center gap-1.5 cursor-pointer ml-auto sm:ml-0"
+              style={{
+                background: isRedTheme ? "#FFFFFF" : "#111111",
+                color: isRedTheme ? "#8A0B0D" : "#FFFFFF",
+              }}
             >
-              Inquire about this
-            </InteractiveButton>
+              <span>INQUIRE</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </button>
           </div>
         </div>
       </div>
@@ -221,9 +317,10 @@ function StackingCard({
 }
 
 /* ──────────────────────────────────────────────
-   Main Services Section
+   Main Services Section (Smooth Scroll for Both Mobile & Desktop)
    ────────────────────────────────────────────── */
-export default function Services() {
+export default function Services({ heroMode = "red" }) {
+  const isRedTheme = heroMode === "red";
   const stageRef = useRef(null);
   const [activeStep, setActiveStep] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -242,10 +339,11 @@ export default function Services() {
     offset: ["start start", "end end"],
   });
 
+  // Silky smooth spring physics (tuned for both mobile touch and desktop trackpad)
   const smoothP = useSpring(scrollYProgress, {
-    stiffness: 140,
-    damping: 26,
-    mass: 0.3,
+    stiffness: 85,
+    damping: 30,
+    mass: 0.18,
   });
 
   // Sync active step with smooth scroll progress
@@ -311,79 +409,83 @@ export default function Services() {
   };
 
   const n = servicesData.length;
-  const stageHeightVh = Math.max(100, 100 + (n - 1) * 75);
+  // Responsive scroll travel distance (comfortable on mobile, thorough on desktop)
+  const stageHeightVh = isDesktop
+    ? Math.max(100, 100 + (n - 1) * 70)
+    : Math.max(100, 100 + (n - 1) * 55);
+
+  const theme = isRedTheme
+    ? {
+        bg: "radial-gradient(ellipse at 50% 30%, #C41618 0%, #8A0B0D 55%, #50080B 100%)",
+        textPrimary: "#FFFFFF",
+        textMuted: "rgba(255, 255, 255, 0.75)",
+        outlineTitle: "rgba(255, 255, 255, 0.9)",
+        titleFill: "#FFFFFF",
+        gridLine: "rgba(255, 255, 255, 0.15)",
+        stampColor: "#FFFFFF",
+      }
+    : {
+        bg: "radial-gradient(ellipse at 50% 30%, #F7F5EE 0%, #E8E4DA 60%, #D8D4C8 100%)",
+        textPrimary: "#111111",
+        textMuted: "#4B4B4B",
+        outlineTitle: "#111111",
+        titleFill: "#111111",
+        gridLine: "rgba(0, 0, 0, 0.14)",
+        stampColor: "#111111",
+      };
 
   return (
     <section
       id="services"
       aria-labelledby="services-heading"
-      className="relative z-20 w-full overflow-x-clip bg-[#FAF8F5] pt-16 pb-12 font-sans text-[#111111] select-none scroll-mt-20 sm:pt-20 sm:pb-16"
+      className="relative z-20 w-full overflow-x-clip pt-14 pb-12 font-sans select-none scroll-mt-20 sm:pt-20 sm:pb-16 transition-colors duration-700"
+      style={{
+        background: theme.bg,
+        color: theme.textPrimary,
+      }}
     >
-      <BrandSectionSideWave position="middle" opacity={0.3} />
+      {/* Paper / Film Grain Overlay */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 opacity-[0.06]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")`,
+          backgroundSize: "240px",
+        }}
+      />
 
       <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-14">
-        {/* ── 1. EDITORIAL HEADER ── */}
-        <motion.div
-          className="mb-8 grid grid-cols-1 items-end gap-6 border-b border-black/8 pb-6 sm:mb-12 sm:pb-8 lg:grid-cols-12"
-          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.65, ease: EASE }}
-        >
-          <div className="lg:col-span-7">
-            <div className="mb-3">
-              <SectionBadge number="03" label="Services" />
-            </div>
-
-            <div className="relative inline-block">
-              <h2
-                id="services-heading"
-                className="font-display text-[clamp(2.2rem,4vw+0.6rem,3.6rem)] leading-[1.05] font-bold tracking-[-0.03em] text-[#111111]"
-              >
-                Things I build &amp;{" "}
-                <span className="font-normal italic text-brand-dark">
-                  deliver.
-                </span>
-              </h2>
-
-              {/* Doodle annotation: "No agency fees!" */}
-              <HandwrittenBadge
-                text="No agency fees!"
-                arrowDirection="down-left"
-                rotation="-rotate-2"
-                textClass="text-sm sm:text-base"
-                textColor="text-[#333333]"
-                arrowClass="h-8 w-8 sm:h-10 sm:w-10"
-                className="absolute -top-7 right-0 hidden sm:flex"
-              />
-            </div>
-          </div>
-
-          <div className="lg:col-span-5 lg:pb-1">
-            <p className="max-w-md text-sm leading-relaxed font-normal text-[#4B5563] sm:text-base">
-              Focused full-stack development, modern interfaces, and turnkey web
-              solutions delivered without agency overhead.
-            </p>
-          </div>
-        </motion.div>
+        {/* ── UNIFIED EDITORIAL HEADER ── */}
+        <EditorialSectionHeader
+          number="04"
+          label="CAPABILITIES & SERVICES"
+          outlineTitle="SPECIALIZED"
+          solidTitle="SERVICES"
+          description="Focused full-stack architecture, high-performance web applications, and turnkey digital products delivered with transparent milestone sprints."
+          heroMode={heroMode}
+        />
       </div>
 
-      {/* ── 2. SCROLL-BASED STACKING DECK (Motion Powered, No GSAP) ── */}
+      {/* ── 2. SCROLL-BASED STACKING DECK (Smooth Physics on Both Mobile & Desktop) ── */}
       <div
         ref={stageRef}
         className="relative w-full"
         style={{ height: `${stageHeightVh}vh` }}
       >
-        <div className="sticky top-20 flex min-h-[calc(100vh-80px)] flex-col justify-center py-4 sm:py-6">
-          <div className="mx-auto w-full max-w-7xl px-4 sm:px-8 lg:px-14">
-            {/* Controls Bar */}
-            <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-              {/* Interactive Pill Selector with motion layout animation */}
+        <div className="sticky top-16 sm:top-20 flex min-h-[calc(100vh-64px)] sm:min-h-[calc(100vh-80px)] flex-col justify-center py-2 sm:py-6">
+          <div className="mx-auto w-full max-w-7xl px-3 sm:px-8 lg:px-14">
+            {/* Controls Bar: Pill selector + Prev/Next buttons */}
+            <div className="mb-4 sm:mb-6 flex flex-wrap items-center justify-between gap-3">
+              {/* Interactive Pill Selector */}
               <div
                 role="tablist"
                 aria-label="Select service"
-                className="flex w-fit items-center gap-1 overflow-x-auto rounded-full border border-black/10 bg-white p-1.5 shadow-2xs sm:gap-1.5"
+                className="flex w-fit items-center gap-1 overflow-x-auto rounded-full border p-1 sm:p-1.5 shadow-md backdrop-blur-md"
                 style={{
+                  background: isRedTheme
+                    ? "rgba(0, 0, 0, 0.35)"
+                    : "rgba(255, 255, 255, 0.75)",
+                  borderColor: theme.gridLine,
                   scrollbarWidth: "none",
                   WebkitOverflowScrolling: "touch",
                 }}
@@ -397,29 +499,36 @@ export default function Services() {
                       role="tab"
                       aria-selected={active}
                       onClick={() => goToCard(idx)}
-                      className={`relative flex cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-2 text-xs font-semibold transition-colors duration-200 sm:gap-2 sm:px-4 sm:text-sm ${
+                      className={`relative flex cursor-pointer items-center gap-1.5 sm:gap-2 whitespace-nowrap rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-sm font-bold uppercase tracking-wider transition-colors duration-200 ${
                         active
                           ? "text-white"
-                          : "text-[#555555] hover:bg-black/4 hover:text-[#111111]"
+                          : isRedTheme
+                            ? "text-white/60 hover:text-white"
+                            : "text-[#555555] hover:text-[#111111]"
                       }`}
                     >
                       {active && (
                         <motion.span
                           layoutId="services-pill"
-                          className="absolute inset-0 rounded-full bg-[#111111] shadow-md shadow-black/20 ring-1 ring-white/10"
+                          className="absolute inset-0 rounded-full shadow-md"
+                          style={{
+                            background: isRedTheme ? "#C81D1D" : "#111111",
+                          }}
                           transition={
                             shouldReduceMotion
                               ? { duration: 0 }
-                              : { type: "spring", stiffness: 420, damping: 32 }
+                              : { type: "spring", stiffness: 400, damping: 30 }
                           }
                         />
                       )}
 
                       <span
-                        className={`relative z-10 rounded-full px-1.5 py-0.5 font-mono text-[9px] font-bold transition-colors sm:text-[10px] ${
+                        className={`relative z-10 rounded-full px-1.5 py-0.5 font-mono text-[9px] font-bold transition-colors ${
                           active
-                            ? "bg-brand text-white"
-                            : "bg-black/6 text-[#666666]"
+                            ? "bg-white text-black"
+                            : isRedTheme
+                              ? "bg-white/10 text-white/70"
+                              : "bg-black/10 text-black/70"
                         }`}
                       >
                         {svc.num}
@@ -434,7 +543,7 @@ export default function Services() {
 
               {/* Navigation Arrows & Counter */}
               <div className="flex items-center gap-2">
-                <span className="mr-2 hidden font-mono text-xs text-[#777777] sm:inline">
+                <span className="mr-1.5 font-mono text-xs font-bold tracking-widest opacity-75">
                   {String(activeStep + 1).padStart(2, "0")} /{" "}
                   {String(servicesData.length).padStart(2, "0")}
                 </span>
@@ -443,7 +552,13 @@ export default function Services() {
                   type="button"
                   onClick={handlePrev}
                   aria-label="Previous service"
-                  className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-black/10 bg-white text-[#111111] shadow-2xs transition-colors hover:bg-[#111111] hover:text-white"
+                  className="flex h-8 w-8 sm:h-9 sm:w-9 cursor-pointer items-center justify-center rounded-full border transition-all duration-200 hover:scale-110"
+                  style={{
+                    background: isRedTheme
+                      ? "rgba(0, 0, 0, 0.35)"
+                      : "rgba(255, 255, 255, 0.75)",
+                    borderColor: theme.gridLine,
+                  }}
                 >
                   <ChevronLeft className="h-4 w-4 stroke-[2.5]" />
                 </button>
@@ -451,15 +566,18 @@ export default function Services() {
                   type="button"
                   onClick={handleNext}
                   aria-label="Next service"
-                  className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-[#111111] text-white shadow-2xs transition-colors hover:bg-brand hover:text-[#111111]"
+                  className="flex h-8 w-8 sm:h-9 sm:w-9 cursor-pointer items-center justify-center rounded-full text-white transition-all duration-200 hover:scale-110"
+                  style={{
+                    background: "#C81D1D",
+                  }}
                 >
                   <ChevronRight className="h-4 w-4 stroke-[2.5]" />
                 </button>
               </div>
             </div>
 
-            {/* Stacking Cards Deck Container */}
-            <div className="relative mx-auto h-[540px] w-full max-w-5xl sm:h-[500px] lg:h-[480px]">
+            {/* Stacking Cards Deck Container (Responsive height prevents mobile cutoff & peeking) */}
+            <div className="relative mx-auto h-[440px] sm:h-[480px] lg:h-[460px] w-full max-w-5xl">
               {servicesData.map((svc, idx) => (
                 <StackingCard
                   key={svc.id}
@@ -472,6 +590,7 @@ export default function Services() {
                   shouldReduceMotion={shouldReduceMotion}
                   handleRequestQuote={handleRequestQuote}
                   isDesktop={isDesktop}
+                  isRedTheme={isRedTheme}
                 />
               ))}
             </div>
