@@ -1,0 +1,110 @@
+[33mbb1107f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m ui change
+[33m576b6ea[m addedcolor
+[33mca62dc1[m addcolor
+[33mc5063ca[m improvearrrow
+[33mf102273[m fix
+[33mb813353[m aboutimprove
+[33m8147268[m fix
+[33m2c882d9[m fix
+[33m37545e7[m Merge branch 'main' of https://github.com/raazkumar24/rajweb
+[33md306517[m improveui
+[33mf120871[m Merge pull request #9 from raazkumar24/v0/scroll-experience
+[33me413f59[m Save code edits
+[33mf5c22cb[m Restore message xIA756HhYlEG8GGnwQWliTpsJ0swA7f1
+[33m51123c9[m Restore message qQlSVGXkf06eJBs69Y4mNud75LruwQ2u
+[33ma101dc3[m Keep hero typewriter text on one line
+[33m02fd80e[m Split hero typewriter and fix mobile tool reveals
+[33m4b1888f[m Fix responsive hero typewriter overflow
+[33m24cbf57[m[33m ([m[1;31morigin/v0/scroll-experience[m[33m)[m Reveal tools one by one on scroll
+[33m12a4cd2[m Fix desktop pinned sections scroll flow
+[33m8d0a073[m Add shared scroll reveal choreography
+[33mc019eb2[m improveanimation
+[33m4b14ff5[m fixcard
+[33m18fae64[m Merge pull request #8 from raazkumar24/v0/reusable-button-hover
+[33m2af9dbf[m Match white CTAs to Get in touch style
+[33m08cc9a7[m Unify CTA buttons with shared hover styling
+[33mf76ed24[m Reuse button component for source and case study CTAs
+[33m8a35ea3[m Use reusable button component across page CTAs
+[33m8d6e93f[m[33m ([m[1;31morigin/v0/reusable-button-hover[m[33m)[m Add reusable shared button hover effect
+[33ma7d54cc[m imageupdate
+[33m883e436[m improve
+[33m703c975[m Merge pull request #7 from raazkumar24/v0/framer-service-stack
+[33mca1e81b[m[33m ([m[1;31morigin/v0/framer-service-stack[m[33m)[m Keep services heading visible during scroll
+[33md2ebb9d[m Save code edits
+[33m39a77a8[m Tighten services spacing and keep heading in view
+[33md4f4de1[m Save code edits
+[33ma7a8ed2[m Remove dark dimming from service card stack
+[33mab736a0[m Save code edits
+[33m0574042[m Restore message GAbwRpjcM91Id0jQ6pZvMXDVLDMSNlsB
+[33meee6ab6[m Fix true sticky service card stacking animation
+[33m9d5d1e2[m Add Framer Motion sticky service card stack
+[33m482c0ba[m[33m ([m[1;31morigin/v0/service-reference-stack[m[33m)[m Restore message txs8vsesfS4sZyf5qhhHl4cGVOt3R5NO
+[33m4595921[m Match services section to reference frame stack
+[33m297bed5[m[33m ([m[1;31morigin/v0/service-scroll-cards[m[33m)[m Create pinned horizontal services scroll
+[33m8f0303a[m Merge pull request #6 from raazkumar24/v0/portfolio-audit-fixes
+[33me72945d[m Align portfolio with MERN designer audit
+[33mc6047fe[m Restore message Rr8zsEoMxsSxEAC27aBan6pzqv2Hf9QF
+[33m8d26a35[m Audit and refine portfolio positioning UX and content
+[33me6ec851[m Merge pull request #5 from raazkumar24/v0/clean-tool-cards
+[33m5fec425[m Fix mobile tool card stacking
+[33ma29efe6[m[33m ([m[1;31morigin/v0/stacked-tool-cards[m[33m)[m Create expandable stacked tool cards
+[33m08178e3[m[33m ([m[1;31morigin/v0/restore-tool-content[m[33m)[m Restore What I Use content on mobile
+[33mf6d0cfb[m Merge pull request #4 from raazkumar24/v0/mobile-tools-drives
+[33m80e19bb[m Redesign What I Use and Drives mobile sections
+[33m94827c8[m[33m ([m[1;31morigin/v0/fix-mobile-scroll-gutter[m[33m)[m Fix mobile scrollbar gutter
+[33me387be2[m Merge pull request #3 from raazkumar24/v0/refine-mobile-cards
+[33m48edd36[m Match live site button to card curve
+[33mb025b90[m Match live button side and bottom spacing
+[33mbb0ab15[m Add bottom spacing to live site button
+[33m76c6049[m Refine mobile tool and FAQ cards
+[33me4340e6[m Merge pull request #2 from raazkumar24/v0/fix-mobile-scrollbar
+[33mb6628b3[m Improve SEO metadata and social previews
+[33mf3eff7b[m Simplify project card metrics on mobile
+[33mb1a842b[m Keep project stack inside case studies
+[33m233cb67[m Polish active navbar and mobile menu
+[33me675dc4[m Polish contact section hierarchy
+[33m4f19024[m Polish project filter accessibility
+[33m74b6705[m Refine interactive service and tool cards
+[33m1307279[m Remove duplicate FAQ question labels
+[33m88d7ceb[m Redesign FAQ accordion cards
+[33m46036ba[m Stabilize scroll-triggered section animations
+[33mfb0b178[m Redesign interactive project cards
+[33m930753c[m Redesign project showcase with scroll-triggered cards
+[33m61b05f5[m Redesign work project cards
+[33m65dbbe0[m Fix mobile scrollbar gutter
+[33mfdfab6e[m improvesectionheader
+[33mdc78fd5[m redesign
+[33m7949caf[m Merge pull request #1 from raazkumar24/v0/interactive-portfolio
+[33m34af243[m Restore message 0LzGviAjqYyYzCNLWgTzL56N8Qp9Krx3
+[33md016446[m Improve mobile responsiveness across portfolio pages
+[33mc97f89f[m Improve About section mobile responsiveness
+[33me0dcca8[m Expand journey card content
+[33m3e58d32[m Shorten journey card descriptions
+[33m545d3e8[m Refine About journey copy
+[33m41f7740[m Restore message G5LBkaLcZFa4QWwI0hH584Y4pzpUNuxw
+[33m04ad950[m Refine hero and project card visual design
+[33mf59fea4[m Refine navbar glass styling
+[33m3151bbe[m Add purple profile image to hero
+[33mf59b632[m Align hero image with desktop marquee
+[33m4de512a[m Keep project metric cards inside their panel
+[33md2f1ec8[m Align hero image with desktop marquee
+[33m625da1a[m Align hero image with marquee
+[33mcc9ae04[m Improve responsive hero and project layouts
+[33mee9d4de[m Restore electric purple portfolio palette
+[33mbf243e9[m Refine portfolio layout and project presentation
+[33m4075728[m Refine portfolio visual direction
+[33m49a0b32[m Refine responsive scroll reveal animations
+[33m7aa9863[m Refine portfolio scroll animations and motion accessibility
+[33mfdf2e09[m fix
+[33m089ba3d[m changetheme
+[33mf1f1bdc[m improveui
+[33m595d4ae[m Create favicon.svg
+[33mbf9e51a[m Update index.html
+[33m9456fdb[m improveUI
+[33mf351689[m improve
+[33mfc51e53[m improve
+[33mdb9775c[m fixpadding
+[33me23aa8d[m addedanalytics
+[33m7e3ddb5[m faviiconn
+[33ma649d7b[m favicion
+[33m0db1cc6[m first commit
